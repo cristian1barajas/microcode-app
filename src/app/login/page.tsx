@@ -12,7 +12,7 @@ const firaCode = Fira_Code({ subsets: ['latin'] })
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [courseId, setCourseId] = useState('');
+  const [fichaSENA, setFichaSENA] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -27,20 +27,18 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Iniciando sesión con:', { email, password, courseId });
+    console.log('Iniciando sesión con:', { email, password, fichaSENA });
   };
 
   return (
     <div className={`flex items-center justify-center min-h-screen p-4 ${isDarkMode ? 'dark bg-gray-900' : 'bg-gray-100'}`}>
       <Card className="w-full max-w-md shadow-lg dark:bg-gray-800">
-        <CardContent className="flex flex-col items-center space-y-4 sm:space-y-6 p-4 sm:p-6">
-          <CodeIcon className="w-12 h-12 sm:w-16 sm:h-16 text-primary" />
-          <h1 className={`text-xl sm:text-2xl font-bold text-center ${firaCode.className} dark:text-white`}>
+        <CardContent className="flex flex-col items-center space-y-6 p-6">
+          <CodeIcon className="w-16 h-16 text-primary" />
+          <h1 className={`text-2xl font-bold text-center ${firaCode.className} dark:text-white`}>
             microCodeApp
           </h1>
-          <h2 className="text-lg sm:text-xl font-semibold dark:text-gray-200">Inicie sesión</h2>
-          <p className="text-sm text-center text-gray-600 dark:text-gray-400">Ingrese los detalles de su cuenta</p>
-          <form onSubmit={handleLogin} className="w-full space-y-3 sm:space-y-4">
+          <form onSubmit={handleLogin} className="w-full space-y-4">
             <Input
               type="email"
               placeholder="Email"
@@ -51,7 +49,7 @@ export default function LoginPage() {
             />
             <Input
               type="password"
-              placeholder="Password"
+              placeholder="Contraseña"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -59,9 +57,9 @@ export default function LoginPage() {
             />
             <Input
               type="text"
-              placeholder="Course ID"
-              value={courseId}
-              onChange={(e) => setCourseId(e.target.value)}
+              placeholder="Ficha SENA"
+              value={fichaSENA}
+              onChange={(e) => setFichaSENA(e.target.value)}
               required
               className="shadow-sm dark:bg-gray-700 dark:text-white dark:border-gray-600"
             />
