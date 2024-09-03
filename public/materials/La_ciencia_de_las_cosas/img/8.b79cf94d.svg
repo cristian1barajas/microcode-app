@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="869" height="92" viewBox="0 0 869 92">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectángulo_5745" data-name="Rectángulo 5745" width="869" height="92" transform="translate(293 2526)" fill="#00897b" stroke="#00897b" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="Enmascarar_grupo_63" data-name="Enmascarar grupo 63" transform="translate(-293 -2526)" clip-path="url(#clip-path)">
+    <g id="Grupo_16443" data-name="Grupo 16443" transform="translate(265.32 -926.495)">
+      <text id="_1mol_" data-name="1mol =                             " transform="translate(283.846 3509.622)" fill="#00897b" font-size="27" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0" xml:space="preserve">1mol =                            </tspan></text>
+      <path id="Trazado_40550" data-name="Trazado 40550" d="M1406.3,253.216h233.38" transform="translate(-1017.432 3250.28)" fill="none" stroke="#00897b" stroke-width="1.361"/>
+      <text id="_6_022_140_76_x_10" data-name="6,022 140 76 x 10" transform="translate(395.479 3489.201)" fill="#00897b" font-size="27" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">6,022 140 76 x 10</tspan></text>
+      <path id="Trazado_40562" data-name="Trazado 40562" d="M1356.548,222.585s-24.3,29.2,0,70.554" transform="translate(-972.021 3250.96)" fill="none" stroke="#00897b" stroke-width="1.361"/>
+      <path id="Trazado_40563" data-name="Trazado 40563" d="M1345.745,222.585s24.3,29.2,0,70.554" transform="translate(-716.763 3250.96)" fill="none" stroke="#00897b" stroke-width="1.361"/>
+      <text id="_23" data-name="23" transform="translate(595.261 3469.461)" fill="#00897b" font-size="16" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">23</tspan></text>
+      <text id="N" transform="translate(491.835 3537.53)" fill="#00897b" font-size="27" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">N</tspan></text>
+      <text id="A" transform="translate(519.213 3537.53)" fill="#00897b" font-size="14" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">A</tspan></text>
+    </g>
+  </g>
+</svg>

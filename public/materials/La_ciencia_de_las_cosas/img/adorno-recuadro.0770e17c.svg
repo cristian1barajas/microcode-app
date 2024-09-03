@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="67.802" height="89" viewBox="0 0 67.802 89">
+  <g id="punto-de-exclamacion" transform="translate(-60.863)">
+    <g id="Grupo_59824" data-name="Grupo 59824" transform="translate(60.863)">
+      <path id="Trazado_103834" data-name="Trazado 103834" d="M260.774,0H246.726l-1.858,44.581,1.858,38.2L260.736,89V77h.038A19.875,19.875,0,0,0,280.627,57.15v-37.3A19.875,19.875,0,0,0,260.774,0Z" transform="translate(-212.824)" fill="#ebc004"/>
+      <path id="Trazado_103835" data-name="Trazado 103835" d="M80.716,0A19.875,19.875,0,0,0,60.863,19.853v37.3A19.875,19.875,0,0,0,80.716,77h1.031l13.017,5.778V0Z" transform="translate(-60.863)" fill="#fdd835"/>
+    </g>
+    <g id="Grupo_59826" data-name="Grupo 59826" transform="translate(91.324 21.078)">
+      <path id="Trazado_103836" data-name="Trazado 103836" d="M250.165,283.9a3.44,3.44,0,0,0-3.44-3.44l-1.858,3.171,1.858,3.708A3.439,3.439,0,0,0,250.165,283.9Z" transform="translate(-243.286 -252.695)" fill="#f7f0eb"/>
+      <path id="Trazado_103837" data-name="Trazado 103837" d="M249.36,145.455V121.037h-2.635l-1.858,12.358,1.858,12.061Z" transform="translate(-243.286 -121.037)" fill="#f7f0eb"/>
+      <g id="Grupo_59825" data-name="Grupo 59825">
+        <path id="Trazado_103838" data-name="Trazado 103838" d="M239.223,280.457a3.44,3.44,0,0,0,0,6.879Z" transform="translate(-235.783 -252.695)" fill="#fffbf5"/>
+        <path id="Trazado_103839" data-name="Trazado 103839" d="M240.665,121.037h2.59v24.418h-2.59Z" transform="translate(-239.815 -121.037)" fill="#fffbf5"/>
+      </g>
+    </g>
+  </g>
+</svg>
