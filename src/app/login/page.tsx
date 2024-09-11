@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { UserPlus as UserPlusIcon, LogIn as LogInIcon } from 'lucide-react'
-import { Fira_Code, Inter } from 'next/font/google'
+import { Inter, Fira_Code } from 'next/font/google'
 import Lottie from 'lottie-react';
 import loginAnimation from './login-animation.json';
 import Link from 'next/link';
@@ -13,8 +13,8 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 
-const firaCode = Fira_Code({ subsets: ['latin'] })
 const inter = Inter({ subsets: ['latin'] })
+const firaCode = Fira_Code({ subsets: ['latin'] })
 
 const Particle = ({ isDarkMode }: { isDarkMode: boolean }) => {
   const [position, setPosition] = useState({ x: Math.random() * 100, y: Math.random() * 100 });
@@ -86,8 +86,11 @@ export default function LoginPage() {
             <div className="flex justify-center mb-6">
               <Lottie animationData={loginAnimation} style={{ width: 100, height: 100 }} />
             </div>
-            <h1 className={`text-lg font-light text-center mb-4 ${firaCode.className} dark:text-white`}>
-              Iniciar sesión
+            <h1 className={`text-xl font-light text-center mb-4 ${inter.className} dark:text-white`}>
+              Iniciar sesión en{' '}
+              <span className={`${firaCode.className} text-blue-600 dark:text-blue-400`}>
+                MicroCodeApp
+              </span>
             </h1>
             {error && <p className="text-red-500 text-xs mb-4">{error}</p>}
             <form onSubmit={handleLogin} className="space-y-3">
