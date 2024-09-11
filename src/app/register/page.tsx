@@ -5,15 +5,15 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { UserPlus as UserPlusIcon, LogIn as LogInIcon, CheckCircle as CheckCircleIcon } from 'lucide-react'
-import { Fira_Code, Inter } from 'next/font/google'
+import { Inter, Fira_Code } from 'next/font/google'
 import Link from 'next/link';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
-const firaCode = Fira_Code({ subsets: ['latin'] })
 const inter = Inter({ subsets: ['latin'] })
+const firaCode = Fira_Code({ subsets: ['latin'] })
 
 const Particle = ({ isDarkMode }: { isDarkMode: boolean }) => {
   const [position, setPosition] = useState({ x: Math.random() * 100, y: Math.random() * 100 });
@@ -32,10 +32,13 @@ const Particle = ({ isDarkMode }: { isDarkMode: boolean }) => {
 
   return (
     <div 
-      className={`absolute w-1 h-1 rounded-full ${isDarkMode ? 'bg-blue-300' : 'bg-violet-300'} opacity-50`}
+      className={`absolute rounded-full ${isDarkMode ? 'bg-blue-300' : 'bg-blue-400'}`}
       style={{
         left: `${position.x}%`,
         top: `${position.y}%`,
+        width: '1px',
+        height: '1px',
+        opacity: 1,
         transition: 'all 2s ease-in-out'
       }}
     />
@@ -93,14 +96,17 @@ export default function RegisterPage() {
       {[...Array(20)].map((_, i) => (
         <Particle key={i} isDarkMode={isDarkMode} />
       ))}
-      <div className="w-full max-w-md z-10">
-        <Card className="border-0 shadow-lg dark:bg-gray-800">
-          <CardContent className="p-8">
-            <h1 className={`text-2xl font-semibold text-center mb-6 ${firaCode.className} dark:text-white`}>
-              Registro en microCodeApp
+      <div className="w-full max-w-xs z-10">
+        <Card className="border border-gray-300 dark:border-gray-600 shadow-lg dark:bg-gray-800">
+          <CardContent className="p-5">
+            <h1 className={`text-xl font-light text-center mb-4 ${inter.className} dark:text-white`}>
+              Registro en{' '}
+              <span className={`${firaCode.className} text-blue-600 dark:text-blue-400`}>
+                MicroCodeApp
+              </span>
             </h1>
-            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-            <form onSubmit={handleRegister} className="space-y-4">
+            {error && <p className="text-red-500 text-xs mb-4">{error}</p>}
+            <form onSubmit={handleRegister} className="space-y-3">
               <Input
                 id="name"
                 type="text"
@@ -108,7 +114,7 @@ export default function RegisterPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className={`w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className}`}
+                className={`w-full px-3 py-1.5 text-xs border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className} placeholder:text-xs`}
               />
               <Input
                 id="email"
@@ -117,7 +123,7 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className={`w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className}`}
+                className={`w-full px-3 py-1.5 text-xs border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className} placeholder:text-xs`}
               />
               <Input
                 id="password"
@@ -126,7 +132,7 @@ export default function RegisterPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className={`w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className}`}
+                className={`w-full px-3 py-1.5 text-xs border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className} placeholder:text-xs`}
               />
               <Input
                 id="confirmPassword"
@@ -135,7 +141,7 @@ export default function RegisterPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                className={`w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className}`}
+                className={`w-full px-3 py-1.5 text-xs border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className} placeholder:text-xs`}
               />
               <Input
                 id="fichaSENA"
@@ -144,11 +150,11 @@ export default function RegisterPage() {
                 value={fichaSENA}
                 onChange={(e) => setFichaSENA(e.target.value)}
                 required
-                className={`w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className}`}
+                className={`w-full px-3 py-1.5 text-xs border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className} placeholder:text-xs`}
               />
               <Button 
                 type="submit" 
-                className={`w-full bg-violet-600 hover:bg-violet-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out ${inter.className}`}
+                className={`w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-1.5 px-4 rounded-md transition duration-300 ease-in-out text-sm ${inter.className}`}
               >
                 <UserPlusIcon className="w-4 h-4 mr-2" />
                 Registrarse
@@ -156,11 +162,11 @@ export default function RegisterPage() {
             </form>
           </CardContent>
         </Card>
-        <div className="mt-6 text-center">
-          <p className={`text-sm text-gray-600 dark:text-gray-400 ${inter.className}`}>
+        <div className="mt-4 text-center">
+          <p className={`text-xs text-gray-600 dark:text-gray-400 ${inter.className}`}>
             ¿Ya tienes una cuenta?{' '}
             <Link href="/login" className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
-              <LogInIcon className="w-4 h-4 inline-block mr-1" />
+              <LogInIcon className="w-3 h-3 inline-block mr-1" />
               Iniciar sesión
             </Link>
           </p>
@@ -170,16 +176,16 @@ export default function RegisterPage() {
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="flex items-center justify-center text-2xl font-semibold mb-2">
-              <CheckCircleIcon className="w-6 h-6 text-green-500 mr-2" />
+            <DialogTitle className="flex items-center justify-center text-xl font-semibold mb-2">
+              <CheckCircleIcon className="w-5 h-5 text-green-500 mr-2" />
               Registro Exitoso
             </DialogTitle>
-            <DialogDescription className="text-center">
-              Tu cuenta ha sido creada correctamente. ¡Bienvenido a microCodeApp!
+            <DialogDescription className="text-center text-sm">
+              Tu cuenta ha sido creada correctamente. ¡Bienvenido a MicroCodeApp!
             </DialogDescription>
           </DialogHeader>
-          <div className="mt-6 flex justify-center">
-            <Button onClick={handleCloseModal} className="bg-violet-600 hover:bg-violet-700 text-white">
+          <div className="mt-4 flex justify-center">
+            <Button onClick={handleCloseModal} className="bg-green-700 hover:bg-green-800 text-white text-sm">
               Continuar
             </Button>
           </div>

@@ -4,9 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { auth, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { LogOut as LogOutIcon, ChevronLeft, MoreVertical, Star, Heart, BookOpen, CheckCircle, Moon, Sun } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { LogOut as LogOutIcon, MoreVertical, Star, Heart, BookOpen, CheckCircle, Moon, Sun, ChevronDown, ChevronUp, X } from 'lucide-react'
 import { Fira_Code, Inter } from 'next/font/google'
 import { collection, doc, getDoc, setDoc, getDocs, query, orderBy } from 'firebase/firestore';
 import { useMediaQuery } from 'react-responsive';
@@ -17,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { cn } from "@/lib/utils"
 
 const firaCode = Fira_Code({ subsets: ['latin'] })
 const inter = Inter({ subsets: ['latin'] })
@@ -43,23 +43,120 @@ interface Phase {
   activities: Activity[];
 }
 
-const MaterialViewer: React.FC<{ material: Material }> = ({ material }) => {
+const Particle = ({ isDarkMode }: { isDarkMode: boolean }) => {
+  const [position, setPosition] = useState({ x: Math.random() * 100, y: Math.random() * 100 });
+
+  useEffect(() => {
+    const moveParticle = () => {
+      setPosition({
+        x: Math.random() * 100,
+        y: Math.random() * 100
+      });
+    };
+
+    const interval = setInterval(moveParticle, Math.random() * 3000 + 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <Dialog>
+    <div 
+      className={`absolute rounded-full ${isDarkMode ? 'bg-blue-300' : 'bg-blue-400'}`}
+      style={{
+        left: `${position.x}%`,
+        top: `${position.y}%`,
+        width: '1px',
+        height: '1px',
+        opacity: 1,
+        transition: 'all 2s ease-in-out'
+      }}
+    />
+  );
+};
+
+const MaterialViewer: React.FC<{ material: Material, isDarkMode: boolean }> = ({ material, isDarkMode }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="link" className="p-0 h-auto font-normal">{material.name}</Button>
+        <Button variant="link" className={`p-0 h-auto ${isDarkMode ? 'font-light' : 'font-normal'} text-xs text-left w-full justify-start ${firaCode.className}`}>
+          <span className="truncate">{material.name}</span>
+        </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[90%] sm:max-h-[90%]">
-        <DialogHeader>
-          <DialogTitle>{material.name}</DialogTitle>
+      <DialogContent className={cn(
+        "p-0 w-full h-full max-w-full sm:max-w-[90%] sm:max-h-[90%]",
+        "rounded-none border-0",
+        "data-[state=open]:slide-in-from-bottom-full",
+        "sm:data-[state=open]:slide-in-from-bottom-0"
+      )}>
+        <DialogHeader className="absolute top-0 left-0 right-0 z-10 flex flex-row items-center justify-between p-1 bg-white dark:bg-gray-800">
+          <DialogTitle className={`${firaCode.className} ${isDarkMode ? 'font-light' : 'font-normal'} text-sm truncate flex-grow mr-2`}>
+            {material.name}
+          </DialogTitle>
+          <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)} className="flex-shrink-0">
+            <X className="h-4 w-4" />
+          </Button>
         </DialogHeader>
-        <iframe
-          src={`/materials/${material.url}/index.html`}
-          className="w-full h-[80vh]"
-          title={material.name}
-        />
+        <div className="w-full h-full pt-10">
+          <iframe
+            src={`/materials/${material.url}/index.html`}
+            className="w-full h-full border-none"
+            title={material.name}
+          />
+        </div>
       </DialogContent>
     </Dialog>
+  );
+};
+
+const ActivityCard: React.FC<{ 
+  activity: Activity, 
+  userProgress: {[key: string]: boolean}, 
+  handleMaterialClick: (material: Material) => void,
+  isDarkMode: boolean
+}> = ({ activity, userProgress, handleMaterialClick, isDarkMode }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <Card className="mb-4 overflow-hidden transition-all duration-300 ease-in-out">
+      <CardHeader 
+        className="cursor-pointer flex flex-row items-center justify-between"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <CardTitle className={`text-sm ${isDarkMode ? 'font-light' : 'font-normal'} ${firaCode.className}`}>{activity.name}</CardTitle>
+        {isExpanded ? <ChevronUp className="h-4 w-4 flex-shrink-0" /> : <ChevronDown className="h-4 w-4 flex-shrink-0" />}
+      </CardHeader>
+      {isExpanded && (
+        <CardContent>
+          <ul className="space-y-2">
+            {activity.materials.map((material) => (
+              <li key={material.id} className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-2 rounded-md">
+                <div className="flex-grow mr-2 min-w-0">
+                  <MaterialViewer material={material} isDarkMode={isDarkMode} />
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`ml-2 flex-shrink-0 ${
+                    userProgress[material.id] ? 'text-green-500' : 'text-gray-500'
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleMaterialClick(material);
+                  }}
+                >
+                  {userProgress[material.id] ? (
+                    <CheckCircle className="h-3 w-3" />
+                  ) : (
+                    <BookOpen className="h-3 w-3" />
+                  )}
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      )}
+    </Card>
   );
 };
 
@@ -70,7 +167,7 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const router = useRouter();
-  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  const isMobile = useMediaQuery({ query: '(max-width: 640px)' });
 
   useEffect(() => {
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -183,98 +280,79 @@ export default function HomePage() {
   };
 
   const AppBar = () => (
-    <div className={`flex items-center justify-between p-4 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'} shadow-sm`}>
-      <div className="flex items-center">
-        <ChevronLeft className="h-6 w-6 mr-2" />
-        <h1 className={`text-xl font-semibold ${firaCode.className}`}>
-          ¡Hola {userName}!
-        </h1>
-      </div>
-      <div className="flex items-center">
-        <Button variant="ghost" size="icon" onClick={toggleDarkMode}>
-          {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-        </Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <MoreVertical className="h-5 w-5" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={handleLogout}>
-              <LogOutIcon className="mr-2 h-4 w-4" />
-              <span>Cerrar sesión</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+    <div className={`fixed top-0 left-0 right-0 z-50 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'} shadow-sm`}>
+      <div className="container mx-auto px-4 py-2 flex items-center justify-between">
+        <div className="flex items-center">
+          <h1 className={`text-lg ${isDarkMode ? 'font-light' : 'font-normal'} ${inter.className}`}>
+            ¡Hola {userName}!
+          </h1>
+        </div>
+        <div className="flex items-center">
+          <Button variant="ghost" size="sm" onClick={toggleDarkMode}>
+            {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <MoreVertical className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOutIcon className="mr-2 h-3 w-3" />
+                <span className={`text-xs ${isDarkMode ? 'font-light' : 'font-normal'}`}>Cerrar sesión</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </div>
   );
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
-      <AppBar />
-      <main className="container mx-auto p-4">
-        <h2 className={`text-3xl font-bold mb-6 ${firaCode.className}`}>Aprendizaje</h2>
-        {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {phases.map((phase) => (
-              <Card key={phase.id} className={`overflow-hidden ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
-                <CardHeader>
-                  <CardTitle>{phase.name}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Accordion type="single" collapsible className="w-full">
+    <div className={`relative min-h-screen ${isDarkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
+      <div className="absolute inset-0 overflow-hidden">
+        {[...Array(20)].map((_, i) => (
+          <Particle key={i} isDarkMode={isDarkMode} />
+        ))}
+      </div>
+      <div className="relative">
+        <AppBar />
+        <main className="container mx-auto px-4 pt-16">
+          <h2 className={`text-2xl ${isDarkMode ? 'font-light' : 'font-normal'} mb-8 ${inter.className} text-center pt-4`}>
+            Aprendizaje en{' '}
+            <span className={`${firaCode.className} text-blue-600 dark:text-blue-400`}>
+              MicroCodeApp
+            </span>
+          </h2>
+          {isLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+            </div>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
+              {phases.map((phase) => (
+                <Card key={phase.id} className={`overflow-hidden border border-gray-300 dark:border-gray-600 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
+                  <CardHeader>
+                    <CardTitle className={`text-lg ${isDarkMode ? 'font-light' : 'font-normal'} ${firaCode.className}`}>{phase.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
                     {phase.activities.map((activity) => (
-                      <AccordionItem key={activity.id} value={activity.id}>
-                        <AccordionTrigger className="text-sm">{activity.name}</AccordionTrigger>
-                        <AccordionContent>
-                          <ul className="space-y-2">
-                            {activity.materials.map((material) => (
-                              <li key={material.id} className="flex items-center justify-between">
-                                <MaterialViewer material={material} />
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className={`ml-2 ${
-                                    userProgress[material.id] ? 'text-green-500' : 'text-gray-500'
-                                  }`}
-                                  onClick={() => handleMaterialClick(material)}
-                                >
-                                  {userProgress[material.id] ? (
-                                    <CheckCircle className="h-4 w-4" />
-                                  ) : (
-                                    <BookOpen className="h-4 w-4" />
-                                  )}
-                                </Button>
-                              </li>
-                            ))}
-                          </ul>
-                        </AccordionContent>
-                      </AccordionItem>
+                      <ActivityCard
+                        key={activity.id}
+                        activity={activity}
+                        userProgress={userProgress}
+                        handleMaterialClick={handleMaterialClick}
+                        isDarkMode={isDarkMode}
+                      />
                     ))}
-                  </Accordion>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <Button variant="outline" size="sm">Ir</Button>
-                  <div className="flex space-x-2">
-                    <Button variant="ghost" size="icon">
-                      <Star className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon">
-                      <Heart className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-        )}
-      </main>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </main>
+      </div>
     </div>
   );
 }
