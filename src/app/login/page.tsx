@@ -33,10 +33,13 @@ const Particle = ({ isDarkMode }: { isDarkMode: boolean }) => {
 
   return (
     <div 
-      className={`absolute w-1 h-1 rounded-full ${isDarkMode ? 'bg-blue-300' : 'bg-violet-300'} opacity-50`}
+      className={`absolute rounded-full ${isDarkMode ? 'bg-blue-300' : 'bg-blue-400'}`}
       style={{
         left: `${position.x}%`,
         top: `${position.y}%`,
+        width: '1px',
+        height: '1px',
+        opacity: 1,
         transition: 'all 2s ease-in-out'
       }}
     />
@@ -77,17 +80,17 @@ export default function LoginPage() {
       {[...Array(20)].map((_, i) => (
         <Particle key={i} isDarkMode={isDarkMode} />
       ))}
-      <div className="w-full max-w-md z-10">
-        <Card className="border-0 shadow-lg dark:bg-gray-800">
-          <CardContent className="p-8">
-            <h1 className={`text-2xl font-semibold text-center mb-4 ${firaCode.className} dark:text-white`}>
-              Iniciar sesión en microCodeApp
-            </h1>
+      <div className="w-full max-w-xs z-10">
+        <Card className="border border-gray-300 dark:border-gray-600 shadow-lg dark:bg-gray-800">
+          <CardContent className="p-5">
             <div className="flex justify-center mb-6">
-              <Lottie animationData={loginAnimation} style={{ width: 150, height: 150 }} />
+              <Lottie animationData={loginAnimation} style={{ width: 100, height: 100 }} />
             </div>
-            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-            <form onSubmit={handleLogin} className="space-y-4">
+            <h1 className={`text-lg font-light text-center mb-4 ${firaCode.className} dark:text-white`}>
+              Iniciar sesión
+            </h1>
+            {error && <p className="text-red-500 text-xs mb-4">{error}</p>}
+            <form onSubmit={handleLogin} className="space-y-3">
               <Input
                 id="email"
                 type="email"
@@ -95,7 +98,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className={`w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className}`}
+                className={`w-full px-3 py-1.5 text-xs border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className} placeholder:text-xs`}
               />
               <Input
                 id="password"
@@ -104,7 +107,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className={`w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className}`}
+                className={`w-full px-3 py-1.5 text-xs border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className} placeholder:text-xs`}
               />
               <Input
                 id="fichaSENA"
@@ -113,11 +116,11 @@ export default function LoginPage() {
                 value={fichaSENA}
                 onChange={(e) => setFichaSENA(e.target.value)}
                 required
-                className={`w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className}`}
+                className={`w-full px-3 py-1.5 text-xs border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${inter.className} placeholder:text-xs`}
               />
               <Button 
                 type="submit" 
-                className={`w-full bg-violet-600 hover:bg-violet-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out ${inter.className}`}
+                className={`w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-1.5 px-4 rounded-md transition duration-300 ease-in-out text-sm ${inter.className}`}
               >
                 <LogInIcon className="w-4 h-4 mr-2" />
                 Iniciar sesión
@@ -125,11 +128,11 @@ export default function LoginPage() {
             </form>
           </CardContent>
         </Card>
-        <div className="mt-6 text-center">
-          <p className={`text-sm text-gray-600 dark:text-gray-400 ${inter.className}`}>
+        <div className="mt-4 text-center">
+          <p className={`text-xs text-gray-600 dark:text-gray-400 ${inter.className}`}>
             ¿No tienes una cuenta?{' '}
             <Link href="/register" className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
-              <UserPlusIcon className="w-4 h-4 inline-block mr-1" />
+              <UserPlusIcon className="w-3 h-3 inline-block mr-1" />
               Registrarse
             </Link>
           </p>
