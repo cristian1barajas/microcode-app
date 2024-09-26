@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
+import { Code, Search, Terminal, Beaker, Database, Box, Layout, Puzzle, Globe, CheckSquare, PenTool, GitBranch, Server, Smartphone, Wrench, Coffee, Layers, Wifi, Shield, UploadCloud, FileText } from 'lucide-react';
+import ContentFrame from '@/components/ui/ContentFrame';
 
 const firaCode = Fira_Code({ subsets: ['latin'] })
 const inter = Inter({ subsets: ['latin'] })
@@ -24,7 +26,8 @@ const inter = Inter({ subsets: ['latin'] })
 interface Material {
   id: string;
   name: string;
-  completed: boolean;
+  description: string;
+  icon: string;
   url: string;
   type: 'embed' | 'external';
 }
@@ -73,52 +76,123 @@ const Particle = ({ isDarkMode }: { isDarkMode: boolean }) => {
   );
 };
 
-const MaterialViewer: React.FC<{ material: Material, isDarkMode: boolean }> = ({ material, isDarkMode }) => {
-  const [isOpen, setIsOpen] = useState(false);
+interface Material {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  url: string;
+  type: 'embed' | 'external';
+}
 
+interface MaterialCardProps {
+  material: Material;
+  isDarkMode: boolean;
+  isCompleted: boolean;
+  isLiked: boolean;
+  onComplete: () => void;
+  onLike: () => void;
+  onOpen: (material: Material) => void;
+}
+
+const MaterialCard: React.FC<MaterialCardProps> = ({ 
+  material, 
+  isDarkMode, 
+  isCompleted, 
+  isLiked, 
+  onComplete, 
+  onLike, 
+  onOpen 
+}) => {
+  const iconMap: { [key: string]: React.ElementType } = {
+    code: Code,
+    search: Search,
+    terminal: Terminal,
+    flask: Beaker,
+    database: Database,
+    box: Box,
+    layout: Layout,
+    puzzle: Puzzle,
+    globe: Globe,
+    'check-square': CheckSquare,
+    'pen-tool': PenTool,
+    'git-branch': GitBranch,
+    server: Server,
+    smartphone: Smartphone,
+    tool: Wrench,
+    coffee: Coffee,
+    layers: Layers,
+    wifi: Wifi,
+    shield: Shield,
+    'upload-cloud': UploadCloud,
+    'file-text': FileText,
+  };
+
+  // Obtener el componente de ícono basado en el nombre del ícono del material
+  const IconComponent = iconMap[material.icon] || Box; // Usar Box como respaldo
+  
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button variant="link" className={`p-0 h-auto ${isDarkMode ? 'font-light' : 'font-normal'} text-xs text-left w-full justify-start ${firaCode.className}`}>
-          <span className="truncate">{material.name}</span>
-        </Button>
-      </DialogTrigger>
-      <DialogContent className={cn(
-        "p-0 w-full h-full max-w-full sm:max-w-[90%] sm:max-h-[90%]",
-        "rounded-none border-0",
-        "data-[state=open]:slide-in-from-bottom-full",
-        "sm:data-[state=open]:slide-in-from-bottom-0"
-      )}>
-        <DialogHeader className="absolute top-0 left-0 right-0 z-10 flex flex-row items-center justify-between p-1 bg-white dark:bg-gray-800">
-          <DialogTitle className={`${firaCode.className} ${isDarkMode ? 'font-light' : 'font-normal'} text-sm truncate flex-grow mr-2`}>
-            {material.name}
-          </DialogTitle>
-          <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)} className="flex-shrink-0">
-            <X className="h-4 w-4" />
-          </Button>
-        </DialogHeader>
-        <div className="w-full h-full pt-10">
-          <iframe
-            src={`/materials/${material.url}/index.html`}
-            className="w-full h-full border-none"
-            title={material.name}
-          />
+    <Card className={`w-full sm:w-80 md:w-72 lg:w-64 xl:w-72 flex flex-col h-[300px] sm:h-[290px] md:h-[280px] lg:h-[300px] ${isDarkMode ? 'bg-gray-800 text-white border-gray-600' : 'bg-white border-gray-300'} shadow-lg hover:shadow-xl transition-shadow duration-300 border`}>
+      <CardHeader className="p-4">
+        <CardTitle className={`text-sm ${isDarkMode ? 'font-light' : 'font-normal'} ${firaCode.className}`}>
+          {material.name}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex-grow flex flex-col justify-between p-4 pt-0">
+        <div className="flex flex-col items-center justify-between flex-grow">
+          <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-center mb-4 line-clamp-3 sm:line-clamp-4 md:line-clamp-3`}>
+            {material.description}
+          </p>
+          <div className="flex justify-center items-center flex-grow">
+            <Card className={`w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'} shadow-lg`}>
+              <IconComponent className={`w-10 h-10 sm:w-12 sm:h-12 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+            </Card>
+          </div>
         </div>
-      </DialogContent>
-    </Dialog>
+        <div className="flex items-center justify-between w-full mt-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onComplete}
+            className={`${isCompleted ? 'text-green-500' : 'text-gray-500'} p-1 flex-1`}
+          >
+            <CheckCircle className="h-4 w-4" />
+          </Button>
+          <Button 
+            variant="default" 
+            size="sm" 
+            onClick={() => onOpen(material)}
+            className="text-xs px-2 py-1 flex-1 mx-1 bg-blue-500 hover:bg-blue-600 text-white dark:bg-blue-600 dark:hover:bg-blue-700"
+          >
+            Ir
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onLike}
+            className={`${isLiked ? 'text-red-500' : 'text-gray-500'} p-1 flex-1`}
+          >
+            <Heart className="h-4 w-4" />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
 const ActivityCard: React.FC<{ 
   activity: Activity, 
   userProgress: {[key: string]: boolean}, 
+  userLikes: {[key: string]: boolean},
   handleMaterialClick: (material: Material) => void,
+  handleMaterialLike: (material: Material) => void,
+  handleMaterialOpen: (material: Material) => void,
   isDarkMode: boolean
-}> = ({ activity, userProgress, handleMaterialClick, isDarkMode }) => {
+}> = ({ activity, userProgress, userLikes, handleMaterialClick, handleMaterialLike, handleMaterialOpen, isDarkMode }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <Card className="mb-4 overflow-hidden transition-all duration-300 ease-in-out">
+    <Card className={`mb-4 overflow-hidden transition-all duration-300 ease-in-out ${isDarkMode ? 'bg-gray-800 text-white border-gray-600' : 'bg-white border-gray-300'} shadow-lg hover:shadow-xl border`}>
       <CardHeader 
         className="cursor-pointer flex flex-row items-center justify-between"
         onClick={() => setIsExpanded(!isExpanded)}
@@ -128,32 +202,23 @@ const ActivityCard: React.FC<{
       </CardHeader>
       {isExpanded && (
         <CardContent>
-          <ul className="space-y-2">
-            {activity.materials.map((material) => (
-              <li key={material.id} className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-2 rounded-md">
-                <div className="flex-grow mr-2 min-w-0">
-                  <MaterialViewer material={material} isDarkMode={isDarkMode} />
+          <div className="overflow-x-auto">
+            <div className="flex flex-nowrap space-x-4 pb-4">
+              {activity.materials.map((material) => (
+                <div key={material.id} className="flex-shrink-0 w-full sm:w-auto h-full">
+                  <MaterialCard
+                    material={material}
+                    isDarkMode={isDarkMode}
+                    isCompleted={userProgress[material.id] || false}
+                    isLiked={userLikes[material.id] || false}
+                    onComplete={() => handleMaterialClick(material)}
+                    onLike={() => handleMaterialLike(material)}
+                    onOpen={() => handleMaterialOpen(material)}
+                  />
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={`ml-2 flex-shrink-0 ${
-                    userProgress[material.id] ? 'text-green-500' : 'text-gray-500'
-                  }`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleMaterialClick(material);
-                  }}
-                >
-                  {userProgress[material.id] ? (
-                    <CheckCircle className="h-3 w-3" />
-                  ) : (
-                    <BookOpen className="h-3 w-3" />
-                  )}
-                </Button>
-              </li>
-            ))}
-          </ul>
+              ))}
+            </div>
+          </div>
         </CardContent>
       )}
     </Card>
@@ -162,12 +227,16 @@ const ActivityCard: React.FC<{
 
 export default function HomePage() {
   const [userName, setUserName] = useState('');
+  const [userFicha, setUserFicha] = useState('');
   const [phases, setPhases] = useState<Phase[]>([]);
   const [userProgress, setUserProgress] = useState<{[key: string]: boolean}>({});
+  const [userLikes, setUserLikes] = useState<{[key: string]: boolean}>({});
   const [isLoading, setIsLoading] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const router = useRouter();
   const isMobile = useMediaQuery({ query: '(max-width: 640px)' });
+  const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
+  const [isContentFrameOpen, setIsContentFrameOpen] = useState(false);
 
   useEffect(() => {
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -176,12 +245,19 @@ export default function HomePage() {
     const handleChange = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);
     darkModeMediaQuery.addEventListener('change', handleChange);
 
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const firstName = user.displayName?.split(' ')[0] || 'Usuario';
         setUserName(firstName);
-        loadUserProgress(user.uid);
-        loadPhasesData();
+
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (userDoc.exists()) {
+          setUserFicha(userDoc.data().fichaSENA);
+        }
+
+        await loadUserProgress(user.uid);
+        await loadUserLikes(user.uid);
+        await loadPhasesData();
       } else {
         router.push('/login');
       }
@@ -203,6 +279,19 @@ export default function HomePage() {
       }
     } catch (error) {
       console.error("Error loading user progress:", error);
+    }
+  };
+
+  const loadUserLikes = async (userId: string) => {
+    try {
+      const userLikesDoc = await getDoc(doc(db, 'userLikes', userId));
+      if (userLikesDoc.exists()) {
+        setUserLikes(userLikesDoc.data() as {[key: string]: boolean});
+      } else {
+        setUserLikes({});
+      }
+    } catch (error) {
+      console.error("Error loading user likes:", error);
     }
   };
 
@@ -231,7 +320,8 @@ export default function HomePage() {
           activityData.materials = materialsSnapshot.docs.map(doc => ({
             id: doc.id,
             name: doc.data().name,
-            completed: false,
+            description: doc.data().description,
+            icon: doc.data().icon,
             url: doc.data().url,
             type: doc.data().type
           } as Material));
@@ -242,7 +332,6 @@ export default function HomePage() {
         phasesData.push(phaseData);
       }
 
-      // Sort phases and activities
       phasesData.sort((a, b) => (a.order || 0) - (b.order || 0));
       phasesData.forEach(phase => {
         phase.activities.sort((a, b) => (a.order || 0) - (b.order || 0));
@@ -275,6 +364,16 @@ export default function HomePage() {
     await setDoc(doc(db, 'userProgress', user.uid), newProgress, { merge: true });
   };
 
+  const handleMaterialLike = async (material: Material) => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const newLikes = { ...userLikes, [material.id]: !userLikes[material.id] };
+    setUserLikes(newLikes);
+
+    await setDoc(doc(db, 'userLikes', user.uid), newLikes, { merge: true });
+  };
+
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
   };
@@ -283,11 +382,14 @@ export default function HomePage() {
     <div className={`fixed top-0 left-0 right-0 z-50 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'} shadow-sm`}>
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         <div className="flex items-center">
-          <h1 className={`text-lg ${isDarkMode ? 'font-light' : 'font-normal'} ${inter.className}`}>
+          <h1 className={`text-lg ${isDarkMode ? 'font-light' : 'font-normal'} ${firaCode.className}`}>
             ¡Hola {userName}!
           </h1>
         </div>
         <div className="flex items-center">
+          <span className={`ml-2 text-sm ${firaCode.className} text-blue-600 dark:text-blue-400`}>
+            {userFicha}
+          </span>
           <Button variant="ghost" size="sm" onClick={toggleDarkMode}>
             {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
@@ -308,6 +410,16 @@ export default function HomePage() {
       </div>
     </div>
   );
+
+  const handleMaterialOpen = (material: Material) => {
+    setSelectedMaterial(material);
+    setIsContentFrameOpen(true);
+  };
+
+  const handleContentFrameClose = () => {
+    setIsContentFrameOpen(false);
+    setSelectedMaterial(null);
+  };
 
   return (
     <div className={`relative min-h-screen ${isDarkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
@@ -332,7 +444,7 @@ export default function HomePage() {
           ) : (
             <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
               {phases.map((phase) => (
-                <Card key={phase.id} className={`overflow-hidden border border-gray-300 dark:border-gray-600 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
+                <Card key={phase.id} className={`overflow-hidden border border-gray-300 dark:border-gray-600 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} shadow-lg`}>
                   <CardHeader>
                     <CardTitle className={`text-lg ${isDarkMode ? 'font-light' : 'font-normal'} ${firaCode.className}`}>{phase.name}</CardTitle>
                   </CardHeader>
@@ -342,7 +454,10 @@ export default function HomePage() {
                         key={activity.id}
                         activity={activity}
                         userProgress={userProgress}
+                        userLikes={userLikes}
                         handleMaterialClick={handleMaterialClick}
+                        handleMaterialLike={handleMaterialLike}
+                        handleMaterialOpen={handleMaterialOpen}
                         isDarkMode={isDarkMode}
                       />
                     ))}
@@ -353,6 +468,11 @@ export default function HomePage() {
           )}
         </main>
       </div>
+      <ContentFrame
+        isOpen={isContentFrameOpen}
+        onClose={handleContentFrameClose}
+        material={selectedMaterial}
+      />
     </div>
   );
 }

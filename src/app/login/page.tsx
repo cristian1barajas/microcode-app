@@ -10,8 +10,9 @@ import Lottie from 'lottie-react';
 import loginAnimation from './login-animation.json';
 import Link from 'next/link';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
+import { doc, getDoc } from 'firebase/firestore';
 
 const inter = Inter({ subsets: ['latin'] })
 const firaCode = Fira_Code({ subsets: ['latin'] })
@@ -68,8 +69,16 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      router.push('/home');
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      //await signInWithEmailAndPassword(auth, email, password);
+      // Verificar la ficha del usuario
+      const userDoc = await getDoc(doc(db, 'users', userCredential.user.uid));
+      if (userDoc.exists() && userDoc.data().fichaSENA === fichaSENA) {
+        router.push('/home');
+      } else {
+        setError('La ficha SENA no coincide con la registrada para este usuario.');
+        await auth.signOut();
+      }
     } catch (error) {
       setError('Error al iniciar sesión. Por favor, verifica tus credenciales.');
     }

@@ -8,9 +8,10 @@ import { UserPlus as UserPlusIcon, LogIn as LogInIcon, CheckCircle as CheckCircl
 import { Inter, Fira_Code } from 'next/font/google'
 import Link from 'next/link';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const inter = Inter({ subsets: ['latin'] })
 const firaCode = Fira_Code({ subsets: ['latin'] })
@@ -76,8 +77,24 @@ export default function RegisterPage() {
     }
 
     try {
+      // Verificar si la ficha existe
+      const fichaDoc = await getDoc(doc(db, 'fichas', fichaSENA));
+      if (!fichaDoc.exists()) {
+        setError('La ficha SENA ingresada no es válida');
+        return;
+      }
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: name });
+
+      // Guardar la información del usuario incluyendo la ficha
+      await setDoc(doc(db, 'users', userCredential.user.uid), {
+        name,
+        email,
+        fichaSENA,
+        createdAt: new Date()
+      });
+
       console.log('Usuario registrado con ficha SENA:', fichaSENA);
       setIsModalOpen(true);
     } catch (error) {
