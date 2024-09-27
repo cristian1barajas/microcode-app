@@ -1,0 +1,24 @@
+<svg id="img4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.816" y1="0.113" x2="0.184" y2="0.887" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="0.51" stop-color="#fdfdfd"/>
+      <stop offset="0.7" stop-color="#f6f6f6"/>
+      <stop offset="0.83" stop-color="#ebebeb"/>
+      <stop offset="0.86" stop-color="#e6e6e6"/>
+    </linearGradient>
+  </defs>
+  <g id="Grupo_85479" data-name="Grupo 85479">
+    <rect id="Rectángulo_36568" data-name="Rectángulo 36568" width="200" height="200" fill="none"/>
+    <circle id="Elipse_6852" data-name="Elipse 6852" cx="91.28" cy="91.28" r="91.28" transform="translate(10.8 8.72)" fill="#35afea"/>
+    <g id="Grupo_85478" data-name="Grupo 85478" transform="translate(4.667 9.653)" opacity="0.15">
+      <path id="Trazado_144179" data-name="Trazado 144179" d="M95.5,15.24a84,84,0,1,1-84,84,84,84,0,0,1,84-84m0-8a92,92,0,1,0,92,92A92,92,0,0,0,95.5,7.24Z" transform="translate(-3.5 -7.24)" fill="#385a65"/>
+    </g>
+    <path id="Trazado_144180" data-name="Trazado 144180" d="M98,14A84,84,0,1,1,14,98,84,84,0,0,1,98,14m0-8a92,92,0,1,0,92,92A92,92,0,0,0,98,6Z" transform="translate(2 2)" fill="url(#linear-gradient)"/>
+  </g>
+  <g id="Grupo_85480" data-name="Grupo 85480" transform="translate(33.372 25.728)">
+    <path id="Trazado_144181" data-name="Trazado 144181" d="M89.23,21.9,25.724,131.875a5.213,5.213,0,0,0,4.507,7.813h127a5.2,5.2,0,0,0,4.507-7.813L98.244,21.9a5.2,5.2,0,0,0-9.013,0Z" transform="translate(-25.029 -19.296)" fill="#ffa726"/>
+    <path id="Trazado_144182" data-name="Trazado 144182" d="M89.3,28.3l-56.867,98.56a2.387,2.387,0,0,0,2.067,3.587h113.76a2.4,2.4,0,0,0,2.067-3.587L93.444,28.3a2.387,2.387,0,0,0-4.147,0Z" transform="translate(-22.67 -16.695)" fill="none" stroke="#12263f" stroke-miterlimit="10" stroke-width="1.64"/>
+    <path id="Trazado_144183" data-name="Trazado 144183" d="M84.447,107.883a7.693,7.693,0,0,1-2,5.253,6.973,6.973,0,0,1-5.533,2.28,5.68,5.68,0,0,1-4.613-1.973,7.093,7.093,0,0,1-1.64-4.693,7.187,7.187,0,0,1,7.627-7.32,5.613,5.613,0,0,1,4.56,1.867A6.8,6.8,0,0,1,84.447,107.883Zm-.76-51.507q0,10.853-4.2,31.813H75.78a286.373,286.373,0,0,1-2.667-31.2q0-8.64,5.96-8.64,4.64-.013,4.64,8.013Z" transform="translate(-9.819 -9.611)" fill="#12263f"/>
+  </g>
+</svg>

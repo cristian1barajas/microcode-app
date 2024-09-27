@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1030" height="680.5" viewBox="0 0 1030 680.5">
+  <g id="t4-t2" transform="translate(-285 -2660)">
+    <rect id="Rectangle_7792" data-name="Rectangle 7792" width="1030" height="50" transform="translate(285 2720)" fill="#f6f6f6"/>
+    <rect id="Rectangle_7795" data-name="Rectangle 7795" width="1030" height="60" transform="translate(285 2820)" fill="#f6f6f6"/>
+    <rect id="Rectangle_7796" data-name="Rectangle 7796" width="1030" height="60" transform="translate(285 2940)" fill="#f6f6f6"/>
+    <rect id="Rectangle_7811" data-name="Rectangle 7811" width="1030" height="60" transform="translate(285 3060)" fill="#f6f6f6"/>
+    <rect id="Rectangle_7813" data-name="Rectangle 7813" width="1030" height="60" transform="translate(285 3200)" fill="#f6f6f6"/>
+    <rect id="Rectangle_7810" data-name="Rectangle 7810" width="1030" height="60" transform="translate(285 3000)" fill="#fff"/>
+    <rect id="Rectangle_7812" data-name="Rectangle 7812" width="1030" height="80" transform="translate(285 3120)" fill="#fff"/>
+    <rect id="Rectangle_7814" data-name="Rectangle 7814" width="1030" height="80" transform="translate(285 3260)" fill="#fff"/>
+    <rect id="Rectangle_7793" data-name="Rectangle 7793" width="1030" height="50" transform="translate(285 2770)" fill="#fff"/>
+    <rect id="Rectangle_7794" data-name="Rectangle 7794" width="1030" height="60" transform="translate(285 2880)" fill="#ffca28"/>
+    <text id="Tabla" transform="translate(318 2734)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">Tabla</tspan></text>
+    <text id="Propósito" transform="translate(318 2839)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">Propósito</tspan></text>
+    <text id="Registro" transform="translate(318 2959)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">Registro</tspan></text>
+    <text id="Destino" transform="translate(318 3079)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">Destino</tspan></text>
+    <text id="Duración" transform="translate(318 3219)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">Duración</tspan></text>
+    <text id="Origen" transform="translate(318 3019)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">Origen</tspan></text>
+    <text id="Estado" transform="translate(318 3149)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">Estado</tspan></text>
+    <text id="Facturar" transform="translate(318 3289)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">Facturar</tspan></text>
+    <text id="Fecha" transform="translate(318 2784)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">Fecha</tspan></text>
+    <text id="Campo" transform="translate(344 2899)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="-28.556" y="17">Campo</tspan></text>
+    <text id="Tipo" transform="translate(520 2899)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="-18.268" y="17">Tipo</tspan></text>
+    <text id="Longitud" transform="translate(677 2899)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="-35.886" y="17">Longitud</tspan></text>
+    <text id="Descripción" transform="translate(1007 2899)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="-48.234" y="17">Descripción</tspan></text>
+    <text id="CDR_Call_Data_Records_" data-name="CDR  (Call Data Records)" transform="translate(519 2736)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15" xml:space="preserve">CDR  (Call Data Records)</tspan></text>
+    <text id="Guarda_el_registro_de_llamadas_entrantes_y_salientes_de_un_sistema_de_telefonía_PBX." data-name="Guarda el registro de llamadas entrantes y salientes de un sistema de telefonía PBX." transform="translate(519 2841)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Guarda el registro de llamadas entrantes y salientes de un sistema de telefonía PBX.</tspan></text>
+    <text id="Fecha_y_hora_de_registro_de_la_llamada" data-name="Fecha y hora de registro de la llamada" transform="translate(843 2961)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Fecha y hora de registro de la llamada</tspan></text>
+    <text id="Número_de_teléfono_o_extensión_del_llamado_o_destino" data-name="Número de teléfono o extensión del llamado o destino" transform="translate(843 3081)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Número de teléfono o extensión del llamado o destino</tspan></text>
+    <text id="Lo_que_dura_la_llamada_incluyendo_el_tiempo_de_timbrado" data-name="Lo que dura la llamada incluyendo el tiempo de timbrado" transform="translate(843 3221)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Lo que dura la llamada incluyendo el tiempo de timbrado</tspan></text>
+    <text id="Número_de_teléfono_o_extensión_del_llamante" data-name="Número de teléfono o extensión del llamante" transform="translate(843 3021)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Número de teléfono o extensión del llamante</tspan></text>
+    <text id="ANSWERED_BUSY_FAILED_NO_ANSWER_que_representa_lo_que_sucede_finalmente_con_la_llamada." data-name="ANSWERED, BUSY, FAILED, NO ANSWER, que representa lo que sucede finalmente con la llamada." transform="translate(843 3140)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">ANSWERED, BUSY, FAILED, NO ANSWER, que representa lo que </tspan><tspan x="0" y="36">sucede finalmente con la llamada.</tspan></text>
+    <text id="Lo_que_dura_la_llamada_desde_el_momento_en_que_es_contestada_la_llamada" data-name="Lo que dura la llamada desde el momento en que es contestada la llamada" transform="translate(843 3280)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Lo que dura la llamada desde el momento en que es </tspan><tspan x="0" y="36">contestada la llamada</tspan></text>
+    <text id="DATETIME" transform="translate(504 2961)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">DATETIME</tspan></text>
+    <text id="VARCHAR" transform="translate(504 3081)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">VARCHAR</tspan></text>
+    <text id="INT" transform="translate(504 3221)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">INT</tspan></text>
+    <text id="VARCHAR-2" data-name="VARCHAR" transform="translate(504 3021)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">VARCHAR</tspan></text>
+    <text id="VARCHAR-3" data-name="VARCHAR" transform="translate(504 3151)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">VARCHAR</tspan></text>
+    <text id="INT-2" data-name="INT" transform="translate(504 3291)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">INT</tspan></text>
+    <text id="_0" data-name="0" transform="translate(667 2961)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">0</tspan></text>
+    <text id="_80" data-name="80" transform="translate(667 3081)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">80</tspan></text>
+    <text id="_10" data-name="10" transform="translate(667 3221)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">10</tspan></text>
+    <text id="_80-2" data-name="80" transform="translate(667 3021)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">80</tspan></text>
+    <text id="_30" data-name="30" transform="translate(667 3151)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">30</tspan></text>
+    <text id="_10-2" data-name="10" transform="translate(667 3291)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">10</tspan></text>
+    <text id="DD_MM_YYY" data-name="DD/MM/YYY" transform="translate(519 2786)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">DD/MM/YYY</tspan></text>
+    <path id="Path_134311" data-name="Path 134311" d="M0,0H1030V60H0Z" transform="translate(285 2660)" fill="#ffca28"/>
+    <text id="Diccionario_de_datos" data-name="Diccionario de datos" transform="translate(800 2696)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="-82.868" y="0">Diccionario de datos</tspan></text>
+    <path id="Line_141" data-name="Line 141" d="M0,61a1,1,0,0,1-1-1V0A1,1,0,0,1,0-1,1,1,0,0,1,1,0V60A1,1,0,0,1,0,61Z" transform="translate(475 2880.5)" fill="#fff"/>
+    <path id="Line_142" data-name="Line 142" d="M0,61a1,1,0,0,1-1-1V0A1,1,0,0,1,0-1,1,1,0,0,1,1,0V60A1,1,0,0,1,0,61Z" transform="translate(637.5 2880.5)" fill="#fff"/>
+    <path id="Line_143" data-name="Line 143" d="M0,61a1,1,0,0,1-1-1V0A1,1,0,0,1,0-1,1,1,0,0,1,1,0V60A1,1,0,0,1,0,61Z" transform="translate(800 2880.5)" fill="#fff"/>
+    <path id="Line_139" data-name="Line 139" d="M0,160.5a.5.5,0,0,1-.5-.5V0A.5.5,0,0,1,0-.5.5.5,0,0,1,.5,0V160A.5.5,0,0,1,0,160.5Z" transform="translate(475 2720)" fill="#afafaf"/>
+    <path id="Line_144" data-name="Line 144" d="M0,400.5a.5.5,0,0,1-.5-.5V0A.5.5,0,0,1,0-.5.5.5,0,0,1,.5,0V400A.5.5,0,0,1,0,400.5Z" transform="translate(475 2940)" fill="#afafaf"/>
+    <path id="Line_145" data-name="Line 145" d="M0,400.5a.5.5,0,0,1-.5-.5V0A.5.5,0,0,1,0-.5.5.5,0,0,1,.5,0V400A.5.5,0,0,1,0,400.5Z" transform="translate(638 2940)" fill="#afafaf"/>
+    <path id="Line_146" data-name="Line 146" d="M0,400.5a.5.5,0,0,1-.5-.5V0A.5.5,0,0,1,0-.5.5.5,0,0,1,.5,0V400A.5.5,0,0,1,0,400.5Z" transform="translate(800 2940)" fill="#afafaf"/>
+  </g>
+</svg>

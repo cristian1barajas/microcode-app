@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="610" height="85.653" viewBox="0 0 610 85.653">
+  <g id="Grupo_142819" data-name="Grupo 142819" transform="translate(-495 -2738.148)">
+    <g id="Rectángulo_12364" data-name="Rectángulo 12364" transform="translate(1105 2823.682) rotate(180)" fill="none" stroke="#d2f3f7" stroke-width="3">
+      <rect width="610" height="85.533" stroke="none"/>
+      <rect x="1.5" y="1.5" width="607" height="82.533" fill="none"/>
+    </g>
+    <text id="Estos_son_algunos_de_los_proveedores_de_servicios_más_conocidos_con_los_valores_de_uptime_ofrecidos:" data-name="Estos son algunos de los proveedores de servicios más conocidos, con los valores de uptime ofrecidos:" transform="translate(543 2760.802)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="9.609" y="17">Estos son algunos de los proveedores de servicios más conocidos, con </tspan><tspan x="149.23" y="41">los valores de </tspan><tspan y="41" font-family="Roboto-Italic, Roboto" font-style="italic">uptime </tspan><tspan y="41">ofrecidos:</tspan></text>
+    <path id="Trazado_158601" data-name="Trazado 158601" d="M0,0,33,33H0Z" transform="translate(495 2790.805)" fill="#ffa726"/>
+  </g>
+</svg>

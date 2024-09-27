@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200.46" height="221.684" viewBox="0 0 200.46 221.684">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#4dd0e1"/>
+      <stop offset="1" stop-color="#039be5"/>
+    </linearGradient>
+  </defs>
+  <g id="Grupo_143427" data-name="Grupo 143427" transform="translate(-413 -1175.37)">
+    <path id="Trazado_183915" data-name="Trazado 183915" d="M348.072,249.546A100.23,100.23,0,1,1,448.3,149.316,100.346,100.346,0,0,1,348.072,249.546Zm0-195.567a95.342,95.342,0,1,0,95.347,95.337A95.449,95.449,0,0,0,348.072,53.979Z" transform="translate(165.158 1147.508)" fill="#d1d3d4"/>
+    <path id="Trazado_183918" data-name="Trazado 183918" d="M302.919,70.605a23.666,23.666,0,1,1-23.666-23.666A23.668,23.668,0,0,1,302.919,70.605Z" transform="translate(233.977 1128.431)" fill="#ffa726"/>
+    <path id="Trazado_188658" data-name="Trazado 188658" d="M1.061,0H90.967a1.061,1.061,0,0,1,1.061,1.061V55.414a1.061,1.061,0,0,1-1.061,1.061H1.061A1.061,1.061,0,0,1,0,55.414V1.061A1.061,1.061,0,0,1,1.061,0Z" transform="translate(539.919 1251.129) rotate(90)" fill="#535366"/>
+    <path id="Trazado_188659" data-name="Trazado 188659" d="M0,0H64.311V56.475H0Z" transform="translate(539.919 1261.619) rotate(90)" fill="url(#linear-gradient)"/>
+    <path id="Trazado_183939" data-name="Trazado 183939" d="M270.033,67.3H259.317a2.269,2.269,0,0,1,0-4.537h10.716a2.269,2.269,0,1,1,0,4.537Z" transform="translate(247.003 1269.055)" fill="#fff"/>
+    <path id="Trazado_183940" data-name="Trazado 183940" d="M267.363,89.526A2.265,2.265,0,0,1,265.8,88.9l-8.818-8.373a2.272,2.272,0,0,1,3.134-3.292l6.92,6.574,18.466-25.9a2.267,2.267,0,1,1,3.688,2.639L269.212,88.577a2.252,2.252,0,0,1-1.621.939Z" transform="translate(240.173 1217.44)" fill="#fff"/>
+    <path id="Trazado_188660" data-name="Trazado 188660" d="M3.56,0H-1.392V-15.762l-4.863,1.421v-3.75l9.36-3.237H3.56Z" transform="translate(513 1210)" fill="#12263f"/>
+  </g>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="112" height="112" viewBox="0 0 112 112">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectángulo_36638" data-name="Rectángulo 36638" width="56" height="48" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="Grupo_141356" data-name="Grupo 141356" transform="translate(-1213 -2057)">
+    <circle id="Elipse_4803" data-name="Elipse 4803" cx="56" cy="56" r="56" transform="translate(1213 2057)" fill="#039be5"/>
+    <g id="Grupo_141302" data-name="Grupo 141302" transform="translate(1241 2091)">
+      <g id="Grupo_141301" data-name="Grupo 141301" clip-path="url(#clip-path)">
+        <path id="Trazado_118349" data-name="Trazado 118349" d="M53,40H3a3,3,0,0,1-3-3V3A3,3,0,0,1,3,0H53a3,3,0,0,1,3,3V37a3,3,0,0,1-3,3M3,2A1,1,0,0,0,2,3V37a1,1,0,0,0,1,1H53a1,1,0,0,0,1-1V3a1,1,0,0,0-1-1Z" fill="#fff"/>
+        <path id="Trazado_118350" data-name="Trazado 118350" d="M55,35H1a1,1,0,0,1,0-2H55a1,1,0,0,1,0,2" fill="#fff"/>
+        <rect id="Rectángulo_36622" data-name="Rectángulo 36622" width="6" height="2" transform="translate(6 5)" fill="#fff"/>
+        <rect id="Rectángulo_36623" data-name="Rectángulo 36623" width="3" height="2" transform="translate(9 9)" fill="#fff"/>
+        <rect id="Rectángulo_36624" data-name="Rectángulo 36624" width="3" height="2" transform="translate(9 13)" fill="#fff"/>
+        <rect id="Rectángulo_36625" data-name="Rectángulo 36625" width="6" height="2" transform="translate(6 18)" fill="#fff"/>
+        <rect id="Rectángulo_36626" data-name="Rectángulo 36626" width="3" height="2" transform="translate(9 22)" fill="#fff"/>
+        <rect id="Rectángulo_36627" data-name="Rectángulo 36627" width="3" height="2" transform="translate(9 26)" fill="#fff"/>
+        <path id="Trazado_118351" data-name="Trazado 118351" d="M40,48H16a1,1,0,0,1,0-2H40a1,1,0,0,1,0,2" fill="#fff"/>
+        <path id="Trazado_118352" data-name="Trazado 118352" d="M35,48a1,1,0,0,1-.969-.757l-2-8a1,1,0,0,1,1.94-.486l2,8a1,1,0,0,1-.727,1.213A.976.976,0,0,1,35,48" fill="#fff"/>
+        <path id="Trazado_118353" data-name="Trazado 118353" d="M21,48a.976.976,0,0,1-.244-.03,1,1,0,0,1-.727-1.213l2-8a1,1,0,1,1,1.94.486l-2,8A1,1,0,0,1,21,48" fill="#fff"/>
+        <rect id="Rectángulo_36628" data-name="Rectángulo 36628" width="2" height="26" transform="translate(14 4)" fill="#fff"/>
+        <path id="Trazado_118354" data-name="Trazado 118354" d="M21.293,11.707l-3-3a1,1,0,0,1,0-1.414l3-3,1.414,1.414L20.414,8l2.293,2.293Z" fill="#fff"/>
+        <path id="Trazado_118355" data-name="Trazado 118355" d="M21.293,23.707l-3-3a1,1,0,0,1,0-1.414l3-3,1.414,1.414L20.414,20l2.293,2.293Z" fill="#fff"/>
+        <path id="Trazado_118356" data-name="Trazado 118356" d="M32.707,11.707l-1.414-1.414L33.586,8,31.293,5.707l1.414-1.414,3,3a1,1,0,0,1,0,1.414Z" fill="#fff"/>
+        <rect id="Rectángulo_36629" data-name="Rectángulo 36629" width="6" height="2" transform="translate(24 7)" fill="#fff"/>
+        <rect id="Rectángulo_36630" data-name="Rectángulo 36630" width="4" height="2" transform="translate(19 13)" fill="#fff"/>
+        <rect id="Rectángulo_36631" data-name="Rectángulo 36631" width="7" height="2" transform="translate(39 13)" fill="#fff"/>
+        <rect id="Rectángulo_36632" data-name="Rectángulo 36632" width="8" height="2" transform="translate(27 13)" fill="#fff"/>
+        <rect id="Rectángulo_36633" data-name="Rectángulo 36633" width="7.211" height="2" transform="translate(24.168 22.446) rotate(-56.318)" fill="#fff"/>
+        <rect id="Rectángulo_36634" data-name="Rectángulo 36634" width="2" height="2" transform="translate(26 25)" fill="#fff"/>
+        <rect id="Rectángulo_36635" data-name="Rectángulo 36635" width="6" height="2" transform="translate(40 25)" fill="#fff"/>
+        <rect id="Rectángulo_36636" data-name="Rectángulo 36636" width="8" height="2" transform="translate(30 25)" fill="#fff"/>
+        <rect id="Rectángulo_36637" data-name="Rectángulo 36637" width="10" height="2" transform="translate(26 29)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

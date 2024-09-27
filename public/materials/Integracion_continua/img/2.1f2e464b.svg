@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="124" height="124" viewBox="0 0 124 124">
+  <g id="Grupo_60827" data-name="Grupo 60827" transform="translate(-732 -577)">
+    <rect id="Rectángulo_7660" data-name="Rectángulo 7660" width="124" height="124" rx="11" transform="translate(732 577)" fill="#dee4f0"/>
+    <g id="gitlab" transform="translate(751.836 599.579)">
+      <path id="Trazado_105220" data-name="Trazado 105220" d="M96.4,138.585,111.825,91.1H80.97L96.4,138.585Z" transform="translate(-54.341 -60.984)" fill="#e24329"/>
+      <path id="Trazado_105221" data-name="Trazado 105221" d="M52,138.584,36.576,91.1H14.956Z" transform="translate(-9.947 -60.983)" fill="#fc6d26"/>
+      <path id="Trazado_105222" data-name="Trazado 105222" d="M5.009,91.1.321,105.533a3.194,3.194,0,0,0,1.16,3.571l40.576,29.48L5.008,91.1Z" transform="translate(0 -60.983)" fill="#fca326"/>
+      <path id="Trazado_105223" data-name="Trazado 105223" d="M14.956,30.121h21.62l-9.291-28.6a1.6,1.6,0,0,0-3.038,0l-9.292,28.6Z" transform="translate(-9.947 0)" fill="#e24329"/>
+      <path id="Trazado_105224" data-name="Trazado 105224" d="M128.074,138.584,143.5,91.1h21.621l-37.048,47.48Z" transform="translate(-86.018 -60.983)" fill="#fc6d26"/>
+      <path id="Trazado_105225" data-name="Trazado 105225" d="M165.123,91.1l4.688,14.429a3.194,3.194,0,0,1-1.16,3.571l-40.576,29.48L165.123,91.1Z" transform="translate(-86.018 -60.983)" fill="#fca326"/>
+      <path id="Trazado_105226" data-name="Trazado 105226" d="M196.8,30.121H175.179l9.292-28.6a1.6,1.6,0,0,1,3.038,0Z" transform="translate(-117.695 0)" fill="#e24329"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1030" height="972.5" viewBox="0 0 1030 972.5">
+  <g id="t4-t1" transform="translate(-285 -1366.5)">
+    <rect id="Rectangle_7792" data-name="Rectangle 7792" width="1030" height="70" transform="translate(285 1428)" fill="#f6f6f6"/>
+    <rect id="Rectangle_7795" data-name="Rectangle 7795" width="1030" height="70" transform="translate(285 1568)" fill="#f6f6f6"/>
+    <rect id="Rectangle_7796" data-name="Rectangle 7796" width="1030" height="70" transform="translate(285 1708)" fill="#f6f6f6"/>
+    <rect id="Rectangle_7798" data-name="Rectangle 7798" width="1030" height="70" transform="translate(285 1848)" fill="#f6f6f6"/>
+    <rect id="Rectangle_7800" data-name="Rectangle 7800" width="1030" height="70" transform="translate(285 1988)" fill="#f6f6f6"/>
+    <rect id="Rectangle_7803" data-name="Rectangle 7803" width="1030" height="70" transform="translate(285 2128)" fill="#f6f6f6"/>
+    <rect id="Rectangle_7804" data-name="Rectangle 7804" width="1030" height="70" transform="translate(285 2268)" fill="#f6f6f6"/>
+    <rect id="Rectangle_7793" data-name="Rectangle 7793" width="1030" height="70" transform="translate(285 1498)" fill="#fff"/>
+    <rect id="Rectangle_7794" data-name="Rectangle 7794" width="1030" height="70" transform="translate(285 1638)" fill="#fff"/>
+    <rect id="Rectangle_7797" data-name="Rectangle 7797" width="1030" height="70" transform="translate(285 1778)" fill="#fff"/>
+    <rect id="Rectangle_7799" data-name="Rectangle 7799" width="1030" height="70" transform="translate(285 1918)" fill="#fff"/>
+    <rect id="Rectangle_7801" data-name="Rectangle 7801" width="1030" height="70" transform="translate(285 2058)" fill="#fff"/>
+    <rect id="Rectangle_7802" data-name="Rectangle 7802" width="1030" height="70" transform="translate(285 2198)" fill="#fff"/>
+    <text id="LENGTH" transform="translate(318 1452)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">LENGTH</tspan></text>
+    <text id="MAX" transform="translate(318 1592)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">MAX</tspan></text>
+    <text id="CEIL" transform="translate(318 1732)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">CEIL</tspan></text>
+    <text id="AVG" transform="translate(318 1872)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">AVG</tspan></text>
+    <text id="MONTH" transform="translate(318 2012)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">MONTH</tspan></text>
+    <text id="DATE" transform="translate(318 2152)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">DATE</tspan></text>
+    <text id="SEC_TO_TIME" transform="translate(318 2292)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">SEC_TO_TIME</tspan></text>
+    <text id="SUM" transform="translate(318 1522)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">SUM</tspan></text>
+    <text id="MIN" transform="translate(318 1662)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">MIN</tspan></text>
+    <text id="COUNT" transform="translate(318 1802)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">COUNT</tspan></text>
+    <text id="YEAR" transform="translate(318 1942)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">YEAR</tspan></text>
+    <text id="DAY" transform="translate(318 2082)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">DAY</tspan></text>
+    <text id="TIME" transform="translate(318 2222)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="17">TIME</tspan></text>
+    <text id="Devuelve_la_longitud_de_una_cadena_en_bytes_." data-name="Devuelve la longitud de una cadena (en bytes)." transform="translate(600 1454)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Devuelve la longitud de una cadena (en bytes).</tspan></text>
+    <text id="Devuelve_el_valor_máximo_en_un_conjunto_de_valores." data-name="Devuelve el valor máximo en un conjunto de valores." transform="translate(600 1594)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Devuelve el valor máximo en un conjunto de valores.</tspan></text>
+    <text id="Redondea_el_valor_entero_más_pequeño_que_es_mayor_o_igual_que_un_número." data-name="Redondea el valor entero más pequeño que es mayor o igual que un número." transform="translate(600 1734)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Redondea el valor entero más pequeño que es mayor o igual que un número.</tspan></text>
+    <text id="Devuelve_el_valor_medio_de_una_expresión." data-name="Devuelve el valor medio de una expresión." transform="translate(600 1874)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Devuelve el valor medio de una expresión.</tspan></text>
+    <text id="Devuelve_la_parte_del_mes_para_una_fecha_determinada." data-name="Devuelve la parte del mes para una fecha determinada." transform="translate(600 2014)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Devuelve la parte del mes para una fecha determinada.</tspan></text>
+    <text id="Extrae_la_parte_de_la_fecha_de_una_expresión_de_fecha_y_hora." data-name="Extrae la parte de la fecha de una expresión de fecha y hora." transform="translate(600 2154)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Extrae la parte de la fecha de una expresión de fecha y hora.</tspan></text>
+    <text id="Devuelve_un_valor_de_tiempo_basado_en_los_segundos_especificados." data-name="Devuelve un valor de tiempo basado en los segundos especificados." transform="translate(600 2294)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Devuelve un valor de tiempo basado en los segundos especificados.</tspan></text>
+    <text id="Calcula_la_suma_de_un_conjunto_de_valores." data-name="Calcula la suma de un conjunto de valores." transform="translate(600 1524)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Calcula la suma de un conjunto de valores.</tspan></text>
+    <text id="Devuelve_el_valor_mínimo_en_un_conjunto_de_valores." data-name="Devuelve el valor mínimo en un conjunto de valores." transform="translate(600 1664)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Devuelve el valor mínimo en un conjunto de valores.</tspan></text>
+    <text id="Devuelve_el_número_de_registros_devueltos_por_una_consulta_de_selección." data-name="Devuelve el número de registros devueltos por una consulta de selección." transform="translate(600 1804)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Devuelve el número de registros devueltos por una consulta de selección.</tspan></text>
+    <text id="Devuelve_la_parte_del_año_para_una_fecha_determinada." data-name="Devuelve la parte del año para una fecha determinada." transform="translate(600 1944)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Devuelve la parte del año para una fecha determinada.</tspan></text>
+    <text id="Devuelve_el_día_del_mes_para_una_fecha_determinada." data-name="Devuelve el día del mes para una fecha determinada." transform="translate(600 2084)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Devuelve el día del mes para una fecha determinada.</tspan></text>
+    <text id="Extrae_la_parte_de_tiempo_de_una_hora_fecha_y_hora_determinadas." data-name="Extrae la parte de tiempo de una hora / fecha y hora determinadas." transform="translate(600 2224)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="15">Extrae la parte de tiempo de una hora / fecha y hora determinadas.</tspan></text>
+    <path id="Path_134311" data-name="Path 134311" d="M0,0H1030V60.672H0Z" transform="translate(285 1367)" fill="#ffca28"/>
+    <text id="Descripción" transform="translate(924 1404)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="-48.234" y="0">Descripción</tspan></text>
+    <text id="FUNCION" transform="translate(427 1404)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="-38.377" y="0">FUNCION</tspan></text>
+    <path id="Line_140" data-name="Line 140" d="M0,62a1,1,0,0,1-1-1V0A1,1,0,0,1,0-1,1,1,0,0,1,1,0V61A1,1,0,0,1,0,62Z" transform="translate(537.5 1367.5)" fill="#fff"/>
+    <path id="Line_139" data-name="Line 139" d="M0,911a.5.5,0,0,1-.5-.5V0A.5.5,0,0,1,0-.5.5.5,0,0,1,.5,0V910.5A.5.5,0,0,1,0,911Z" transform="translate(537.5 1428)" fill="#afafaf"/>
+  </g>
+</svg>

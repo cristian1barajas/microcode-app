@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="317" viewBox="0 0 620 317">
+  <g id="Grupo_94413" data-name="Grupo 94413" transform="translate(6837 8288)">
+    <rect id="Rectángulo_35878" data-name="Rectángulo 35878" width="620" height="317" transform="translate(-6837 -8288)" fill="#70d2df" opacity="0.7"/>
+    <g id="Grupo_93875" data-name="Grupo 93875" transform="translate(-6782.5 -8385)">
+      <circle id="Elipse_5065" data-name="Elipse 5065" cx="2.5" cy="2.5" r="2.5" transform="translate(228.5 191)" fill="#fff"/>
+      <path id="Trazado_150075" data-name="Trazado 150075" d="M243.5,196H261a2.5,2.5,0,0,0,0-5H243.5a2.5,2.5,0,0,0,0,5Z" fill="#fff"/>
+      <path id="Trazado_150076" data-name="Trazado 150076" d="M288.5,331H306a2.5,2.5,0,0,0,2.5-2.5v-60a12.542,12.542,0,0,0-1.471-5.882L288.5,227.875V193.5A12.515,12.515,0,0,0,276,181H216a12.515,12.515,0,0,0-12.5,12.5v125A12.515,12.515,0,0,0,216,331h72.5Zm15-62.5V326h-15a22.527,22.527,0,0,1-22.495-22.027,2.506,2.506,0,0,0-.383-1.873l-16.218-24a7.5,7.5,0,0,1,12.429-8.4c.015.022.031.043.045.065l14.6,20.2A2.5,2.5,0,0,0,278.5,291H286a2.5,2.5,0,0,0,2.5-2.5v-50l14.118,26.471A7.525,7.525,0,0,1,303.5,268.5Zm-20-40V286h-3.722l-13.825-19.133A12.5,12.5,0,0,0,245.261,280.9L258.844,301H208.5V206h75ZM216,186h60a7.509,7.509,0,0,1,7.5,7.5V201h-75v-7.5A7.509,7.509,0,0,1,216,186Zm0,140a7.509,7.509,0,0,1-7.5-7.5V306h52.62a27.5,27.5,0,0,0,11.6,20Z" fill="#fff"/>
+      <path id="Trazado_150077" data-name="Trazado 150077" d="M246,308.5a7.5,7.5,0,1,0,7.5,7.5A7.5,7.5,0,0,0,246,308.5Zm0,10a2.5,2.5,0,1,1,2.5-2.5A2.5,2.5,0,0,1,246,318.5Z" fill="#fff"/>
+      <path id="Trazado_150078" data-name="Trazado 150078" d="M216,236h60a2.5,2.5,0,0,0,2.5-2.5v-20A2.5,2.5,0,0,0,276,211H216a2.5,2.5,0,0,0-2.5,2.5v20A2.5,2.5,0,0,0,216,236Zm2.5-20h55v15h-55Z" fill="#fff"/>
+      <path id="Trazado_150079" data-name="Trazado 150079" d="M246,221H226a2.5,2.5,0,0,0,0,5h20a2.5,2.5,0,0,0,0-5Z" fill="#fff"/>
+      <path id="Trazado_150080" data-name="Trazado 150080" d="M216,246h35a2.5,2.5,0,0,0,0-5H216a2.5,2.5,0,0,0,0,5Z" fill="#fff"/>
+      <path id="Trazado_150081" data-name="Trazado 150081" d="M251,251H236a2.5,2.5,0,0,0,0,5h15a2.5,2.5,0,0,0,0-5Z" fill="#fff"/>
+      <path id="Trazado_150082" data-name="Trazado 150082" d="M216,266h15a2.5,2.5,0,0,0,0-5H216a2.5,2.5,0,0,0,0,5Z" fill="#fff"/>
+      <path id="Trazado_150083" data-name="Trazado 150083" d="M216,276h15a2.5,2.5,0,0,0,0-5H216a2.5,2.5,0,0,0,0,5Z" fill="#fff"/>
+      <circle id="Elipse_5066" data-name="Elipse 5066" cx="2.5" cy="2.5" r="2.5" transform="translate(213.5 291)" fill="#fff"/>
+      <circle id="Elipse_5067" data-name="Elipse 5067" cx="2.5" cy="2.5" r="2.5" transform="translate(223.5 291)" fill="#fff"/>
+      <circle id="Elipse_5068" data-name="Elipse 5068" cx="2.5" cy="2.5" r="2.5" transform="translate(233.5 291)" fill="#fff"/>
+      <path id="Trazado_150084" data-name="Trazado 150084" d="M216,286h20a2.5,2.5,0,0,0,0-5H216a2.5,2.5,0,0,0,0,5Z" fill="#fff"/>
+      <path id="Trazado_150085" data-name="Trazado 150085" d="M276,241H261a2.5,2.5,0,0,0-2.5,2.5v10A2.5,2.5,0,0,0,261,256h15a2.5,2.5,0,0,0,2.5-2.5v-10A2.5,2.5,0,0,0,276,241Zm-2.5,10h-10v-5h10Z" fill="#fff"/>
+      <path id="Trazado_150086" data-name="Trazado 150086" d="M216,256h10a2.5,2.5,0,0,0,0-5H216a2.5,2.5,0,0,0,0,5Z" fill="#fff"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="124" viewBox="0 0 124 124">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1.086" y1="0.138" x2="0.469" y2="0.788" gradientUnits="objectBoundingBox">
+      <stop offset="0.18" stop-color="#0052cc"/>
+      <stop offset="1" stop-color="#2684ff"/>
+    </linearGradient>
+  </defs>
+  <g id="Grupo_60828" data-name="Grupo 60828" transform="translate(-1148 -577)">
+    <g id="Grupo_60700" data-name="Grupo 60700" transform="translate(844)">
+      <rect id="Rectángulo_7660" data-name="Rectángulo 7660" width="124" height="124" rx="11" transform="translate(304 577)" fill="#dee4f0"/>
+    </g>
+    <g id="bitbucket-icon" transform="translate(1172 605.001)">
+      <path id="Trazado_105217" data-name="Trazado 105217" d="M91.315,99.791h16l3.862-22.55H87.06Z" transform="translate(-60.995 -54.116)" fill="none"/>
+      <path id="Trazado_105218" data-name="Trazado 105218" d="M2.487,0A2.456,2.456,0,0,0,.032,2.849L10.456,66.132a3.34,3.34,0,0,0,3.266,2.787h50.01a2.456,2.456,0,0,0,2.455-2.063l10.425-64A2.456,2.456,0,0,0,74.157.012Zm43.9,45.737H30.421L26.1,23.157H50.251Z" transform="translate(0 0)" fill="#2684ff"/>
+      <path id="Trazado_105219" data-name="Trazado 105219" d="M100.285,77.242H77.257L73.393,99.8H57.443L38.611,122.158a3.325,3.325,0,0,0,2.147.81H90.741a2.454,2.454,0,0,0,2.454-2.061Z" transform="translate(-27.051 -54.117)" fill="url(#linear-gradient)"/>
+    </g>
+  </g>
+</svg>

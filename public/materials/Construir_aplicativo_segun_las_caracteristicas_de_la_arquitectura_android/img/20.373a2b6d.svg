@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="420" height="89" viewBox="0 0 420 89">
+  <defs>
+    <filter id="Rectángulo_33896" x="0" y="0" width="420" height="89" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Grupo_100259" data-name="Grupo 100259" transform="translate(-171 -6300)">
+    <g transform="matrix(1, 0, 0, 1, 171, 6300)" filter="url(#Rectángulo_33896)">
+      <rect id="Rectángulo_33896-2" data-name="Rectángulo 33896" width="402" height="71" rx="5" transform="translate(9 6)" fill="#039be5"/>
+    </g>
+    <text id="BOTON" transform="translate(352 6347)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">BOTON</tspan></text>
+  </g>
+</svg>

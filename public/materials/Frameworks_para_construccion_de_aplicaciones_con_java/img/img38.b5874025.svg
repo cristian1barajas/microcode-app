@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="643" height="344.617" viewBox="0 0 643 344.617">
+  <defs>
+    <filter id="Rectángulo_36000" x="0" y="0" width="643" height="344.617" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f5f5f5"/>
+      <stop offset="0.25" stop-color="#f5f5f5"/>
+      <stop offset="1" stop-color="#afafaf"/>
+    </linearGradient>
+  </defs>
+  <g id="Grupo_146146" data-name="Grupo 146146" transform="translate(-358 -23569.023)">
+    <g id="Grupo_146017" data-name="Grupo 146017" transform="translate(367 23571.023)">
+      <g transform="matrix(1, 0, 0, 1, -9, -2)" filter="url(#Rectángulo_36000)">
+        <rect id="Rectángulo_36000-2" data-name="Rectángulo 36000" width="625" height="326.617" transform="translate(9 6)" fill="#fff"/>
+      </g>
+      <path id="Trazado_188505" data-name="Trazado 188505" d="M4.823,0H620.177C622.841,0,625,.142,625,.317V47.759c0,.175-2.159.317-4.823.317H4.823C2.159,48.077,0,47.935,0,47.759V.317C0,.142,2.159,0,4.823,0Z" transform="translate(0 0)" fill="#12263f"/>
+      <rect id="Rectángulo_42433" data-name="Rectángulo 42433" width="11.49" height="584.552" rx="5.408" transform="translate(604.776 20.077) rotate(90)" fill="url(#linear-gradient)"/>
+      <path id="Trazado_188506" data-name="Trazado 188506" d="M362.668,157.581a3.121,3.121,0,1,1-3.121-3.122A3.121,3.121,0,0,1,362.668,157.581Z" transform="translate(-324.503 -147.078)" fill="#fff"/>
+      <path id="Trazado_188507" data-name="Trazado 188507" d="M362.668,157.581a3.121,3.121,0,1,1-3.121-3.122A3.121,3.121,0,0,1,362.668,157.581Z" transform="translate(-336.962 -147.078)" fill="#ffa726"/>
+      <path id="Trazado_188508" data-name="Trazado 188508" d="M372.483,157.581a3.122,3.122,0,1,1-3.122-3.122A3.122,3.122,0,0,1,372.483,157.581Z" transform="translate(-321.856 -147.078)" fill="#26a69a"/>
+    </g>
+    <text id="spring.jpa.hibernate.ddl-auto_update" data-name="spring.jpa.hibernate.ddl-auto=update" transform="translate(437.047 23658.633)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="15">spring.jpa.hibernate.ddl-auto=update</tspan></text>
+    <text id="_1" data-name="1" transform="translate(394.047 23658.633)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="15">1</tspan></text>
+    <text id="spring.datasource.url_jdbc:mysql:_localhost:3306_demo_useUnicode_true_characterEncoding_utf8_createDatabaseIfNotExist_true" data-name="spring.datasource.url=jdbc:mysql://localhost:3306/demo?useUnicode=true&amp;characterEncoding=utf8&amp;createDatabaseIfNotExist=true" transform="translate(437.047 23695.5)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="15">spring.datasource.url=jdbc:mysql://localhost:3306/demo?</tspan><tspan x="0" y="36">useUnicode=true&amp;characterEncoding=utf8&amp;createDatabaseIfNotExist=true</tspan></text>
+    <text id="_2" data-name="2" transform="translate(394.047 23695.5)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="15">2</tspan></text>
+    <text id="spring.datasource.username_root" data-name="spring.datasource.username=root" transform="translate(437.047 23753.023)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="15">spring.datasource.username=root</tspan></text>
+    <text id="_3" data-name="3" transform="translate(394.047 23753.023)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="15">3</tspan></text>
+    <text id="spring.datasource.password_password" data-name="spring.datasource.password=password" transform="translate(437.047 23789.414)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="15">spring.datasource.password=password</tspan></text>
+    <text id="_4" data-name="4" transform="translate(394.047 23789.414)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="15">4</tspan></text>
+    <text id="spring.jpa.show-sql_true" data-name="spring.jpa.show-sql=true" transform="translate(437.047 23825.805)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="15">spring.jpa.show-sql=true</tspan></text>
+    <text id="_5" data-name="5" transform="translate(394.047 23825.805)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="15">5</tspan></text>
+    <line id="Línea_1799" data-name="Línea 1799" y2="261.477" transform="translate(422.563 23626.023)" fill="none" stroke="#afafaf" stroke-linecap="round" stroke-width="1"/>
+  </g>
+</svg>

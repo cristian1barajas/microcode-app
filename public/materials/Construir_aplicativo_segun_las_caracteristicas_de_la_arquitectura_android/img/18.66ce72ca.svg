@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="726" height="485" viewBox="0 0 726 485">
+  <defs>
+    <filter id="Rectángulo_33895" x="0" y="0" width="726" height="485" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Rectángulo_33891" x="208" y="56" width="301" height="89" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-2"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Grupo_99915" data-name="Grupo 99915" transform="translate(-379 -4833)">
+    <g transform="matrix(1, 0, 0, 1, 379, 4833)" filter="url(#Rectángulo_33895)">
+      <rect id="Rectángulo_33895-2" data-name="Rectángulo 33895" width="708" height="467" rx="10" transform="translate(9 6)" fill="#fff"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 379, 4833)" filter="url(#Rectángulo_33891)">
+      <rect id="Rectángulo_33891-2" data-name="Rectángulo 33891" width="283" height="71" rx="5" transform="translate(217 62)" fill="#039be5"/>
+    </g>
+    <text id="BOTON" transform="translate(708 4936)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">BOTON</tspan></text>
+    <g id="Rectángulo_33892" data-name="Rectángulo 33892" transform="translate(492 4995)" fill="#fff" stroke="#c7c7c7" stroke-width="1">
+      <rect width="188" height="54" rx="5" stroke="none"/>
+      <rect x="0.5" y="0.5" width="187" height="53" rx="4.5" fill="none"/>
+    </g>
+    <text id="Etiquetas_de_Texto" data-name="Etiquetas de Texto" transform="translate(515 5029)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Etiquetas de Texto</tspan></text>
+    <g id="Elipse_1745" data-name="Elipse 1745" transform="translate(596 5078)" fill="#fff" stroke="#039be5" stroke-width="1">
+      <circle cx="15.5" cy="15.5" r="15.5" stroke="none"/>
+      <circle cx="15.5" cy="15.5" r="15" fill="none"/>
+    </g>
+    <g id="Elipse_1746" data-name="Elipse 1746" transform="translate(605 5087)" fill="#039be5" stroke="#039be5" stroke-width="1">
+      <circle cx="6.5" cy="6.5" r="6.5" stroke="none"/>
+      <circle cx="6.5" cy="6.5" r="6" fill="none"/>
+    </g>
+    <text id="Selección" transform="translate(644 5099)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Selección</tspan></text>
+    <g id="Rectángulo_33893" data-name="Rectángulo 33893" transform="translate(492 5138)" fill="#fff" stroke="#c7c7c7" stroke-width="1">
+      <rect width="500" height="54" rx="5" stroke="none"/>
+      <rect x="0.5" y="0.5" width="499" height="53" rx="4.5" fill="none"/>
+    </g>
+    <text id="Campo_de_texto" data-name="Campo de texto" transform="translate(524 5172)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Campo de texto</tspan></text>
+    <g id="Rectángulo_33894" data-name="Rectángulo 33894" transform="translate(596 5219)" fill="#fff" stroke="#039be5" stroke-width="1">
+      <rect width="31" height="31" stroke="none"/>
+      <rect x="0.5" y="0.5" width="30" height="30" fill="none"/>
+    </g>
+    <text id="Casilla_de_verificación" data-name="Casilla de verificación" transform="translate(644 5240)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Casilla de verificación</tspan></text>
+    <path id="Icon_awesome-check" data-name="Icon awesome-check" d="M5.157,15.677.222,10.743a.759.759,0,0,1,0-1.074L1.3,8.6a.759.759,0,0,1,1.074,0L5.694,11.92l7.12-7.12a.759.759,0,0,1,1.074,0l1.074,1.074a.759.759,0,0,1,0,1.074L6.231,15.677A.759.759,0,0,1,5.157,15.677Z" transform="translate(603.908 5224.262)" fill="#039be5"/>
+  </g>
+</svg>

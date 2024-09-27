@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1242" height="812" viewBox="0 0 1242 812">
+  <g id="Grupo_144957" data-name="Grupo 144957" transform="translate(2551 1769)">
+    <g id="Grupo_144956" data-name="Grupo 144956">
+      <rect id="Rectángulo_43889" data-name="Rectángulo 43889" width="1242" height="812" transform="translate(-2551 -1769)" fill="#f6f6f6"/>
+      <rect id="Rectángulo_43890" data-name="Rectángulo 43890" width="223" height="59" transform="translate(-2040 -1737)" fill="#ffca28"/>
+      <text id="Tecnologías_Emergentes" data-name="Tecnologías Emergentes" transform="translate(-2018 -1702)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="0">Tecnologías Emergentes</tspan></text>
+      <rect id="Rectángulo_43891" data-name="Rectángulo 43891" width="197" height="50" transform="translate(-2027 -1613)" fill="#1565c0"/>
+      <text id="Blockchain" transform="translate(-1968 -1582)" fill="#fff" font-size="16" font-family="Roboto-BoldItalic, Roboto" font-weight="700" font-style="italic"><tspan x="0" y="0">Blockchain</tspan></text>
+      <rect id="Rectángulo_43892" data-name="Rectángulo 43892" width="197" height="50" transform="translate(-2523 -1519)" fill="#1565c0"/>
+      <text id="Aplicaciones" transform="translate(-2470 -1488)" fill="#fff" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="0">Aplicaciones</tspan></text>
+      <rect id="Rectángulo_43893" data-name="Rectángulo 43893" width="197" height="50" transform="translate(-1645 -1545)" fill="#1565c0"/>
+      <text id="Machine_Learning" data-name="Machine Learning" transform="translate(-1611 -1514)" fill="#fff" font-size="16" font-family="Roboto-BoldItalic, Roboto" font-weight="700" font-style="italic"><tspan x="0" y="0">Machine Learning</tspan></text>
+      <ellipse id="Elipse_5234" data-name="Elipse 5234" cx="103" cy="28" rx="103" ry="28" transform="translate(-2532 -1406)" fill="#afecf4"/>
+      <text id="Domótica" transform="translate(-2463 -1372)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Domótica</tspan></text>
+      <ellipse id="Elipse_5235" data-name="Elipse 5235" cx="103" cy="28" rx="103" ry="28" transform="translate(-2532 -1336)" fill="#afecf4"/>
+      <text id="Atomatización" transform="translate(-2480 -1302)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Atomatización</tspan></text>
+      <ellipse id="Elipse_5236" data-name="Elipse 5236" cx="103" cy="28" rx="103" ry="28" transform="translate(-2532 -1266)" fill="#afecf4"/>
+      <text id="Conectividad" transform="translate(-2480 -1232)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Conectividad</tspan></text>
+      <ellipse id="Elipse_5237" data-name="Elipse 5237" cx="103" cy="28" rx="103" ry="28" transform="translate(-2532 -1196)" fill="#afecf4"/>
+      <text id="Transporte" transform="translate(-2467 -1162)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Transporte</tspan></text>
+      <ellipse id="Elipse_5238" data-name="Elipse 5238" cx="103" cy="28" rx="103" ry="28" transform="translate(-2532 -1126)" fill="#afecf4"/>
+      <text id="Agricultura" transform="translate(-2468 -1092)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Agricultura</tspan></text>
+      <ellipse id="Elipse_5239" data-name="Elipse 5239" cx="103" cy="28" rx="103" ry="28" transform="translate(-2532 -1056)" fill="#afecf4"/>
+      <text id="Medicina" transform="translate(-2461 -1022)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Medicina</tspan></text>
+      <rect id="Rectángulo_43894" data-name="Rectángulo 43894" width="197" height="50" transform="translate(-2291 -1437)" fill="#afecf4"/>
+      <text id="Hardware" transform="translate(-2227 -1406)" fill="#12263f" font-size="16" font-family="Roboto-BoldItalic, Roboto" font-weight="700" font-style="italic"><tspan x="0" y="0">Hardware</tspan></text>
+      <ellipse id="Elipse_5240" data-name="Elipse 5240" cx="103" cy="28" rx="103" ry="28" transform="translate(-2300 -1336)" fill="#afecf4"/>
+      <text id="Sensores" transform="translate(-2230 -1302)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Sensores</tspan></text>
+      <rect id="Rectángulo_43895" data-name="Rectángulo 43895" width="197" height="50" transform="translate(-2027 -1418)" fill="#afecf4"/>
+      <text id="Usos" transform="translate(-1946 -1387)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="0">Usos</tspan></text>
+      <rect id="Rectángulo_43896" data-name="Rectángulo 43896" width="197" height="79" transform="translate(-2143 -1237)" fill="#afecf4"/>
+      <text id="Criptomonedas" transform="translate(-2095 -1192)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Criptomonedas</tspan></text>
+      <rect id="Rectángulo_43897" data-name="Rectángulo 43897" width="197" height="79" transform="translate(-1921 -1237)" fill="#afecf4"/>
+      <text id="Transacciones_Comerciales" data-name="Transacciones 
+Comerciales" transform="translate(-1819 -1206)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="-53.91" y="0">Transacciones </tspan><tspan x="-44.438" y="24">Comerciales</tspan></text>
+      <rect id="Rectángulo_43898" data-name="Rectángulo 43898" width="197" height="79" transform="translate(-2037 -1134)" fill="#afecf4"/>
+      <text id="Transacciones_Financieras" data-name="Transacciones 
+Financieras" transform="translate(-1935 -1101)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="-53.91" y="0">Transacciones </tspan><tspan x="-40.938" y="24">Financieras</tspan></text>
+      <rect id="Rectángulo_43899" data-name="Rectángulo 43899" width="154" height="50" transform="translate(-1713 -1393)" fill="#afecf4"/>
+      <text id="Supervisado" transform="translate(-1684 -1362)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="0">Supervisado</tspan></text>
+      <rect id="Rectángulo_43900" data-name="Rectángulo 43900" width="154" height="50" transform="translate(-1531 -1393)" fill="#afecf4"/>
+      <text id="No_Supervisado" data-name="No Supervisado" transform="translate(-1502 -1362)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="0">No Supervisado</tspan></text>
+      <text id="Tipos_de_Aprendizaje" data-name="Tipos de Aprendizaje" transform="translate(-1621 -1441)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="0">Tipos de Aprendizaje</tspan></text>
+      <ellipse id="Elipse_5241" data-name="Elipse 5241" cx="69" cy="28" rx="69" ry="28" transform="translate(-1697 -1228)" fill="#afecf4"/>
+      <text id="Clasificación" transform="translate(-1673 -1194)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Clasificación</tspan></text>
+      <ellipse id="Elipse_5242" data-name="Elipse 5242" cx="69" cy="28" rx="69" ry="28" transform="translate(-1697 -1163)" fill="#afecf4"/>
+      <text id="Regresión" transform="translate(-1663 -1129)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Regresión</tspan></text>
+      <ellipse id="Elipse_5243" data-name="Elipse 5243" cx="69" cy="28" rx="69" ry="28" transform="translate(-1504 -1228)" fill="#afecf4"/>
+      <text id="Clúster" transform="translate(-1460 -1194)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Clúster</tspan></text>
+      <ellipse id="Elipse_5244" data-name="Elipse 5244" cx="69" cy="28" rx="69" ry="28" transform="translate(-1504 -1163)" fill="#afecf4"/>
+      <text id="Reducción" transform="translate(-1470 -1129)" fill="#12263f" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Reducción</tspan></text>
+      <path id="Trazado_192698" data-name="Trazado 192698" d="M-3506.5-1707.5l-369.836,187.354" transform="translate(1462)" fill="none" stroke="#707070" stroke-width="1"/>
+      <path id="Trazado_192699" data-name="Trazado 192699" d="M-3878.535-1469v56.148" transform="translate(1462)" fill="none" stroke="#707070" stroke-width="1"/>
+      <rect id="Rectángulo_43901" data-name="Rectángulo 43901" width="197" height="50" transform="translate(-2291 -1597)" fill="#1565c0"/>
+      <text id="Lot" transform="translate(-2204 -1566)" fill="#fff" font-size="16" font-family="Roboto-BoldItalic, Roboto" font-weight="700" font-style="italic"><tspan x="0" y="0">Lot</tspan></text>
+      <path id="Trazado_192700" data-name="Trazado 192700" d="M-3397-1678v63.539" transform="translate(1462)" fill="none" stroke="#707070" stroke-width="1"/>
+      <path id="Trazado_192701" data-name="Trazado 192701" d="M-3397-1678v110.539" transform="translate(1204.5 130.461)" fill="none" stroke="#707070" stroke-width="1"/>
+      <path id="Trazado_192702" data-name="Trazado 192702" d="M-3397-1678v51.539" transform="translate(1204.5 290.461)" fill="none" stroke="#707070" stroke-width="1"/>
+      <path id="Trazado_192703" data-name="Trazado 192703" d="M-3397-1678v51" transform="translate(1462 209)" fill="none" stroke="#707070" stroke-width="1"/>
+      <text id="Sistemas_de_Seguridad_de_red" data-name="Sistemas de Seguridad de red" transform="translate(-2035 -1483)" fill="#12263f" font-size="16" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="0">Sistemas de Seguridad de red</tspan></text>
+      <path id="Trazado_192704" data-name="Trazado 192704" d="M-3397-1678v46" transform="translate(1462 115)" fill="none" stroke="#707070" stroke-width="1"/>
+      <path id="Trazado_192705" data-name="Trazado 192705" d="M-3397-1444.5V-1678l-104.3,127.688" transform="translate(1462 310)" fill="none" stroke="#707070" stroke-width="1"/>
+      <path id="Trazado_192706" data-name="Trazado 192706" d="M-3397-1367.5l94.008,126.75" transform="translate(1462)" fill="none" stroke="#707070" stroke-width="1"/>
+      <path id="Trazado_192707" data-name="Trazado 192707" d="M-3397-1678v35.458" transform="translate(1851 183)" fill="none" stroke="#707070" stroke-width="1"/>
+      <path id="Trazado_192708" data-name="Trazado 192708" d="M-3397-1678v47.135" transform="translate(31.628 2008.771) rotate(39)" fill="none" stroke="#707070" stroke-width="1"/>
+      <path id="Trazado_192709" data-name="Trazado 192709" d="M0,47.135V0" transform="translate(-1508.337 -1396.45) rotate(141)" fill="none" stroke="#707070" stroke-width="1"/>
+      <path id="Trazado_192710" data-name="Trazado 192710" d="M-3098-1343v114.156" transform="translate(1462)" fill="none" stroke="#707070" stroke-width="1"/>
+      <path id="Trazado_192711" data-name="Trazado 192711" d="M-3098-1343v114.156" transform="translate(1660)" fill="none" stroke="#707070" stroke-width="1"/>
+      <path id="Trazado_192712" data-name="Trazado 192712" d="M-3876.336-1707.5l369.836,187.354" transform="translate(2063.918)" fill="none" stroke="#707070" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

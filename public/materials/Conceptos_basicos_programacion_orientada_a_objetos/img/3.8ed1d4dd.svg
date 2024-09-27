@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1228" height="535" viewBox="0 0 1228 535">
+  <g id="Grupo_57419" data-name="Grupo 57419" transform="translate(-180 -2632)">
+    <rect id="Rectángulo_6781" data-name="Rectángulo 6781" width="1228" height="127" transform="translate(180 2732)" fill="#f3f9ff"/>
+    <text id="Identidad" transform="translate(239 2803)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="0">Identidad</tspan></text>
+    <rect id="Rectángulo_6782" data-name="Rectángulo 6782" width="1228" height="165" transform="translate(180 2866)" fill="#f3f9ff"/>
+    <text id="Atributos_Y_propiedades" data-name="Atributos 
+Y propiedades" transform="translate(239 2935)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="0">Atributos </tspan><tspan x="0" y="27">Y propiedades</tspan></text>
+    <rect id="Rectángulo_6783" data-name="Rectángulo 6783" width="1228" height="127" transform="translate(180 3040)" fill="#f3f9ff"/>
+    <text id="Métodos" transform="translate(239 3106)" fill="#12263f" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="0">Métodos</tspan></text>
+    <rect id="Rectángulo_6784" data-name="Rectángulo 6784" width="250" height="435" transform="translate(406 2732)" fill="#039be5"/>
+    <text id="Persona" transform="translate(498 2803)" fill="#fff" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="0">Persona</tspan></text>
+    <text id="Nombre" transform="translate(500 2901)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">nombre</tspan></text>
+    <text id="Apellido" transform="translate(500 2926)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">apellido</tspan></text>
+    <text id="Edad" transform="translate(511 2951)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">edad</tspan></text>
+    <text id="Estatura" transform="translate(498 2975)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">estatura</tspan></text>
+    <text id="Genéro" transform="translate(504 3000)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">genéro</tspan></text>
+    <text id="Informar_datos_personales" data-name="Informar datos 
+personales" transform="translate(531 3106)" fill="#fff" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="-62.398" y="0">Informar datos </tspan><tspan x="-44.877" y="27">personales</tspan></text>
+    <rect id="Rectángulo_6785" data-name="Rectángulo 6785" width="250" height="435" transform="translate(764 2732)" fill="#039be5"/>
+    <text id="Persona_1:_Persona" data-name="Persona 1: Persona" transform="translate(810 2803)" fill="#fff" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="0">Persona 1: Persona</tspan></text>
+    <text id="Emilse" transform="translate(867 2901)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Emilse</tspan></text>
+    <text id="Perez" transform="translate(871 2926)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Perez</tspan></text>
+    <text id="_39" data-name="39" transform="translate(884 2951)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">39</tspan></text>
+    <text id="_1.50" data-name="1.50" transform="translate(876 2975)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">1.50</tspan></text>
+    <text id="Femenino" transform="translate(854 3000)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Femenino</tspan></text>
+    <text id="Informar_datos_personales-2" data-name="Informar datos 
+personales" transform="translate(889 3106)" fill="#fff" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="-62.398" y="0">Informar datos </tspan><tspan x="-44.877" y="27">personales</tspan></text>
+    <rect id="Rectángulo_6786" data-name="Rectángulo 6786" width="250" height="435" transform="translate(1097 2732)" fill="#039be5"/>
+    <text id="Persona_2:_Persona" data-name="Persona 2: Persona" transform="translate(1143 2803)" fill="#fff" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="0" y="0">Persona 2: Persona</tspan></text>
+    <text id="Paul" transform="translate(1210 2901)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Paul</tspan></text>
+    <text id="Muñoz" transform="translate(1200 2926)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Muñoz</tspan></text>
+    <text id="_21" data-name="21" transform="translate(1218 2951)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">21</tspan></text>
+    <text id="_1.87" data-name="1.87" transform="translate(1210 2975)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">1.87</tspan></text>
+    <text id="Masculino" transform="translate(1186 3000)" fill="#fff" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Masculino</tspan></text>
+    <text id="Informar_datos_personales-3" data-name="Informar datos 
+personales" transform="translate(1222 3106)" fill="#fff" font-size="18" font-family="Roboto-Black, Roboto" font-weight="800"><tspan x="-62.398" y="0">Informar datos </tspan><tspan x="-44.877" y="27">personales</tspan></text>
+    <path id="Unión_2" data-name="Unión 2" d="M6654,11726h11v-26h19v26h10l-20,35Z" transform="translate(-6138 -9038)" fill="#ffa726"/>
+    <text id="Clase" transform="translate(514 2649)" fill="#039be5" font-size="18" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="0">Clase</tspan></text>
+    <path id="Unión_3" data-name="Unión 3" d="M6654,11726h11v-26h19v26h10l-20,35Z" transform="translate(-5792 -9038)" fill="#ffa726"/>
+    <path id="Unión_4" data-name="Unión 4" d="M6654,11726h11v-26h19v26h10l-20,35Z" transform="translate(-5446 -9038)" fill="#ffa726"/>
+    <text id="Objetos" transform="translate(1032 2649)" fill="#039be5" font-size="18" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="0">Objetos</tspan></text>
+    <path id="Trazado_102826" data-name="Trazado 102826" d="M-5940.375-9057.5V-8533" transform="translate(6654 11700)" fill="none" stroke="#707070" stroke-width="1"/>
+  </g>
+</svg>

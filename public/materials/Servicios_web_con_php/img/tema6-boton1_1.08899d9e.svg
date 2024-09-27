@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="83.812" height="83.812" viewBox="0 0 83.812 83.812">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.076" cy="0.019" r="1.465" gradientTransform="translate(0.001)" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f6f6f7"/>
+      <stop offset="0.477" stop-color="#f9f9fa"/>
+      <stop offset="0.715" stop-color="#fff"/>
+    </radialGradient>
+  </defs>
+  <g id="Grupo_143127" data-name="Grupo 143127" transform="translate(-414.036 -1597)">
+    <g id="Grupo_49901" data-name="Grupo 49901" transform="translate(414.036 1597)">
+      <g id="Grupo_18423" data-name="Grupo 18423" transform="translate(0 0)">
+        <g id="Grupo_18421" data-name="Grupo 18421">
+          <g id="Grupo_18420" data-name="Grupo 18420">
+            <g id="Grupo_18419" data-name="Grupo 18419">
+              <path id="Trazado_40936" data-name="Trazado 40936" d="M278.434,2187.625a41.906,41.906,0,1,1-41.905-41.9A41.905,41.905,0,0,1,278.434,2187.625Z" transform="translate(-194.623 -2145.721)" fill="#fff"/>
+            </g>
+          </g>
+        </g>
+        <path id="Trazado_40937" data-name="Trazado 40937" d="M278.218,2187.39a41.9,41.9,0,1,0-41.905,41.907A41.739,41.739,0,0,0,278.218,2187.39Z" transform="translate(-194.406 -2145.485)" fill="url(#radial-gradient)"/>
+        <path id="Trazado_40938" data-name="Trazado 40938" d="M266.445,2185.55a31.986,31.986,0,1,0-31.986,31.987A31.868,31.868,0,0,0,266.445,2185.55Z" transform="translate(-192.425 -2143.506)" fill="none" stroke="#1565c0" stroke-miterlimit="10" stroke-width="4"/>
+        <g id="Grupo_18422" data-name="Grupo 18422" transform="translate(7.424 23.527)">
+          <path id="Trazado_40939" data-name="Trazado 40939" d="M272.7,2164.488a41.911,41.911,0,0,1-72.15,41.732,41.778,41.778,0,0,0,72.15-41.732Z" transform="translate(-200.545 -2164.488)" fill="#eceef0"/>
+        </g>
+      </g>
+    </g>
+    <path id="Trazado_188741" data-name="Trazado 188741" d="M15.806-8.818q0,4.424-1.831,6.768A6.391,6.391,0,0,1,8.613.293a6.436,6.436,0,0,1-5.332-2.3A10.488,10.488,0,0,1,1.392-8.6v-3.926q0-4.468,1.853-6.782a6.439,6.439,0,0,1,5.339-2.314,6.445,6.445,0,0,1,5.332,2.292,10.456,10.456,0,0,1,1.89,6.584Zm-4.233-4.316A7.81,7.81,0,0,0,10.847-17a2.45,2.45,0,0,0-2.263-1.21,2.407,2.407,0,0,0-2.2,1.151,7.309,7.309,0,0,0-.754,3.6v5.191a8.2,8.2,0,0,0,.71,3.878A2.418,2.418,0,0,0,8.613-3.12a2.377,2.377,0,0,0,2.241-1.217,8,8,0,0,0,.718-3.724ZM28.945,0H24.712V-16.341L19.658-14.78v-3.413l8.833-3.164h.454Z" transform="translate(438.941 1651.941)" fill="#12263f"/>
+  </g>
+</svg>
