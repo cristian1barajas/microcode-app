@@ -7,8 +7,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { ChevronRight, RotateCcw } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
+import { ChevronRight, RotateCcw, Home, AlertCircle } from 'lucide-react';
 import AppBar from '@/components/ui/AppBar';
+import { Fira_Code } from 'next/font/google'
+import { useRouter } from 'next/navigation';
+
+const firaCode = Fira_Code({ subsets: ['latin'] })
 
 interface Question {
   question: string;
@@ -48,6 +53,8 @@ const Quiz: React.FC<QuizProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [isValidationModalOpen, setIsValidationModalOpen] = useState(false);
+  const router = useRouter();
 
   const fetchQuizData = async () => {
     setLoading(true);
@@ -100,7 +107,7 @@ const Quiz: React.FC<QuizProps> = ({
 
   const handleSubmit = async () => {
     if (userAnswers.some(answer => answer === '')) {
-      alert("Por favor, responde todas las preguntas antes de enviar.");
+      setIsValidationModalOpen(true);
       return;
     }
 
@@ -128,7 +135,7 @@ const Quiz: React.FC<QuizProps> = ({
 
   const handleNextQuestion = () => {
     if (userAnswers[currentQuestionIndex] === '') {
-      alert("Por favor, selecciona una respuesta antes de continuar.");
+      setIsValidationModalOpen(true);
       return;
     }
 
@@ -146,6 +153,10 @@ const Quiz: React.FC<QuizProps> = ({
     fetchQuizData();
   };
 
+  const handleReturnHome = () => {
+    router.push('/home');
+  };
+
   const renderContent = () => {
     if (loading) {
       return <div className="flex justify-center items-center h-full">Cargando quiz...</div>;
@@ -155,7 +166,7 @@ const Quiz: React.FC<QuizProps> = ({
       return (
         <Card className="w-full shadow-lg">
           <CardHeader>
-            <CardTitle>Error al cargar el quiz</CardTitle>
+            <CardTitle className={`${isDarkMode ? 'font-light' : 'font-normal'}`}>Error al cargar el quiz</CardTitle>
           </CardHeader>
           <CardContent>
             <p>{error}</p>
@@ -168,7 +179,7 @@ const Quiz: React.FC<QuizProps> = ({
       return (
         <Card className="w-full shadow-lg">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold">Resultado del Quiz</CardTitle>
+            <CardTitle className={`text-3xl ${isDarkMode ? 'font-light' : 'font-normal'}`}>Resultado del Quiz</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="text-center">
@@ -202,8 +213,18 @@ const Quiz: React.FC<QuizProps> = ({
     return (
       <Card className={`w-full shadow-xl ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
         <CardHeader className="border-b border-gray-700">
-          <CardTitle className="text-2xl">{quizData.material_name}</CardTitle>
-          <p className="text-sm text-gray-400">Intento {attemptCount + 1} de 3</p>
+          <CardTitle className={`text-2xl ${isDarkMode ? 'font-light' : 'font-normal'}`}>{quizData.material_name}</CardTitle>
+          <div className="flex justify-between items-center mt-2">
+            <p className="text-sm text-gray-400">Intento {attemptCount + 1} de 3</p>
+            <Button
+              onClick={handleReturnHome}
+              variant="ghost"
+              size="icon"
+              className="w-8 h-8 p-0"
+            >
+              <Home className="h-4 w-4" />
+            </Button>
+          </div>
         </CardHeader>
         <CardContent className="p-6">
           <div className="mb-6">
@@ -241,7 +262,7 @@ const Quiz: React.FC<QuizProps> = ({
   };
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'dark bg-gray-900 text-white' : 'bg-white text-black'}`}>
+    <div className={`min-h-screen ${firaCode.className} ${isDarkMode ? 'dark bg-gray-900 text-white' : 'bg-white text-black'}`}>
       <AppBar
         userName={userName}
         userFicha={userFicha}
@@ -254,6 +275,22 @@ const Quiz: React.FC<QuizProps> = ({
           {renderContent()}
         </div>
       </div>
+      <Dialog open={isValidationModalOpen} onOpenChange={setIsValidationModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Respuesta requerida</DialogTitle>
+            <DialogDescription>
+              Por favor, selecciona una respuesta antes de continuar.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center justify-center text-yellow-500">
+            <AlertCircle className="h-16 w-16" />
+          </div>
+          <DialogFooter>
+            <Button onClick={() => setIsValidationModalOpen(false)}>Entendido</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
