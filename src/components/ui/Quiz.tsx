@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
-import { ChevronRight, RotateCcw, Home, AlertCircle, Clock } from 'lucide-react';
+import { ChevronRight, RotateCcw, Home, AlertCircle, Clock, Lock, BarChart } from 'lucide-react';
 import AppBar from '@/components/ui/AppBar';
 import { Fira_Code } from 'next/font/google'
 import { useRouter } from 'next/navigation';
@@ -26,6 +26,11 @@ interface Question {
 interface QuizData {
   material_name: string;
   questions: Question[];
+}
+
+interface QuizResult {
+  score: number;
+  timestamp: Date;
 }
 
 interface QuizProps {
@@ -52,6 +57,7 @@ const Quiz: React.FC<QuizProps> = ({
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
   const [score, setScore] = useState<number | null>(null);
   const [attemptCount, setAttemptCount] = useState(0);
+  const [quizResults, setQuizResults] = useState<QuizResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -61,6 +67,15 @@ const Quiz: React.FC<QuizProps> = ({
   const [isHomeLoading, setIsHomeLoading] = useState(false);
   const router = useRouter();
   const lottieRef = useRef<LottieRefCurrentProps>(null);
+
+  const shuffleArray = <T,>(array: T[]): T[] => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
 
   const fetchQuizData = useCallback(async () => {
     setLoading(true);
@@ -85,10 +100,19 @@ const Quiz: React.FC<QuizProps> = ({
           where('userId', '==', user.uid),
           where('materialId', '==', materialId),
           orderBy('timestamp', 'desc'),
-          limit(1)
+          limit(3)
         );
         const attemptsSnapshot = await getDocs(attemptsQuery);
-        setAttemptCount(attemptsSnapshot.size);
+        const results: QuizResult[] = [];
+        attemptsSnapshot.forEach((doc) => {
+          const data = doc.data();
+          results.push({
+            score: data.score,
+            timestamp: data.timestamp.toDate(),
+          });
+        });
+        setQuizResults(results.reverse()); // Reverse the order to show oldest first
+        setAttemptCount(results.length);
       }
     } catch (error) {
       console.error("Error fetching quiz data:", error);
@@ -103,22 +127,28 @@ const Quiz: React.FC<QuizProps> = ({
   }, [fetchQuizData]);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(timer);
-          setIsTimeUpModalOpen(true);
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
+    if (attemptCount < 3) {
+      const timer = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(timer);
+            setIsTimeUpModalOpen(true);
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
 
-    return () => clearInterval(timer);
-  }, []);
+      return () => clearInterval(timer);
+    }
+  }, [attemptCount]);
 
   const getRandomQuestions = (questions: Question[], n: number) => {
-    return questions.sort(() => 0.5 - Math.random()).slice(0, n);
+    const shuffledQuestions = shuffleArray(questions);
+    return shuffledQuestions.slice(0, n).map(q => ({
+      ...q,
+      options: shuffleArray(q.options)
+    }));
   };
 
   const handleAnswerSelect = (answer: string) => {
@@ -144,14 +174,18 @@ const Quiz: React.FC<QuizProps> = ({
     const user = auth.currentUser;
     if (user) {
       const resultRef = doc(collection(db, 'quizResults'));
+      const newResult: QuizResult = {
+        score,
+        timestamp: new Date(),
+      };
       await setDoc(resultRef, {
         userId: user.uid,
         materialId,
-        score,
+        ...newResult,
         answers: userAnswers,
-        timestamp: new Date()
       });
-      setAttemptCount(attemptCount + 1);
+      setQuizResults([...quizResults, newResult]);
+      setAttemptCount(prevCount => prevCount + 1);
     }
   };
 
@@ -169,10 +203,12 @@ const Quiz: React.FC<QuizProps> = ({
   };
 
   const handleRetry = () => {
-    setScore(null);
-    setCurrentQuestionIndex(0);
-    setUserAnswers(new Array(selectedQuestions.length).fill(''));
-    fetchQuizData();
+    if (attemptCount < 3) {
+      setScore(null);
+      setCurrentQuestionIndex(0);
+      setUserAnswers(new Array(selectedQuestions.length).fill(''));
+      fetchQuizData();
+    }
   };
 
   const handleReturnHome = () => {
@@ -189,6 +225,37 @@ const Quiz: React.FC<QuizProps> = ({
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
+
+  const renderAttemptsSummary = () => {
+    return (
+      <Card className="w-full shadow-lg">
+        <CardHeader>
+          <CardTitle className={`text-3xl ${isDarkMode ? 'font-light' : 'font-normal'}`}>Resumen de Intentos</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex flex-col items-center justify-center">
+            <BarChart className="h-16 w-16 text-blue-500 mb-4" />
+            <p className="text-xl text-center">Has completado tus 3 intentos para este quiz.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {quizResults.map((result, index) => (
+              <div key={index} className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                <p className="font-semibold">Intento {index + 1}</p>
+                <p>Puntuación: {result.score.toFixed(2)}%</p>
+                <p>Fecha: {result.timestamp.toLocaleDateString()}</p>
+                <p>Hora: {result.timestamp.toLocaleTimeString()}</p>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-center">
+            <Button onClick={handleReturnHome} size="lg" className="w-full max-w-md">
+              <Home className="mr-2 h-5 w-5" /> Volver al inicio
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
   };
 
   const renderContent = () => {
@@ -214,6 +281,10 @@ const Quiz: React.FC<QuizProps> = ({
       );
     }
 
+    if (attemptCount >= 3) {
+      return renderAttemptsSummary();
+    }
+
     if (score !== null) {
       return (
         <Card className="w-full shadow-lg">
@@ -235,9 +306,9 @@ const Quiz: React.FC<QuizProps> = ({
                 <RotateCcw className="mr-2 h-5 w-5" /> Volver a intentar
               </Button>
             </div>
-            {attemptCount >= 3 && (
-              <p className="text-yellow-600 text-center mt-4">Has alcanzado el máximo de 3 intentos para este quiz. Por favor, revisa el material y vuelve más tarde.</p>
-            )}
+            <p className="text-center mt-4">
+              Intentos restantes: {Math.max(0, 3 - attemptCount)}
+            </p>
           </CardContent>
         </Card>
       );
