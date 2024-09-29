@@ -18,6 +18,8 @@ import {
 import ContentFrame from '@/components/ui/ContentFrame';
 import ActivityCard from '@/components/ui/ActivityCard';
 import AppBar from '@/components/ui/AppBar';
+import Lottie from 'lottie-react';
+import loginAnimation from '@/components/ui/login-animation.json';
 
 const firaCode = Fira_Code({ subsets: ['latin'] })
 const inter = Inter({ subsets: ['latin'] })
@@ -248,7 +250,7 @@ export default function HomePage() {
         ))}
       </div>
       <div className="relative">
-      <AppBar 
+        <AppBar 
           userName={userName}
           userFicha={userFicha}
           isDarkMode={isDarkMode}
@@ -263,8 +265,9 @@ export default function HomePage() {
             </span>
           </h2>
           {isLoading ? (
-            <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+            <div className="flex flex-col items-center justify-center h-64">
+              <Lottie animationData={loginAnimation} style={{ width: 100, height: 100 }} />
+              <p className={`${firaCode.className} mt-4 text-lg`}>Cargando contenido...</p>
             </div>
           ) : (
             <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2">

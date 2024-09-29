@@ -1,13 +1,13 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { UserPlus as UserPlusIcon, LogIn as LogInIcon } from 'lucide-react'
 import { Inter, Fira_Code } from 'next/font/google'
-import Lottie from 'lottie-react';
-import loginAnimation from './login-animation.json';
+import Lottie, { LottieRefCurrentProps } from 'lottie-react';
+import loginAnimation from '@/components/ui/login-animation.json';
 import Link from 'next/link';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
@@ -53,7 +53,10 @@ export default function LoginPage() {
   const [fichaSENA, setFichaSENA] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
   const router = useRouter();
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
 
   useEffect(() => {
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -68,10 +71,12 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true);
+    if (lottieRef.current) {
+      lottieRef.current.play();
+    }
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      //await signInWithEmailAndPassword(auth, email, password);
-      // Verificar la ficha del usuario
       const userDoc = await getDoc(doc(db, 'users', userCredential.user.uid));
       if (userDoc.exists() && userDoc.data().fichaSENA === fichaSENA) {
         router.push('/home');
@@ -81,7 +86,23 @@ export default function LoginPage() {
       }
     } catch (error) {
       setError('Error al iniciar sesión. Por favor, verifica tus credenciales.');
+    } finally {
+      setIsLoading(false);
+      if (lottieRef.current) {
+        lottieRef.current.stop();
+      }
     }
+  };
+
+  const handleRegisterClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsRegistering(true);
+    if (lottieRef.current) {
+      lottieRef.current.play();
+    }
+    setTimeout(() => {
+      router.push('/register');
+    }, 1000); // Delay navigation to show animation
   };
 
   return (
@@ -93,7 +114,13 @@ export default function LoginPage() {
         <Card className="border border-gray-300 dark:border-gray-600 shadow-lg dark:bg-gray-800">
           <CardContent className="p-5">
             <div className="flex justify-center mb-6">
-              <Lottie animationData={loginAnimation} style={{ width: 100, height: 100 }} />
+              <Lottie 
+                lottieRef={lottieRef}
+                animationData={loginAnimation} 
+                style={{ width: 100, height: 100 }} 
+                autoplay={false}
+                loop={true}
+              />
             </div>
             <h1 className={`text-xl font-light text-center mb-4 ${inter.className} dark:text-white`}>
               Iniciar sesión en{' '}
@@ -133,9 +160,16 @@ export default function LoginPage() {
               <Button 
                 type="submit" 
                 className={`w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-1.5 px-4 rounded-md transition duration-300 ease-in-out text-sm ${inter.className}`}
+                disabled={isLoading}
               >
-                <LogInIcon className="w-4 h-4 mr-2" />
-                Iniciar sesión
+                {isLoading ? (
+                  <span>Iniciando sesión...</span>
+                ) : (
+                  <>
+                    <LogInIcon className="w-4 h-4 mr-2" />
+                    Iniciar sesión
+                  </>
+                )}
               </Button>
             </form>
           </CardContent>
@@ -143,10 +177,15 @@ export default function LoginPage() {
         <div className="mt-4 text-center">
           <p className={`text-xs text-gray-600 dark:text-gray-400 ${inter.className}`}>
             ¿No tienes una cuenta?{' '}
-            <Link href="/register" className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+            <Button
+              onClick={handleRegisterClick}
+              variant="link"
+              className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-medium p-0"
+              disabled={isRegistering}
+            >
               <UserPlusIcon className="w-3 h-3 inline-block mr-1" />
-              Registrarse
-            </Link>
+              {isRegistering ? 'Redirigiendo...' : 'Registrarse'}
+            </Button>
           </p>
         </div>
       </div>

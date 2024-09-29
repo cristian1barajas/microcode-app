@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,8 @@ import { auth, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { doc, setDoc, getDoc } from 'firebase/firestore';
+import Lottie, { LottieRefCurrentProps } from 'lottie-react';
+import loginAnimation from '@/components/ui/login-animation.json';
 
 const inter = Inter({ subsets: ['latin'] })
 const firaCode = Fira_Code({ subsets: ['latin'] })
@@ -55,7 +57,10 @@ export default function RegisterPage() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [error, setError] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isNavigatingToLogin, setIsNavigatingToLogin] = useState(false);
   const router = useRouter();
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
 
   useEffect(() => {
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -70,9 +75,17 @@ export default function RegisterPage() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true);
+    if (lottieRef.current) {
+      lottieRef.current.play();
+    }
 
     if (password !== confirmPassword) {
       setError('Las contraseñas no coinciden');
+      setIsLoading(false);
+      if (lottieRef.current) {
+        lottieRef.current.stop();
+      }
       return;
     }
 
@@ -81,6 +94,10 @@ export default function RegisterPage() {
       const fichaDoc = await getDoc(doc(db, 'fichas', fichaSENA));
       if (!fichaDoc.exists()) {
         setError('La ficha SENA ingresada no es válida');
+        setIsLoading(false);
+        if (lottieRef.current) {
+          lottieRef.current.stop();
+        }
         return;
       }
 
@@ -100,12 +117,28 @@ export default function RegisterPage() {
     } catch (error) {
       setError('Error al registrar el usuario. Por favor, inténtalo de nuevo.');
       console.error('Error de registro:', error);
+    } finally {
+      setIsLoading(false);
+      if (lottieRef.current) {
+        lottieRef.current.stop();
+      }
     }
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     router.push('/home');
+  };
+
+  const handleNavigateToLogin = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsNavigatingToLogin(true);
+    if (lottieRef.current) {
+      lottieRef.current.play();
+    }
+    setTimeout(() => {
+      router.push('/login');
+    }, 1000); // Delay navigation to show animation
   };
 
   return (
@@ -116,14 +149,23 @@ export default function RegisterPage() {
       <div className="w-full max-w-xs z-10">
         <Card className="border border-gray-300 dark:border-gray-600 shadow-lg dark:bg-gray-800">
           <CardContent className="p-5">
-            <h1 className={`text-xl font-light text-center mb-4 ${inter.className} dark:text-white`}>
-              Registro en{' '}
-              <span className={`${firaCode.className} text-blue-600 dark:text-blue-400`}>
-                MicroCodeApp
-              </span>
-            </h1>
-            {error && <p className="text-red-500 text-xs mb-4">{error}</p>}
-            <form onSubmit={handleRegister} className="space-y-3">
+            <div className="flex flex-col items-center">
+              <Lottie 
+                lottieRef={lottieRef}
+                animationData={loginAnimation} 
+                style={{ width: 80, height: 80 }} 
+                autoplay={false}
+                loop={true}
+              />
+              <h1 className={`text-xl font-light text-center mt-2 ${inter.className} dark:text-white`}>
+                Registro en{' '}
+                <span className={`${firaCode.className} text-blue-600 dark:text-blue-400`}>
+                  MicroCodeApp
+                </span>
+              </h1>
+            </div>
+            {error && <p className="text-red-500 text-xs mt-2 mb-4">{error}</p>}
+            <form onSubmit={handleRegister} className="space-y-3 mt-4">
               <Input
                 id="name"
                 type="text"
@@ -172,9 +214,16 @@ export default function RegisterPage() {
               <Button 
                 type="submit" 
                 className={`w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-1.5 px-4 rounded-md transition duration-300 ease-in-out text-sm ${inter.className}`}
+                disabled={isLoading}
               >
-                <UserPlusIcon className="w-4 h-4 mr-2" />
-                Registrarse
+                {isLoading ? (
+                  <span>Registrando...</span>
+                ) : (
+                  <>
+                    <UserPlusIcon className="w-4 h-4 mr-2" />
+                    Registrarse
+                  </>
+                )}
               </Button>
             </form>
           </CardContent>
@@ -182,10 +231,15 @@ export default function RegisterPage() {
         <div className="mt-4 text-center">
           <p className={`text-xs text-gray-600 dark:text-gray-400 ${inter.className}`}>
             ¿Ya tienes una cuenta?{' '}
-            <Link href="/login" className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+            <Button
+              onClick={handleNavigateToLogin}
+              variant="link"
+              className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-medium p-0"
+              disabled={isNavigatingToLogin}
+            >
               <LogInIcon className="w-3 h-3 inline-block mr-1" />
-              Iniciar sesión
-            </Link>
+              {isNavigatingToLogin ? 'Redirigiendo...' : 'Iniciar sesión'}
+            </Button>
           </p>
         </div>
       </div>

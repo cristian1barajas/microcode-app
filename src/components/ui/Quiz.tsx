@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { collection, doc, getDoc, setDoc, getDocs, query, where, orderBy, limit } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase';
 import { Button } from "@/components/ui/button"
@@ -8,10 +8,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
-import { ChevronRight, RotateCcw, Home, AlertCircle } from 'lucide-react';
+import { ChevronRight, RotateCcw, Home, AlertCircle, Clock } from 'lucide-react';
 import AppBar from '@/components/ui/AppBar';
 import { Fira_Code } from 'next/font/google'
 import { useRouter } from 'next/navigation';
+import Lottie, { LottieRefCurrentProps } from 'lottie-react';
+import loginAnimation from './login-animation.json';
 
 const firaCode = Fira_Code({ subsets: ['latin'] })
 
@@ -54,9 +56,13 @@ const Quiz: React.FC<QuizProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isValidationModalOpen, setIsValidationModalOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+  const [isTimeUpModalOpen, setIsTimeUpModalOpen] = useState(false);
+  const [isHomeLoading, setIsHomeLoading] = useState(false);
   const router = useRouter();
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
 
-  const fetchQuizData = async () => {
+  const fetchQuizData = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -89,11 +95,27 @@ const Quiz: React.FC<QuizProps> = ({
       setError(error instanceof Error ? error.message : "Error al cargar el quiz. Por favor, intenta de nuevo más tarde.");
     }
     setLoading(false);
-  };
+    setTimeLeft(300); // Reset timer when fetching new quiz data
+  }, [materialId, materialUrl]);
 
   useEffect(() => {
     fetchQuizData();
-  }, [materialId, materialUrl]);
+  }, [fetchQuizData]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(timer);
+          setIsTimeUpModalOpen(true);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const getRandomQuestions = (questions: Question[], n: number) => {
     return questions.sort(() => 0.5 - Math.random()).slice(0, n);
@@ -154,12 +176,29 @@ const Quiz: React.FC<QuizProps> = ({
   };
 
   const handleReturnHome = () => {
-    router.push('/home');
+    setIsHomeLoading(true);
+    if (lottieRef.current) {
+      lottieRef.current.play();
+    }
+    setTimeout(() => {
+      router.push('/home');
+    }, 1000); // Delay navigation to show animation
+  };
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
   const renderContent = () => {
     if (loading) {
-      return <div className="flex justify-center items-center h-full">Cargando quiz...</div>;
+      return (
+        <div className="flex flex-col items-center justify-center h-full">
+          <Lottie animationData={loginAnimation} style={{ width: 100, height: 100 }} />
+          <p className="mt-4 text-lg">Cargando quiz...</p>
+        </div>
+      );
     }
 
     if (error) {
@@ -216,14 +255,32 @@ const Quiz: React.FC<QuizProps> = ({
           <CardTitle className={`text-2xl ${isDarkMode ? 'font-light' : 'font-normal'}`}>{quizData.material_name}</CardTitle>
           <div className="flex justify-between items-center mt-2">
             <p className="text-sm text-gray-400">Intento {attemptCount + 1} de 3</p>
-            <Button
-              onClick={handleReturnHome}
-              variant="ghost"
-              size="icon"
-              className="w-8 h-8 p-0"
-            >
-              <Home className="h-4 w-4" />
-            </Button>
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2">
+                <Clock className="h-4 w-4 text-gray-400" />
+                <span className={`text-sm font-medium ${timeLeft <= 60 ? 'text-red-500' : 'text-gray-400'}`}>
+                  {formatTime(timeLeft)}
+                </span>
+              </div>
+              <Button
+                onClick={handleReturnHome}
+                variant="ghost"
+                size="icon"
+                className="w-8 h-8 p-0"
+                disabled={isHomeLoading}
+              >
+                {isHomeLoading ? (
+                  <Lottie 
+                    lottieRef={lottieRef}
+                    animationData={loginAnimation} 
+                    style={{ width: 24, height: 24 }} 
+                    loop={true}
+                  />
+                ) : (
+                  <Home className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="p-6">
@@ -288,6 +345,25 @@ const Quiz: React.FC<QuizProps> = ({
           </div>
           <DialogFooter>
             <Button onClick={() => setIsValidationModalOpen(false)}>Entendido</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={isTimeUpModalOpen} onOpenChange={setIsTimeUpModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>¡Tiempo agotado!</DialogTitle>
+            <DialogDescription>
+              Se ha agotado el tiempo para completar el quiz. No te preocupes, este intento no contará para tu límite de 3 intentos.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center justify-center text-red-500">
+            <Clock className="h-16 w-16" />
+          </div>
+          <DialogFooter>
+            <Button onClick={() => {
+              setIsTimeUpModalOpen(false);
+              handleRetry();
+            }}>Intentar de nuevo</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

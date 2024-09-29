@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Heart, CheckCircle as CheckCircleIcon, BookOpen } from 'lucide-react'
 import { Code, Search, Terminal, Beaker, Database, Box, Layout, Puzzle, Globe, CheckSquare, PenTool, GitBranch, Server, Smartphone, Wrench, Coffee, Layers, Wifi, Shield, UploadCloud, FileText, Zap } from 'lucide-react';
 import { Fira_Code } from 'next/font/google'
 import { useRouter } from 'next/navigation';
+import Lottie from 'lottie-react';
+import loginAnimation from '@/components/ui/login-animation.json';
 
 const firaCode = Fira_Code({ subsets: ['latin'] })
 
@@ -38,6 +40,7 @@ const MaterialCard: React.FC<MaterialCardProps> = ({
   onOpen,
 }) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const iconMap: { [key: string]: React.ElementType } = {
     code: Code,
     search: Search,
@@ -67,6 +70,7 @@ const MaterialCard: React.FC<MaterialCardProps> = ({
   const IconComponent = iconMap[material.icon] || Box;
 
   const handleQuiz = () => {
+    setIsLoading(true);
     router.push(`/quiz/${material.id}?url=${material.url}`);
   };
   
@@ -118,8 +122,17 @@ const MaterialCard: React.FC<MaterialCardProps> = ({
             size="sm"
             onClick={handleQuiz}
             className="text-gray-500 p-1 flex-1"
+            disabled={isLoading}
           >
-            <BookOpen className="h-4 w-4" />
+            {isLoading ? (
+              <Lottie 
+                animationData={loginAnimation} 
+                style={{ width: 16, height: 16 }} 
+                loop={true}
+              />
+            ) : (
+              <BookOpen className="h-4 w-4" />
+            )}
           </Button>
         </div>
       </CardContent>
