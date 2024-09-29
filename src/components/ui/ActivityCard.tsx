@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChevronUp, ChevronDown } from 'lucide-react'
 import { Fira_Code } from 'next/font/google'
 import MaterialCard from './MaterialCard';
+import { useRouter } from 'next/navigation';
 
 const firaCode = Fira_Code({ subsets: ['latin'] })
 
@@ -13,6 +14,7 @@ interface Material {
   icon: string;
   url: string;
   type: 'embed' | 'external';
+  order: number;
 }
 
 interface Activity {
@@ -56,7 +58,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
         <CardContent>
           <div className="overflow-x-auto">
             <div className="flex flex-nowrap space-x-4 pb-4">
-              {activity.materials.map((material) => (
+            {activity.materials.sort((a, b) => a.order - b.order).map((material) => (
                 <div key={material.id} className="flex-shrink-0 w-full sm:w-auto h-full">
                   <MaterialCard
                     material={material}

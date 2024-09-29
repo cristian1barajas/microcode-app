@@ -28,11 +28,11 @@ const ContentFrame: React.FC<ContentFrameProps> = ({ isOpen, onClose, material }
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[90vw] sm:max-h-[90vh] h-full p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[70vw] xl:max-w-[60vw] sm:max-h-[90vh] h-full p-0 overflow-hidden">
         <DialogHeader className="absolute top-0 left-0 right-0 z-10 flex flex-row items-center justify-between p-2 bg-white dark:bg-gray-800 rounded-t-lg">
-          <DialogTitle className="text-sm truncate flex-grow mr-2">{material.name}</DialogTitle>
+        <DialogTitle className="text-sm sm:text-base md:text-lg truncate flex-grow mr-2">{material.name}</DialogTitle>
           <Button variant="ghost" size="sm" onClick={onClose} className="flex-shrink-0">
-            <X className="h-4 w-4" />
+          <X className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
         </DialogHeader>
         <div className="w-full h-full pt-12 rounded-lg overflow-hidden">

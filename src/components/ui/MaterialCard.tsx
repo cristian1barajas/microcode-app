@@ -1,9 +1,10 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Heart, CheckCircle } from 'lucide-react'
-import { Code, Search, Terminal, Beaker, Database, Box, Layout, Puzzle, Globe, CheckSquare, PenTool, GitBranch, Server, Smartphone, Wrench, Coffee, Layers, Wifi, Shield, UploadCloud, FileText } from 'lucide-react';
+import { Heart, CheckCircle as CheckCircleIcon, BookOpen } from 'lucide-react'
+import { Code, Search, Terminal, Beaker, Database, Box, Layout, Puzzle, Globe, CheckSquare, PenTool, GitBranch, Server, Smartphone, Wrench, Coffee, Layers, Wifi, Shield, UploadCloud, FileText, Zap } from 'lucide-react';
 import { Fira_Code } from 'next/font/google'
+import { useRouter } from 'next/navigation';
 
 const firaCode = Fira_Code({ subsets: ['latin'] })
 
@@ -14,6 +15,7 @@ interface Material {
   icon: string;
   url: string;
   type: 'embed' | 'external';
+  order: number;
 }
 
 interface MaterialCardProps {
@@ -33,8 +35,9 @@ const MaterialCard: React.FC<MaterialCardProps> = ({
   isLiked, 
   onComplete, 
   onLike, 
-  onOpen 
+  onOpen,
 }) => {
+  const router = useRouter();
   const iconMap: { [key: string]: React.ElementType } = {
     code: Code,
     search: Search,
@@ -57,9 +60,15 @@ const MaterialCard: React.FC<MaterialCardProps> = ({
     shield: Shield,
     'upload-cloud': UploadCloud,
     'file-text': FileText,
+    zap: Zap,
+    'check-circle': CheckCircleIcon
   };
 
   const IconComponent = iconMap[material.icon] || Box;
+
+  const handleQuiz = () => {
+    router.push(`/quiz/${material.id}?url=${material.url}`);
+  };
   
   return (
     <Card className={`w-full sm:w-80 md:w-72 lg:w-64 xl:w-72 flex flex-col h-[300px] sm:h-[290px] md:h-[280px] lg:h-[300px] ${isDarkMode ? 'bg-gray-800 text-white border-gray-600' : 'bg-white border-gray-300'} shadow-lg hover:shadow-xl transition-shadow duration-300 border`}>
@@ -86,7 +95,7 @@ const MaterialCard: React.FC<MaterialCardProps> = ({
             onClick={onComplete}
             className={`${isCompleted ? 'text-green-500' : 'text-gray-500'} p-1 flex-1`}
           >
-            <CheckCircle className="h-4 w-4" />
+            <CheckCircleIcon className="h-4 w-4" />
           </Button>
           <Button 
             variant="default" 
@@ -103,6 +112,14 @@ const MaterialCard: React.FC<MaterialCardProps> = ({
             className={`${isLiked ? 'text-red-500' : 'text-gray-500'} p-1 flex-1`}
           >
             <Heart className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleQuiz}
+            className="text-gray-500 p-1 flex-1"
+          >
+            <BookOpen className="h-4 w-4" />
           </Button>
         </div>
       </CardContent>

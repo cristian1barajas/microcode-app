@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LogOut as LogOutIcon, MoreVertical, Moon, Sun } from 'lucide-react'
 import { Fira_Code, Inter } from 'next/font/google'
-import { collection, doc, getDoc, setDoc, getDocs } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc, getDocs, query, orderBy } from 'firebase/firestore';
 import { useMediaQuery } from 'react-responsive';
 import {
   DropdownMenu,
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import ContentFrame from '@/components/ui/ContentFrame';
 import ActivityCard from '@/components/ui/ActivityCard';
+import AppBar from '@/components/ui/AppBar';
 
 const firaCode = Fira_Code({ subsets: ['latin'] })
 const inter = Inter({ subsets: ['latin'] })
@@ -28,6 +29,7 @@ interface Material {
   icon: string;
   url: string;
   type: 'embed' | 'external';
+  order: number;
 }
 
 interface Activity {
@@ -164,7 +166,7 @@ export default function HomePage() {
           activityData.materials = [];
 
           const materialsCollection = collection(db, `phases/${phaseDoc.id}/activities/${activityDoc.id}/materials`);
-          const materialsSnapshot = await getDocs(materialsCollection);
+          const materialsSnapshot = await getDocs(query(materialsCollection, orderBy('order')));
 
           activityData.materials = materialsSnapshot.docs.map(doc => ({
             id: doc.id,
@@ -172,7 +174,8 @@ export default function HomePage() {
             description: doc.data().description,
             icon: doc.data().icon,
             url: doc.data().url,
-            type: doc.data().type
+            type: doc.data().type,
+            order: doc.data().order
           } as Material));
 
           phaseData.activities.push(activityData);
@@ -227,39 +230,6 @@ export default function HomePage() {
     setIsDarkMode(!isDarkMode);
   };
 
-  const AppBar = () => (
-    <div className={`fixed top-0 left-0 right-0 z-50 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'} shadow-sm`}>
-      <div className="container mx-auto px-4 py-2 flex items-center justify-between">
-        <div className="flex items-center">
-          <h1 className={`text-lg ${isDarkMode ? 'font-light' : 'font-normal'} ${firaCode.className}`}>
-            ¡Hola {userName}!
-          </h1>
-        </div>
-        <div className="flex items-center">
-          <span className={`ml-2 text-sm ${firaCode.className} text-blue-600 dark:text-blue-400`}>
-            {userFicha}
-          </span>
-          <Button variant="ghost" size="sm" onClick={toggleDarkMode}>
-            {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm">
-                <MoreVertical className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={handleLogout}>
-                <LogOutIcon className="mr-2 h-3 w-3" />
-                <span className={`text-xs ${isDarkMode ? 'font-light' : 'font-normal'}`}>Cerrar sesión</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-    </div>
-  );
-
   const handleMaterialOpen = (material: Material) => {
     setSelectedMaterial(material);
     setIsContentFrameOpen(true);
@@ -278,7 +248,13 @@ export default function HomePage() {
         ))}
       </div>
       <div className="relative">
-        <AppBar />
+      <AppBar 
+          userName={userName}
+          userFicha={userFicha}
+          isDarkMode={isDarkMode}
+          toggleDarkMode={toggleDarkMode}
+          handleLogout={handleLogout}
+        />
         <main className="container mx-auto px-4 pt-16">
           <h2 className={`text-2xl ${isDarkMode ? 'font-light' : 'font-normal'} mb-8 ${inter.className} text-center pt-4`}>
             Aprendizaje en{' '}
