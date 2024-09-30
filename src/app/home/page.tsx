@@ -20,6 +20,7 @@ import ActivityCard from '@/components/ui/ActivityCard';
 import AppBar from '@/components/ui/AppBar';
 import Lottie from 'lottie-react';
 import loginAnimation from '@/components/ui/login-animation.json';
+import EvidenciasTimeline from '@/components/ui/EvidenciasTimeline';
 
 const firaCode = Fira_Code({ subsets: ['latin'] })
 const inter = Inter({ subsets: ['latin'] })
@@ -258,19 +259,22 @@ export default function HomePage() {
           handleLogout={handleLogout}
         />
         <main className="container mx-auto px-4 pt-16">
-          <h2 className={`text-2xl ${isDarkMode ? 'font-light' : 'font-normal'} mb-8 ${inter.className} text-center pt-4`}>
-            Aprendizaje en{' '}
-            <span className={`${firaCode.className} text-blue-600 dark:text-blue-400`}>
-              MicroCodeApp
-            </span>
+          {/* Agregamos el componente EvidenciasTimeline aquí */}
+          <div className="mb-2">
+            <EvidenciasTimeline isDarkMode={isDarkMode}/>
+          </div>
+
+          <h2 className={`text-2xl ${isDarkMode ? 'font-light' : 'font-normal'} mb-4 ${firaCode.className} text-left pt-4`}>
+            Aprendizaje
           </h2>
+
           {isLoading ? (
             <div className="flex flex-col items-center justify-center h-64">
               <Lottie animationData={loginAnimation} style={{ width: 100, height: 100 }} />
               <p className={`${firaCode.className} mt-4 text-lg`}>Cargando contenido...</p>
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 mb-6">
               {phases.map((phase) => (
                 <Card key={phase.id} className={`overflow-hidden border border-gray-300 dark:border-gray-600 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} shadow-lg`}>
                   <CardHeader>
