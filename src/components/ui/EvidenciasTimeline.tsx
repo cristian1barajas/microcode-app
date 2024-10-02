@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Calendar, Upload, Check, Plus, X } from 'lucide-react';
-import { collection, query, orderBy, getDocs, doc, updateDoc, addDoc, deleteDoc, where } from 'firebase/firestore';
+import { Calendar, Upload, Check, Plus, X, Clock } from 'lucide-react';
+import { collection, query, orderBy, getDocs, doc, updateDoc, addDoc, deleteDoc, where, getDoc } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Fira_Code } from 'next/font/google';
 import { useToast } from "@/hooks/use-toast";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
@@ -15,6 +15,7 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { Timestamp } from 'firebase/firestore';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const firaCode = Fira_Code({ subsets: ['latin'] });
 
@@ -36,6 +37,7 @@ interface Task {
   userId: string;
   description: string;
   reminderDate: Date | null;
+  reminderTime: string | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 }
@@ -44,16 +46,69 @@ interface EvidenciasTimelineProps {
   isDarkMode: boolean;
 }
 
+interface TimeSelectProps {
+  value: string;
+  onChange: (value: string) => void;
+  isDarkMode: boolean;
+}
+
+const TimeSelect: React.FC<TimeSelectProps> = ({ value, onChange, isDarkMode }) => {
+  const hours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
+  const minutes = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0'));
+
+  const [selectedHour, selectedMinute] = value ? value.split(':') : ['00', '00'];
+
+  const handleHourChange = (newHour: string) => {
+    onChange(`${newHour}:${selectedMinute}`);
+  };
+
+  const handleMinuteChange = (newMinute: string) => {
+    onChange(`${selectedHour}:${newMinute}`);
+  };
+
+  return (
+    <div className="flex space-x-2">
+      <Select value={selectedHour} onValueChange={handleHourChange}>
+        <SelectTrigger className={`w-[80px] ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : ''}`}>
+          <SelectValue placeholder="Hora" />
+        </SelectTrigger>
+        <SelectContent className={`${isDarkMode ? 'bg-gray-800 text-white' : ''}`}>
+          {hours.map((hour) => (
+            <SelectItem key={hour} value={hour} className={`px-4 py-2 ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-blue-100'}`}>
+              {hour}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Select value={selectedMinute} onValueChange={handleMinuteChange}>
+        <SelectTrigger className={`w-[80px] ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : ''}`}>
+          <SelectValue placeholder="Minuto" />
+        </SelectTrigger>
+        <SelectContent className={`${isDarkMode ? 'bg-gray-800 text-white' : ''}`}>
+          {minutes.map((minute) => (
+            <SelectItem key={minute} value={minute} className={`px-4 py-2 ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-blue-100'}`}>
+              {minute}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+};
+
 export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelineProps) {
   const [evidencias, setEvidencias] = useState<Evidencia[]>([]);
-  const [currentDate, setCurrentDate] = useState(new Date(2024, 11, 5)); // Simulating December 5, 2024
+  const [currentDate, setCurrentDate] = useState(new Date(2024, 11, 5));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvidencia, setSelectedEvidencia] = useState<Evidencia | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState('');
   const [reminderDate, setReminderDate] = useState<Date | undefined>(undefined);
+  const [reminderTime, setReminderTime] = useState<string>('');
+  const [isGrupoExperimental, setIsGrupoExperimental] = useState<boolean | null>(null);
   const { toast } = useToast();
   const containerRef = useRef<HTMLDivElement>(null);
+  const [userFicha, setUserFicha] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchEvidencias = async () => {
@@ -69,7 +124,59 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
     };
 
     fetchEvidencias();
-  }, []);
+  }, [toast]);
+
+  useEffect(() => {
+    console.log("useEffect for checkUserGroup is running");
+    const checkUserGroup = async () => {
+      console.log("checkUserGroup function started");
+      const user = auth.currentUser;
+      console.log("Current user:", user);
+      if (user) {
+        try {
+          console.log("Fetching user document");
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            console.log("User data:", userData);
+            if (userData && userData.fichaSENA) {
+              setUserFicha(userData.fichaSENA);
+              console.log("Fetching ficha document");
+              const fichaDoc = await getDoc(doc(db, 'fichas', userData.fichaSENA));
+              if (fichaDoc.exists()) {
+                const fichaData = fichaDoc.data();
+                console.log("Ficha data:", fichaData);
+                setIsGrupoExperimental(fichaData.grupoExperimental || false);
+                console.log(`User Ficha: ${userData.fichaSENA}, Is Experimental: ${fichaData.grupoExperimental}`);
+              } else {
+                console.log(`Ficha document does not exist for ficha: ${userData.fichaSENA}`);
+                setIsGrupoExperimental(false);
+              }
+            } else {
+              console.log('User document does not contain fichaSENA information');
+              setIsGrupoExperimental(false);
+            }
+          } else {
+            console.log('User document does not exist');
+            setIsGrupoExperimental(false);
+          }
+        } catch (error) {
+          console.error("Error fetching user or ficha data:", error);
+          setIsGrupoExperimental(false);
+          toast({
+            title: "Error",
+            description: "No se pudo verificar el grupo del usuario. Por favor, intenta de nuevo.",
+            variant: "destructive",
+          });
+        }
+      } else {
+        console.log('No authenticated user');
+        setIsGrupoExperimental(false);
+      }
+    };
+
+    checkUserGroup();
+  }, [toast]);
 
   useEffect(() => {
     if (evidencias.length > 0) {
@@ -78,6 +185,7 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
   }, [evidencias, currentDate]);
 
   const handlePlanificar = (evidencia: Evidencia) => {
+    if (!isGrupoExperimental) return;
     setSelectedEvidencia(evidencia);
     setIsModalOpen(true);
     fetchTasks(evidencia.id);
@@ -104,6 +212,7 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
           userId: data.userId,
           description: data.description,
           reminderDate: data.reminderDate?.toDate() || null,
+          reminderTime: data.reminderTime || null,
           createdAt: data.createdAt?.toDate() || null,
           updatedAt: data.updatedAt?.toDate() || null,
         } as Task;
@@ -120,13 +229,19 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
   };
 
   const handleAddTask = async () => {
-    if (newTask.trim() && reminderDate && selectedEvidencia && auth.currentUser) {
+    if (!isGrupoExperimental) return;
+    if (newTask.trim() && reminderDate && reminderTime && selectedEvidencia && auth.currentUser) {
       try {
+        const reminderDateTime = new Date(reminderDate);
+        const [hours, minutes] = reminderTime.split(':').map(Number);
+        reminderDateTime.setHours(hours, minutes);
+
         const taskRef = await addDoc(collection(db, 'tasks'), {
           evidenciaId: selectedEvidencia.id,
           userId: auth.currentUser.uid,
           description: newTask.trim(),
-          reminderDate: Timestamp.fromDate(reminderDate),
+          reminderDate: Timestamp.fromDate(reminderDateTime),
+          reminderTime,
           createdAt: Timestamp.now(),
           updatedAt: Timestamp.now(),
         });
@@ -136,7 +251,8 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
           evidenciaId: selectedEvidencia.id,
           userId: auth.currentUser.uid,
           description: newTask.trim(),
-          reminderDate: reminderDate,
+          reminderDate: reminderDateTime,
+          reminderTime,
           createdAt: new Date(),
           updatedAt: new Date(),
         };
@@ -144,6 +260,7 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
         setTasks([...tasks, newTaskObj]);
         setNewTask('');
         setReminderDate(undefined);
+        setReminderTime('');
   
         toast({
           title: "Tarea añadida",
@@ -161,6 +278,7 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
   };
 
   const handleDeleteTask = async (taskId: string) => {
+    if (!isGrupoExperimental) return;
     await deleteDoc(doc(db, 'tasks', taskId));
     setTasks(tasks.filter(task => task.id !== taskId));
 
@@ -171,6 +289,7 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
   };
 
   const handleToggleUpload = async (evidenciaId: string, isUploaded: boolean) => {
+    if (!isGrupoExperimental) return;
     const user = auth.currentUser;
     if (!user) {
       toast({
@@ -290,115 +409,141 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
                     Fin: {evidencia.fecha_fin.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' })}
                   </p>
                 </CardContent>
-                <CardFooter className="flex flex-col space-y-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className={`w-full ${isDarkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : ''}`}
-                    onClick={() => handlePlanificar(evidencia)}
-                  >
-                    <Calendar className="mr-2 h-4 w-4" />
-                    Planificar
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className={`w-full ${isDarkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : ''}`}
-                    onClick={() => handleToggleUpload(evidencia.id, evidencia.isUploaded || false)}
-                  >
-                    {evidencia.isUploaded ? (
-                      <Check className="mr-2 h-4 w-4" />
-                    ) : (
-                      <Upload className="mr-2 h-4 w-4" />
-                    )}
-                    {evidencia.isUploaded ? 'Subida' : 'Marcar'}
-                  </Button>
-                </CardFooter>
+                {isGrupoExperimental && (
+                  <CardFooter className="flex flex-col space-y-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className={`w-full ${isDarkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : ''}`}
+                      onClick={() => handlePlanificar(evidencia)}
+                    >
+                      <Calendar className="mr-2 h-4 w-4" />
+                      Planificar
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className={`w-full ${isDarkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : ''}`}
+                      onClick={() => handleToggleUpload(evidencia.id, evidencia.isUploaded || false)}
+                    >
+                      {evidencia.isUploaded ? (
+                        <Check className="mr-2 h-4 w-4" />
+                      ) : (
+                        <Upload className="mr-2 h-4 w-4" />
+                      )}
+                      {evidencia.isUploaded ? 'Subida' : 'Marcar'}
+                    </Button>
+                  </CardFooter>
+                )}
               </Card>
             ))}
           </div>
         </div>
       </div>
 
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className={`sm:max-w-[600px] max-h-[90vh] overflow-y-auto ${firaCode.className} ${
-          isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'
-        }`}>
-          <DialogHeader>
-            <DialogTitle className={isDarkMode ? 'text-gray-200' : ''}>Planificar Evidencia: {selectedEvidencia?.codigo}</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              <p><strong>Descripción:</strong> {selectedEvidencia?.detalle}</p>
-              <p><strong>Inicio:</strong> {selectedEvidencia?.fecha_inicio.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-              <p><strong>Fin:</strong> {selectedEvidencia?.fecha_fin.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="task" className={`text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
-                Tarea
-              </Label>
-              <Input
-                id="task"
-                value={newTask}
-                onChange={(e) => setNewTask(e.target.value)}
-                className={`col-span-3 ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : ''}`}
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="reminder" className={`text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
-                Recordatorio
-              </Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-[280px] justify-start text-left font-normal",
-                      !reminderDate && "text-muted-foreground",
-                      isDarkMode && "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                    )}
-                  >
-                    <Calendar className="mr-2 h-4 w-4" />
-                    {reminderDate ? format(reminderDate, "PPP", { locale: es }) : <span>Selecciona una fecha</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className={`w-auto p-0 ${isDarkMode ? 'bg-gray-800' : ''}`}>
-                  <CalendarComponent
-                    mode="single"
-                    selected={reminderDate}
-                    onSelect={setReminderDate}
-                    initialFocus
-                    className={isDarkMode ? 'bg-gray-800 text-white' : ''}
+      {isGrupoExperimental && (
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+          <DialogContent className={`sm:max-w-[600px] max-h-[90vh] overflow-y-auto ${firaCode.className} ${
+            isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'
+          }`}aria-describedby="dialog-description">
+            <DialogHeader>
+              <DialogTitle className={isDarkMode ? 'text-gray-200' : ''}>Planificar Evidencia: {selectedEvidencia?.codigo}</DialogTitle>
+              <DialogDescription id="dialog-description">
+                Planifica tareas para la evidencia seleccionada. Puedes añadir nuevas tareas y ver las tareas existentes.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p><strong>Descripción:</strong> {selectedEvidencia?.detalle}</p>
+                <p><strong>Inicio:</strong> {selectedEvidencia?.fecha_inicio.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                <p><strong>Fin:</strong> {selectedEvidencia?.fecha_fin.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+                <Label htmlFor="task" className={`sm:text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
+                  Tarea
+                </Label>
+                <div className="col-span-1 sm:col-span-3 flex items-center">
+                  <Input
+                    id="task"
+                    value={newTask}
+                    onChange={(e) => setNewTask(e.target.value)}
+                    className={`w-full ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : ''}`}
+                    placeholder="Descripción de la tarea"
                   />
-                </PopoverContent>
-              </Popover>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+                <Label htmlFor="reminder" className={`sm:text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
+                  Fecha
+                </Label>
+                <div className="col-span-1 sm:col-span-3">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        id="reminder"
+                        variant={"outline"}
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !reminderDate && "text-muted-foreground",
+                          isDarkMode && "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                        )}
+                      >
+                        <Calendar className="mr-2 h-4 w-4" />
+                        {reminderDate ? format(reminderDate, "PPP", { locale: es }) : <span>Selecciona una fecha</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className={`w-auto p-0 ${isDarkMode ? 'bg-gray-800' : ''}`}>
+                      <CalendarComponent
+                        mode="single"
+                        selected={reminderDate}
+                        onSelect={setReminderDate}
+                        initialFocus
+                        className={isDarkMode ? 'bg-gray-800 text-white' : ''}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+                <Label htmlFor="time" className={`sm:text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
+                  Hora
+                </Label>
+                <div className="col-span-1 sm:col-span-3 flex items-center">
+                  <TimeSelect
+                    value={reminderTime}
+                    onChange={setReminderTime}
+                    isDarkMode={isDarkMode}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-          <DialogFooter>
-            <Button type="submit" onClick={handleAddTask} className={isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : ''}>Añadir Tarea</Button>
-          </DialogFooter>
-          <div className="mt-4">
-            <h4 className={`mb-2 font-semibold ${isDarkMode ? 'text-gray-200' : ''}`}>Tareas Planificadas:</h4>
-            <ul>
-              {tasks.map((task) => (
-                <li key={task.id} className={`flex justify-between items-center mb-2 ${isDarkMode ? 'text-gray-300' : ''}`}>
-                  <span>
-                    {task.description} - {task.reminderDate?.toLocaleDateString() || 'Fecha no establecida'}
-                  </span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDeleteTask(task.id)}
-                    className={isDarkMode ? 'hover:bg-gray-700' : ''}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </DialogContent>
-      </Dialog>
+            <DialogFooter>
+              <Button type="submit" onClick={handleAddTask} className={isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : ''}>Añadir Tarea</Button>
+            </DialogFooter>
+            <div className="mt-4">
+              <h4 className={`mb-2 font-semibold ${isDarkMode ? 'text-gray-200' : ''}`}>Tareas Planificadas:</h4>
+              <ul>
+                {tasks.map((task) => (
+                  <li key={task.id} className={`flex justify-between items-center mb-2 ${isDarkMode ? 'text-gray-300' : ''}`}>
+                    <span>
+                      {task.description} - {task.reminderDate?.toLocaleDateString() || 'Fecha no establecida'} 
+                      {task.reminderTime ? ` ${task.reminderTime}` : ''}
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleDeleteTask(task.id)}
+                      className={isDarkMode ? 'hover:bg-gray-700' : ''}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
