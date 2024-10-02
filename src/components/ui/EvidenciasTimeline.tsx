@@ -14,6 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { cn } from "@/lib/utils";
+import { Timestamp } from 'firebase/firestore';
 
 const firaCode = Fira_Code({ subsets: ['latin'] });
 
@@ -32,8 +33,11 @@ interface Evidencia {
 interface Task {
   id: string;
   evidenciaId: string;
+  userId: string;
   description: string;
-  reminderDate: Date;
+  reminderDate: Date | null;
+  createdAt: Date | null;
+  updatedAt: Date | null;
 }
 
 interface EvidenciasTimelineProps {
@@ -80,39 +84,79 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
   };
 
   const fetchTasks = async (evidenciaId: string) => {
-    const q = query(collection(db, 'tasks'), where('evidenciaId', '==', evidenciaId));
-    const querySnapshot = await getDocs(q);
-    const fetchedTasks = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-      reminderDate: doc.data().reminderDate.toDate(),
-    } as Task));
-    setTasks(fetchedTasks);
+    if (!auth.currentUser) {
+      console.error("Usuario no autenticado");
+      return;
+    }
+  
+    try {
+      const q = query(
+        collection(db, 'tasks'),
+        where('evidenciaId', '==', evidenciaId),
+        where('userId', '==', auth.currentUser.uid)
+      );
+      const querySnapshot = await getDocs(q);
+      const fetchedTasks = querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          evidenciaId: data.evidenciaId,
+          userId: data.userId,
+          description: data.description,
+          reminderDate: data.reminderDate?.toDate() || null,
+          createdAt: data.createdAt?.toDate() || null,
+          updatedAt: data.updatedAt?.toDate() || null,
+        } as Task;
+      });
+      setTasks(fetchedTasks);
+    } catch (error) {
+      console.error("Error al obtener las tareas:", error);
+      toast({
+        title: "Error",
+        description: "No se pudieron cargar las tareas. Por favor, intenta de nuevo.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleAddTask = async () => {
-    if (newTask.trim() && reminderDate && selectedEvidencia) {
-      const taskRef = await addDoc(collection(db, 'tasks'), {
-        evidenciaId: selectedEvidencia.id,
-        description: newTask.trim(),
-        reminderDate,
-      });
-
-      const newTaskObj: Task = {
-        id: taskRef.id,
-        evidenciaId: selectedEvidencia.id,
-        description: newTask.trim(),
-        reminderDate,
-      };
-
-      setTasks([...tasks, newTaskObj]);
-      setNewTask('');
-      setReminderDate(undefined);
-
-      toast({
-        title: "Tarea añadida",
-        description: "La tarea ha sido añadida exitosamente.",
-      });
+    if (newTask.trim() && reminderDate && selectedEvidencia && auth.currentUser) {
+      try {
+        const taskRef = await addDoc(collection(db, 'tasks'), {
+          evidenciaId: selectedEvidencia.id,
+          userId: auth.currentUser.uid,
+          description: newTask.trim(),
+          reminderDate: Timestamp.fromDate(reminderDate),
+          createdAt: Timestamp.now(),
+          updatedAt: Timestamp.now(),
+        });
+  
+        const newTaskObj: Task = {
+          id: taskRef.id,
+          evidenciaId: selectedEvidencia.id,
+          userId: auth.currentUser.uid,
+          description: newTask.trim(),
+          reminderDate: reminderDate,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+  
+        setTasks([...tasks, newTaskObj]);
+        setNewTask('');
+        setReminderDate(undefined);
+  
+        toast({
+          title: "Tarea añadida",
+          description: "La tarea ha sido añadida exitosamente.",
+        });
+      } catch (error) {
+        console.error("Error al añadir la tarea:", error);
+        toast({
+          title: "Error",
+          description: "No se pudo añadir la tarea. Por favor, intenta de nuevo.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -338,7 +382,9 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
             <ul>
               {tasks.map((task) => (
                 <li key={task.id} className={`flex justify-between items-center mb-2 ${isDarkMode ? 'text-gray-300' : ''}`}>
-                  <span>{task.description} - {task.reminderDate.toLocaleDateString()}</span>
+                  <span>
+                    {task.description} - {task.reminderDate?.toLocaleDateString() || 'Fecha no establecida'}
+                  </span>
                   <Button
                     variant="ghost"
                     size="sm"
