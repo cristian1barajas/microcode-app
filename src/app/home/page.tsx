@@ -244,62 +244,59 @@ export default function HomePage() {
   };
 
   return (
-    <div className={`relative min-h-screen ${isDarkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
-      <div className="absolute inset-0 overflow-hidden">
+    <div className={`flex flex-col min-h-screen ${isDarkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(20)].map((_, i) => (
           <Particle key={i} isDarkMode={isDarkMode} />
         ))}
       </div>
-      <div className="relative">
-        <AppBar 
-          userName={userName}
-          userFicha={userFicha}
-          isDarkMode={isDarkMode}
-          toggleDarkMode={toggleDarkMode}
-          handleLogout={handleLogout}
-        />
-        <main className="container mx-auto px-4 pt-16">
-          {/* Agregamos el componente EvidenciasTimeline aquí */}
-          <div className="mb-2">
-            <EvidenciasTimeline isDarkMode={isDarkMode}/>
+      <AppBar 
+        userName={userName}
+        userFicha={userFicha}
+        isDarkMode={isDarkMode}
+        toggleDarkMode={toggleDarkMode}
+        handleLogout={handleLogout}
+      />
+      <main className="flex-grow container mx-auto px-4 pt-16 pb-8">
+        <div className="mb-2">
+          <EvidenciasTimeline isDarkMode={isDarkMode}/>
+        </div>
+
+        <h2 className={`text-2xl ${isDarkMode ? 'font-light' : 'font-normal'} mb-4 ${firaCode.className} text-left pt-4`}>
+          Aprendizaje
+        </h2>
+
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center h-64">
+            <Lottie animationData={loginAnimation} style={{ width: 100, height: 100 }} />
+            <p className={`${firaCode.className} mt-4 text-lg`}>Cargando contenido...</p>
           </div>
-
-          <h2 className={`text-2xl ${isDarkMode ? 'font-light' : 'font-normal'} mb-4 ${firaCode.className} text-left pt-4`}>
-            Aprendizaje
-          </h2>
-
-          {isLoading ? (
-            <div className="flex flex-col items-center justify-center h-64">
-              <Lottie animationData={loginAnimation} style={{ width: 100, height: 100 }} />
-              <p className={`${firaCode.className} mt-4 text-lg`}>Cargando contenido...</p>
-            </div>
-          ) : (
-            <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 mb-6">
-              {phases.map((phase) => (
-                <Card key={phase.id} className={`overflow-hidden border border-gray-300 dark:border-gray-600 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} shadow-lg`}>
-                  <CardHeader>
-                    <CardTitle className={`text-lg ${isDarkMode ? 'font-light' : 'font-normal'} ${firaCode.className}`}>{phase.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {phase.activities.map((activity) => (
-                      <ActivityCard
-                        key={activity.id}
-                        activity={activity}
-                        userProgress={userProgress}
-                        userLikes={userLikes}
-                        handleMaterialClick={handleMaterialClick}
-                        handleMaterialLike={handleMaterialLike}
-                        handleMaterialOpen={handleMaterialOpen}
-                        isDarkMode={isDarkMode}
-                      />
-                    ))}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </main>
-      </div>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 mb-6">
+            {phases.map((phase) => (
+              <Card key={phase.id} className={`overflow-hidden border border-gray-300 dark:border-gray-600 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} shadow-lg`}>
+                <CardHeader>
+                  <CardTitle className={`text-lg ${isDarkMode ? 'font-light' : 'font-normal'} ${firaCode.className}`}>{phase.name}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {phase.activities.map((activity) => (
+                    <ActivityCard
+                      key={activity.id}
+                      activity={activity}
+                      userProgress={userProgress}
+                      userLikes={userLikes}
+                      handleMaterialClick={handleMaterialClick}
+                      handleMaterialLike={handleMaterialLike}
+                      handleMaterialOpen={handleMaterialOpen}
+                      isDarkMode={isDarkMode}
+                    />
+                  ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </main>
       <ContentFrame
         isOpen={isContentFrameOpen}
         onClose={handleContentFrameClose}

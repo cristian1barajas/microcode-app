@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Calendar, Upload, Check, Plus, X, Clock } from 'lucide-react';
+import { Calendar, Upload, Check, Plus, X, Clock, Target, Users, Sun, Clock4, AlertTriangle, Smile } from 'lucide-react';
 import { collection, query, orderBy, getDocs, doc, updateDoc, addDoc, deleteDoc, where, getDoc } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase';
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,9 @@ import { es } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { Timestamp } from 'firebase/firestore';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Checkbox } from "@/components/ui/checkbox"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
 const firaCode = Fira_Code({ subsets: ['latin'] });
 
@@ -40,6 +43,13 @@ interface Task {
   reminderTime: string | null;
   createdAt: Date | null;
   updatedAt: Date | null;
+  objetivo?: string;
+  estrategiaTrabajo?: string;
+  estrategiaTiempo?: string[];
+  tiempoDedicado?: string;
+  anticipaDificultad?: string;
+  dificultades?: string[];
+  estadoEmocional?: string;
 }
 
 interface EvidenciasTimelineProps {
@@ -98,7 +108,7 @@ const TimeSelect: React.FC<TimeSelectProps> = ({ value, onChange, isDarkMode }) 
 
 export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelineProps) {
   const [evidencias, setEvidencias] = useState<Evidencia[]>([]);
-  const [currentDate, setCurrentDate] = useState(new Date(2024, 11, 5));
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvidencia, setSelectedEvidencia] = useState<Evidencia | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -109,6 +119,14 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
   const { toast } = useToast();
   const containerRef = useRef<HTMLDivElement>(null);
   const [userFicha, setUserFicha] = useState<string | null>(null);
+
+  const [objetivo, setObjetivo] = useState('');
+  const [estrategiaTrabajo, setEstrategiaTrabajo] = useState('');
+  const [estrategiaTiempo, setEstrategiaTiempo] = useState<string[]>([]);
+  const [tiempoDedicado, setTiempoDedicado] = useState('');
+  const [anticipaDificultad, setAnticipaDificultad] = useState('');
+  const [dificultades, setDificultades] = useState<string[]>([]);
+  const [estadoEmocional, setEstadoEmocional] = useState('');
 
   useEffect(() => {
     const fetchEvidencias = async () => {
@@ -215,6 +233,13 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
           reminderTime: data.reminderTime || null,
           createdAt: data.createdAt?.toDate() || null,
           updatedAt: data.updatedAt?.toDate() || null,
+          objetivo: data.objetivo,
+          estrategiaTrabajo: data.estrategiaTrabajo,
+          estrategiaTiempo: data.estrategiaTiempo,
+          tiempoDedicado: data.tiempoDedicado,
+          anticipaDificultad: data.anticipaDificultad,
+          dificultades: data.dificultades,
+          estadoEmocional: data.estadoEmocional,
         } as Task;
       });
       setTasks(fetchedTasks);
@@ -244,6 +269,13 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
           reminderTime,
           createdAt: Timestamp.now(),
           updatedAt: Timestamp.now(),
+          objetivo,
+          estrategiaTrabajo,
+          estrategiaTiempo,
+          tiempoDedicado,
+          anticipaDificultad,
+          dificultades,
+          estadoEmocional,
         });
   
         const newTaskObj: Task = {
@@ -255,12 +287,27 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
           reminderTime,
           createdAt: new Date(),
           updatedAt: new Date(),
+          objetivo,
+          estrategiaTrabajo,
+          estrategiaTiempo,
+          tiempoDedicado,
+          anticipaDificultad,
+          dificultades,
+          estadoEmocional,
         };
   
         setTasks([...tasks, newTaskObj]);
         setNewTask('');
         setReminderDate(undefined);
         setReminderTime('');
+        // Reset additional fields
+        setObjetivo('');
+        setEstrategiaTrabajo('');
+        setEstrategiaTiempo([]);
+        setTiempoDedicado('');
+        setAnticipaDificultad('');
+        setDificultades([]);
+        setEstadoEmocional('');
   
         toast({
           title: "Tarea añadida",
@@ -305,6 +352,8 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
       await updateDoc(evidenciaRef, {
         isUploaded: !isUploaded,
       });
+
+      
 
       setEvidencias(prevEvidencias =>
         prevEvidencias.map(ev =>
@@ -376,9 +425,9 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
       <h2 className={`text-2xl ${isDarkMode ? 'font-light' : 'font-normal'} mb-4`}>Planificación</h2>
       <div className="flex justify-between items-center">
         <Button 
-        onClick={scrollToCurrentDate} 
-        variant="outline"
-        className={`${isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
+          onClick={scrollToCurrentDate} 
+          variant="outline"
+          className={`${isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
         >
           Hoy
         </Button>
@@ -443,9 +492,9 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
 
       {isGrupoExperimental && (
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogContent className={`sm:max-w-[600px] max-h-[90vh] overflow-y-auto ${firaCode.className} ${
+          <DialogContent className={`sm:max-w-[90vw] max-h-[90vh] overflow-y-auto ${firaCode.className} ${
             isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'
-          }`}aria-describedby="dialog-description">
+          }`} aria-describedby="dialog-description">
             <DialogHeader>
               <DialogTitle className={isDarkMode ? 'text-gray-200' : ''}>Planificar Evidencia: {selectedEvidencia?.codigo}</DialogTitle>
               <DialogDescription id="dialog-description">
@@ -458,6 +507,7 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
                 <p><strong>Inicio:</strong> {selectedEvidencia?.fecha_inicio.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                 <p><strong>Fin:</strong> {selectedEvidencia?.fecha_fin.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
               </div>
+              
               <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
                 <Label htmlFor="task" className={`sm:text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
                   Tarea
@@ -472,6 +522,7 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
                   />
                 </div>
               </div>
+              
               <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
                 <Label htmlFor="reminder" className={`sm:text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
                   Fecha
@@ -516,6 +567,202 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
                   />
                 </div>
               </div>
+              
+              {/* Updated reflective components in a horizontal scroll area with blue icons */}
+              <ScrollArea className="w-full whitespace-nowrap rounded-md border">
+                <div className="flex space-x-2 p-2">
+                  {/* Objetivo de la tarea */}
+                  <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
+                    <CardHeader className="p-3">
+                      <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
+                        <Target className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+                        Objetivo de la tarea
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-3 pt-0">
+                      <RadioGroup id="objetivo" value={objetivo} onValueChange={setObjetivo}>
+                        {[
+                          { value: 'comprender', label: 'Comprender mejor el tema' },
+                          { value: 'practicar', label: 'Practicar habilidades' },
+                          { value: 'completar', label: 'Completar a tiempo' },
+                          { value: 'calificacion', label: 'Obtener buena calificación' },
+                          { value: 'preparar', label: 'Preparar evaluaciones' }
+                        ].map(({ value, label }) => (
+                          <div key={value} className="flex items-center space-x-2 mb-1">
+                            <RadioGroupItem value={value} id={value} className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
+                            <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''} whitespace-normal`}>
+                              {label}
+                            </Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </CardContent>
+                  </Card>
+
+                  {/* Estrategia de trabajo */}
+                  <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
+                    <CardHeader className="p-3">
+                      <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
+                        <Users className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+                        Estrategia de trabajo
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-3 pt-0">
+                      <RadioGroup id="estrategiaTrabajo" value={estrategiaTrabajo} onValueChange={setEstrategiaTrabajo}>
+                        {[
+                          { value: 'solo', label: 'Solo' },
+                          { value:  'pareja', label: 'En pareja' },
+                          { value: 'grupo', label: 'En grupo' }
+                        ].map(({ value, label }) => (
+                          <div key={value} className="flex items-center space-x-2 mb-1">
+                            <RadioGroupItem value={value} id={value} className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
+                            <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
+                              {label}
+                            </Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </CardContent>
+                  </Card>
+
+                  {/* Cuándo planeas trabajar */}
+                  <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
+                    <CardHeader className="p-3">
+                      <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
+                        <Sun className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+                        ¿Cuándo planeas trabajar?
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-3 pt-0">
+                      {[
+                        { value: 'manana', label: 'Mañana' },
+                        { value: 'tarde', label: 'Tarde' },
+                        { value: 'noche', label: 'Noche' }
+                      ].map(({ value, label }) => (
+                        <div key={value} className="flex items-center space-x-2 mb-1">
+                          <Checkbox
+                            id={value}
+                            checked={estrategiaTiempo.includes(value)}
+                            onCheckedChange={(checked) =>
+                              setEstrategiaTiempo(checked
+                                ? [...estrategiaTiempo, value]
+                                : estrategiaTiempo.filter((item) => item !== value)
+                              )
+                            }
+                            className={`h-3 w-3 ${isDarkMode ? 'border-gray-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600' : ''}`}
+                          />
+                          <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
+                            {label}
+                          </Label>
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+
+                  {/* Tiempo dedicado */}
+                  <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
+                    <CardHeader className="p-3">
+                      <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
+                        <Clock4 className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+                        Tiempo dedicado
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-3 pt-0">
+                      <RadioGroup id="tiempoDedicado" value={tiempoDedicado} onValueChange={setTiempoDedicado}>
+                        {[
+                          { value: 'menos1', label: 'Menos de 1 hora' },
+                          { value: '1-2', label: '1-2 horas' },
+                          { value: '2-4', label: '2-4 horas' },
+                          { value: 'mas4', label: 'Más de 4 horas' }
+                        ].map(({ value, label }) => (
+                          <div key={value} className="flex items-center space-x-2 mb-1">
+                            <RadioGroupItem value={value} id={value} className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
+                            <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
+                              {label}
+                            </Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </CardContent>
+                  </Card>
+
+                  {/* Anticipación de dificultades */}
+                  <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
+                    <CardHeader className="p-3">
+                      <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
+                        <AlertTriangle className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+                        Anticipación de dificultades
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-3 pt-0">
+                      <RadioGroup id="anticipaDificultad" value={anticipaDificultad} onValueChange={setAnticipaDificultad}>
+                        <div className="flex items-center space-x-2 mb-1">
+                          <RadioGroupItem value="si" id="si" className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
+                          <Label htmlFor="si" className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>Sí</Label>
+                        </div>
+                        <div className="flex items-center space-x-2 mb-1">
+                          <RadioGroupItem value="no" id="no" className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
+                          <Label htmlFor="no" className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>No</Label>
+                        </div>
+                      </RadioGroup>
+                      {anticipaDificultad === 'si' && (
+                        <div className="mt-2 space-y-1">
+                          <Label className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
+                            Dificultades anticipadas:
+                          </Label>
+                          {[
+                            { value: 'faltaTiempo', label: 'Falta de tiempo' },
+                            { value: 'dificultadMaterial', label: 'Dificultad material' },
+                            { value: 'accesoLimitado', label: 'Acceso limitado' },
+                            { value: 'distracciones', label: 'Distracciones' },
+                            { value: 'otro', label: 'Otro' }
+                          ].map(({ value, label }) => (
+                            <div key={value} className="flex items-center space-x-2">
+                              <Checkbox
+                                id={value}
+                                checked={dificultades.includes(value)}
+                                onCheckedChange={(checked) =>
+                                  setDificultades(checked
+                                    ? [...dificultades, value]
+                                    : dificultades.filter((item) => item !== value)
+                                  )
+                                }
+                                className={`h-3 w-3 ${isDarkMode ? 'border-gray-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600' : ''}`}
+                              />
+                              <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''} whitespace-normal`}>
+                                {label}
+                              </Label>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  {/* Estado emocional */}
+                  <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
+                    <CardHeader className="p-3">
+                      <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
+                        <Smile className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+                        Estado emocional
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-3 pt-0">
+                      <RadioGroup id="estadoEmocional" value={estadoEmocional} onValueChange={setEstadoEmocional}>
+                        {['motivado', 'neutro', 'ansioso', 'desanimado', 'confiado'].map((value) => (
+                          <div key={value} className="flex items-center space-x-2 mb-1">
+                            <RadioGroupItem value={value} id={value} className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
+                            <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
+                              {value.charAt(0).toUpperCase() + value.slice(1)}
+                            </Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </CardContent>
+                  </Card>
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
             </div>
             <DialogFooter>
               <Button type="submit" onClick={handleAddTask} className={isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : ''}>Añadir Tarea</Button>
