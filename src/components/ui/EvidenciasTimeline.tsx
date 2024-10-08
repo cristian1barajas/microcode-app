@@ -496,10 +496,10 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
             isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'
           }`} aria-describedby="dialog-description">
             <DialogHeader>
-              <DialogTitle className={isDarkMode ? 'text-gray-200' : ''}>Planificar Evidencia: {selectedEvidencia?.codigo}</DialogTitle>
-              <DialogDescription id="dialog-description">
+              <DialogTitle className={isDarkMode ? 'text-gray-200' : ''}>Planificar Evidencia: <br></br>{selectedEvidencia?.codigo}</DialogTitle>
+              {/* <DialogDescription id="dialog-description">
                 Planifica tareas para la evidencia seleccionada. Puedes añadir nuevas tareas y ver las tareas existentes.
-              </DialogDescription>
+              </DialogDescription> */}
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -507,67 +507,7 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
                 <p><strong>Inicio:</strong> {selectedEvidencia?.fecha_inicio.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                 <p><strong>Fin:</strong> {selectedEvidencia?.fecha_fin.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
               </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
-                <Label htmlFor="task" className={`sm:text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
-                  Tarea
-                </Label>
-                <div className="col-span-1 sm:col-span-3 flex items-center">
-                  <Input
-                    id="task"
-                    value={newTask}
-                    onChange={(e) => setNewTask(e.target.value)}
-                    className={`w-full ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : ''}`}
-                    placeholder="Descripción de la tarea"
-                  />
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
-                <Label htmlFor="reminder" className={`sm:text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
-                  Fecha
-                </Label>
-                <div className="col-span-1 sm:col-span-3">
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        id="reminder"
-                        variant={"outline"}
-                        className={cn(
-                          "w-full justify-start text-left font-normal",
-                          !reminderDate && "text-muted-foreground",
-                          isDarkMode && "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                        )}
-                      >
-                        <Calendar className="mr-2 h-4 w-4" />
-                        {reminderDate ? format(reminderDate, "PPP", { locale: es }) : <span>Selecciona una fecha</span>}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className={`w-auto p-0 ${isDarkMode ? 'bg-gray-800' : ''}`}>
-                      <CalendarComponent
-                        mode="single"
-                        selected={reminderDate}
-                        onSelect={setReminderDate}
-                        initialFocus
-                        className={isDarkMode ? 'bg-gray-800 text-white' : ''}
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
-                <Label htmlFor="time" className={`sm:text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
-                  Hora
-                </Label>
-                <div className="col-span-1 sm:col-span-3 flex items-center">
-                  <TimeSelect
-                    value={reminderTime}
-                    onChange={setReminderTime}
-                    isDarkMode={isDarkMode}
-                  />
-                </div>
-              </div>
-              
+
               {/* Updated reflective components in a horizontal scroll area with blue icons */}
               <ScrollArea className="w-full whitespace-nowrap rounded-md border">
                 <div className="flex space-x-2 p-2">
@@ -763,6 +703,68 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
                 </div>
                 <ScrollBar orientation="horizontal" />
               </ScrollArea>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+                <Label htmlFor="task" className={`sm:text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
+                  Tarea
+                </Label>
+                <div className="col-span-1 sm:col-span-3 flex items-center">
+                  <Input
+                    id="task"
+                    value={newTask}
+                    onChange={(e) => setNewTask(e.target.value)}
+                    className={`w-full ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : ''}`}
+                    placeholder="Descripción de la tarea"
+                  />
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+                <Label htmlFor="reminder" className={`sm:text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
+                  Fecha
+                </Label>
+                <div className="col-span-1 sm:col-span-3">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        id="reminder"
+                        variant={"outline"}
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !reminderDate && "text-muted-foreground",
+                          isDarkMode && "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                        )}
+                      >
+                        <Calendar className="mr-2 h-4 w-4" />
+                        {reminderDate ? format(reminderDate, "PPP", { locale: es }) : <span>Selecciona una fecha</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className={`w-auto p-0 ${isDarkMode ? 'bg-gray-800' : ''}`}>
+                      <CalendarComponent
+                        mode="single"
+                        selected={reminderDate}
+                        onSelect={setReminderDate}
+                        initialFocus
+                        className={isDarkMode ? 'bg-gray-800 text-white' : ''}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+                <Label htmlFor="time" className={`sm:text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
+                  Hora
+                </Label>
+                <div className="col-span-1 sm:col-span-3 flex items-center">
+                  <TimeSelect
+                    value={reminderTime}
+                    onChange={setReminderTime}
+                    isDarkMode={isDarkMode}
+                  />
+                </div>
+              </div>
+              
+              
             </div>
             <DialogFooter>
               <Button type="submit" onClick={handleAddTask} className={isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : ''}>Añadir Tarea</Button>
