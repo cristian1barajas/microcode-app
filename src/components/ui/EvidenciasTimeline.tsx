@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, Upload, Check, Plus, X, Clock, Target, Users, Sun, Clock4, AlertTriangle, Smile } from 'lucide-react';
-import { collection, query, orderBy, getDocs, doc, updateDoc, addDoc, deleteDoc, where, getDoc } from 'firebase/firestore';
+import { collection, query, orderBy, getDocs, doc, updateDoc, addDoc, deleteDoc, where, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -60,6 +60,16 @@ interface TimeSelectProps {
   value: string;
   onChange: (value: string) => void;
   isDarkMode: boolean;
+}
+
+interface ReflectionData {
+  objetivo: string;
+  estrategiaTrabajo: string;
+  estrategiaTiempo: string[];
+  tiempoDedicado: string;
+  anticipaDificultad: string;
+  dificultades: string[];
+  estadoEmocional: string;
 }
 
 const TimeSelect: React.FC<TimeSelectProps> = ({ value, onChange, isDarkMode }) => {
@@ -128,6 +138,16 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
   const [dificultades, setDificultades] = useState<string[]>([]);
   const [estadoEmocional, setEstadoEmocional] = useState('');
 
+  const [reflectionData, setReflectionData] = useState<ReflectionData>({
+    objetivo: '',
+    estrategiaTrabajo: '',
+    estrategiaTiempo: [],
+    tiempoDedicado: '',
+    anticipaDificultad: '',
+    dificultades: [],
+    estadoEmocional: '',
+  });
+
   useEffect(() => {
     const fetchEvidencias = async () => {
       const q = query(collection(db, 'evidencias'), orderBy('fecha_inicio'));
@@ -143,6 +163,63 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
 
     fetchEvidencias();
   }, [toast]);
+
+  useEffect(() => {
+    if (selectedEvidencia && auth.currentUser) {
+      fetchReflectionData(selectedEvidencia.id, auth.currentUser.uid);
+    }
+  }, [selectedEvidencia]);
+
+  const fetchReflectionData = async (evidenciaId: string, userId: string) => {
+    try {
+      const reflectionRef = doc(db, 'reflections', `${userId}_${evidenciaId}`);
+      const reflectionDoc = await getDoc(reflectionRef);
+      if (reflectionDoc.exists()) {
+        setReflectionData(reflectionDoc.data() as ReflectionData);
+      } else {
+        setReflectionData({
+          objetivo: '',
+          estrategiaTrabajo: '',
+          estrategiaTiempo: [],
+          tiempoDedicado: '',
+          anticipaDificultad: '',
+          dificultades: [],
+          estadoEmocional: '',
+        });
+      }
+    } catch (error) {
+      console.error("Error al cargar los datos de reflexión:", error);
+      toast({
+        title: "Error",
+        description: "No se pudo cargar los datos de reflexión. Por favor, intenta de nuevo.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleReflectionChange = async (field: keyof ReflectionData, value: string | string[]) => {
+    const newReflectionData = { ...reflectionData, [field]: value };
+    setReflectionData(newReflectionData);
+
+    if (selectedEvidencia && auth.currentUser) {
+      try {
+        const reflectionRef = doc(db, 'reflections', `${auth.currentUser.uid}_${selectedEvidencia.id}`);
+        await setDoc(reflectionRef, newReflectionData);
+        // Opcional: mostrar un toast de éxito
+        // toast({
+        //   title: "Guardado",
+        //   description: "Los datos de reflexión se han guardado correctamente.",
+        // });
+      } catch (error) {
+        console.error("Error al guardar los datos de reflexión:", error);
+        toast({
+          title: "Error",
+          description: "No se pudieron guardar los datos de reflexión. Por favor, intenta de nuevo.",
+          variant: "destructive",
+        });
+      }
+    }
+  };
 
   useEffect(() => {
     console.log("useEffect for checkUserGroup is running");
@@ -513,196 +590,211 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
                 <div className="flex space-x-2 p-2">
                   {/* Objetivo de la tarea */}
                   <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
-                    <CardHeader className="p-3">
-                      <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
-                        <Target className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
-                        Objetivo de la tarea
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-3 pt-0">
-                      <RadioGroup id="objetivo" value={objetivo} onValueChange={setObjetivo}>
-                        {[
-                          { value: 'comprender', label: 'Comprender mejor el tema' },
-                          { value: 'practicar', label: 'Practicar habilidades' },
-                          { value: 'completar', label: 'Completar a tiempo' },
-                          { value: 'calificacion', label: 'Obtener buena calificación' },
-                          { value: 'preparar', label: 'Preparar evaluaciones' }
-                        ].map(({ value, label }) => (
-                          <div key={value} className="flex items-center space-x-2 mb-1">
-                            <RadioGroupItem value={value} id={value} className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
-                            <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''} whitespace-normal`}>
-                              {label}
-                            </Label>
-                          </div>
-                        ))}
-                      </RadioGroup>
-                    </CardContent>
-                  </Card>
+                  <CardHeader className="p-3">
+                    <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
+                      <Target className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+                      Objetivo de la tarea
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-3 pt-0">
+                    <RadioGroup 
+                      value={reflectionData.objetivo} 
+                      onValueChange={(value) => handleReflectionChange('objetivo', value)}
+                    >
+                      {[
+                        { value: 'comprender', label: 'Comprender mejor el tema' },
+                        { value: 'practicar', label: 'Practicar habilidades' },
+                        { value: 'completar', label: 'Completar a tiempo' },
+                        { value: 'calificacion', label: 'Obtener buena calificación' },
+                        { value: 'preparar', label: 'Preparar evaluaciones' }
+                      ].map(({ value, label }) => (
+                        <div key={value} className="flex items-center space-x-2 mb-1">
+                          <RadioGroupItem value={value} id={value} className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
+                          <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''} whitespace-normal`}>
+                            {label}
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </CardContent>
+                </Card>
 
                   {/* Estrategia de trabajo */}
                   <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
-                    <CardHeader className="p-3">
-                      <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
-                        <Users className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
-                        Estrategia de trabajo
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-3 pt-0">
-                      <RadioGroup id="estrategiaTrabajo" value={estrategiaTrabajo} onValueChange={setEstrategiaTrabajo}>
-                        {[
-                          { value: 'solo', label: 'Solo' },
-                          { value:  'pareja', label: 'En pareja' },
-                          { value: 'grupo', label: 'En grupo' }
-                        ].map(({ value, label }) => (
-                          <div key={value} className="flex items-center space-x-2 mb-1">
-                            <RadioGroupItem value={value} id={value} className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
-                            <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
-                              {label}
-                            </Label>
-                          </div>
-                        ))}
-                      </RadioGroup>
-                    </CardContent>
-                  </Card>
-
-                  {/* Cuándo planeas trabajar */}
-                  <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
-                    <CardHeader className="p-3">
-                      <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
-                        <Sun className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
-                        ¿Cuándo planeas trabajar?
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-3 pt-0">
+                  <CardHeader className="p-3">
+                    <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
+                      <Users className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+                      Estrategia de trabajo
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-3 pt-0">
+                    <RadioGroup 
+                      value={reflectionData.estrategiaTrabajo} 
+                      onValueChange={(value) => handleReflectionChange('estrategiaTrabajo', value)}
+                    >
                       {[
-                        { value: 'manana', label: 'Mañana' },
-                        { value: 'tarde', label: 'Tarde' },
-                        { value: 'noche', label: 'Noche' }
+                        { value: 'solo', label: 'Solo' },
+                        { value: 'pareja', label: 'En pareja' },
+                        { value: 'grupo', label: 'En grupo' }
                       ].map(({ value, label }) => (
                         <div key={value} className="flex items-center space-x-2 mb-1">
-                          <Checkbox
-                            id={value}
-                            checked={estrategiaTiempo.includes(value)}
-                            onCheckedChange={(checked) =>
-                              setEstrategiaTiempo(checked
-                                ? [...estrategiaTiempo, value]
-                                : estrategiaTiempo.filter((item) => item !== value)
-                              )
-                            }
-                            className={`h-3 w-3 ${isDarkMode ? 'border-gray-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600' : ''}`}
-                          />
+                          <RadioGroupItem value={value} id={value} className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
                           <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
                             {label}
                           </Label>
                         </div>
                       ))}
-                    </CardContent>
-                  </Card>
+                    </RadioGroup>
+                  </CardContent>
+                </Card>
+
+                  {/* Cuándo planeas trabajar */}
+                  <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
+                  <CardHeader className="p-3">
+                    <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
+                      <Sun className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+                      ¿Cuándo planeas trabajar?
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-3 pt-0">
+                    {[
+                      { value: 'manana', label: 'Mañana' },
+                      { value: 'tarde', label: 'Tarde' },
+                      { value: 'noche', label: 'Noche' }
+                    ].map(({ value, label }) => (
+                      <div key={value} className="flex items-center space-x-2 mb-1">
+                        <Checkbox
+                          id={value}
+                          checked={reflectionData.estrategiaTiempo.includes(value)}
+                          onCheckedChange={(checked) => {
+                            const newEstrategiaTiempo = checked
+                              ? [...reflectionData.estrategiaTiempo, value]
+                              : reflectionData.estrategiaTiempo.filter((item) => item !== value);
+                            handleReflectionChange('estrategiaTiempo', newEstrategiaTiempo);
+                          }}
+                          className={`h-3 w-3 ${isDarkMode ? 'border-gray-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600' : ''}`}
+                        />
+                        <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
+                          {label}
+                        </Label>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
 
                   {/* Tiempo dedicado */}
                   <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
-                    <CardHeader className="p-3">
-                      <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
-                        <Clock4 className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
-                        Tiempo dedicado
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-3 pt-0">
-                      <RadioGroup id="tiempoDedicado" value={tiempoDedicado} onValueChange={setTiempoDedicado}>
+                  <CardHeader className="p-3">
+                    <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
+                      <Clock4 className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+                      Tiempo dedicado
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-3 pt-0">
+                    <RadioGroup 
+                      value={reflectionData.tiempoDedicado} 
+                      onValueChange={(value) => handleReflectionChange('tiempoDedicado', value)}
+                    >
+                      {[
+                        { value: 'menos1', label: 'Menos de 1 hora' },
+                        { value: '1-2', label: '1-2 horas' },
+                        { value: '2-4', label: '2-4 horas' },
+                        { value: 'mas4', label: 'Más de 4 horas' }
+                      ].map(({ value, label }) => (
+                        <div key={value} className="flex items-center space-x-2 mb-1">
+                          <RadioGroupItem value={value} id={value} className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
+                          <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
+                            {label}
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </CardContent>
+                </Card>
+
+                  {/* Anticipación de dificultades */}
+                  <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
+                  <CardHeader className="p-3">
+                    <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
+                      <AlertTriangle className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+                      Anticipación de dificultades
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-3 pt-0">
+                    <RadioGroup 
+                      value={reflectionData.anticipaDificultad} 
+                      onValueChange={(value) =>   handleReflectionChange('anticipaDificultad', value)}
+                    >
+                      <div className="flex items-center space-x-2 mb-1">
+                        <RadioGroupItem value="si" id="si" className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
+                        <Label htmlFor="si" className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>Sí</Label>
+                      </div>
+                      <div className="flex items-center space-x-2 mb-1">
+                        <RadioGroupItem value="no" id="no" className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
+                        <Label htmlFor="no" className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>No</Label>
+                      </div>
+                    </RadioGroup>
+                    {reflectionData.anticipaDificultad === 'si' && (
+                      <div className="mt-2 space-y-1">
+                        <Label className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
+                          Dificultades anticipadas:
+                        </Label>
                         {[
-                          { value: 'menos1', label: 'Menos de 1 hora' },
-                          { value: '1-2', label: '1-2 horas' },
-                          { value: '2-4', label: '2-4 horas' },
-                          { value: 'mas4', label: 'Más de 4 horas' }
+                          { value: 'faltaTiempo', label: 'Falta de tiempo' },
+                          { value: 'dificultadMaterial', label: 'Dificultad material' },
+                          { value: 'accesoLimitado', label: 'Acceso limitado' },
+                          { value: 'distracciones', label: 'Distracciones' },
+                          { value: 'otro', label: 'Otro' }
                         ].map(({ value, label }) => (
-                          <div key={value} className="flex items-center space-x-2 mb-1">
-                            <RadioGroupItem value={value} id={value} className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
-                            <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
+                          <div key={value} className="flex items-center space-x-2">
+                            <Checkbox
+                              id={value}
+                              checked={reflectionData.dificultades.includes(value)}
+                              onCheckedChange={(checked) => {
+                                const newDificultades = checked
+                                  ? [...reflectionData.dificultades, value]
+                                  : reflectionData.dificultades.filter((item) => item !== value);
+                                handleReflectionChange('dificultades', newDificultades);
+                              }}
+                              className={`h-3 w-3 ${isDarkMode ? 'border-gray-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600' : ''}`}
+                            />
+                            <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''} whitespace-normal`}>
                               {label}
                             </Label>
                           </div>
                         ))}
-                      </RadioGroup>
-                    </CardContent>
-                  </Card>
-
-                  {/* Anticipación de dificultades */}
-                  <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
-                    <CardHeader className="p-3">
-                      <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
-                        <AlertTriangle className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
-                        Anticipación de dificultades
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-3 pt-0">
-                      <RadioGroup id="anticipaDificultad" value={anticipaDificultad} onValueChange={setAnticipaDificultad}>
-                        <div className="flex items-center space-x-2 mb-1">
-                          <RadioGroupItem value="si" id="si" className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
-                          <Label htmlFor="si" className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>Sí</Label>
-                        </div>
-                        <div className="flex items-center space-x-2 mb-1">
-                          <RadioGroupItem value="no" id="no" className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
-                          <Label htmlFor="no" className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>No</Label>
-                        </div>
-                      </RadioGroup>
-                      {anticipaDificultad === 'si' && (
-                        <div className="mt-2 space-y-1">
-                          <Label className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
-                            Dificultades anticipadas:
-                          </Label>
-                          {[
-                            { value: 'faltaTiempo', label: 'Falta de tiempo' },
-                            { value: 'dificultadMaterial', label: 'Dificultad material' },
-                            { value: 'accesoLimitado', label: 'Acceso limitado' },
-                            { value: 'distracciones', label: 'Distracciones' },
-                            { value: 'otro', label: 'Otro' }
-                          ].map(({ value, label }) => (
-                            <div key={value} className="flex items-center space-x-2">
-                              <Checkbox
-                                id={value}
-                                checked={dificultades.includes(value)}
-                                onCheckedChange={(checked) =>
-                                  setDificultades(checked
-                                    ? [...dificultades, value]
-                                    : dificultades.filter((item) => item !== value)
-                                  )
-                                }
-                                className={`h-3 w-3 ${isDarkMode ? 'border-gray-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600' : ''}`}
-                              />
-                              <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''} whitespace-normal`}>
-                                {label}
-                              </Label>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
 
                   {/* Estado emocional */}
                   <Card className={`w-[220px] flex-shrink-0 ${isDarkMode ? 'bg-gray-700 text-white' : ''}`}>
-                    <CardHeader className="p-3">
-                      <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
-                        <Smile className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
-                        Estado emocional
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-3 pt-0">
-                      <RadioGroup id="estadoEmocional" value={estadoEmocional} onValueChange={setEstadoEmocional}>
-                        {['motivado', 'neutro', 'ansioso', 'desanimado', 'confiado'].map((value) => (
-                          <div key={value} className="flex items-center space-x-2 mb-1">
-                            <RadioGroupItem value={value} id={value} className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
-                            <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
-                              {value.charAt(0).toUpperCase() + value.slice(1)}
-                            </Label>
-                          </div>
-                        ))}
-                      </RadioGroup>
-                    </CardContent>
-                  </Card>
-                </div>
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
+                  <CardHeader className="p-3">
+                    <CardTitle className={`text-sm ${isDarkMode ? 'text-gray-200' : ''} whitespace-normal flex items-center`}>
+                      <Smile className={`h-4 w-4 mr-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+                      Estado emocional
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-3 pt-0">
+                    <RadioGroup 
+                      value={reflectionData.estadoEmocional} 
+                      onValueChange={(value) => handleReflectionChange('estadoEmocional', value)}
+                    >
+                      {['motivado', 'neutro', 'ansioso', 'desanimado', 'confiado'].map((value) => (
+                        <div key={value} className="flex items-center space-x-2 mb-1">
+                          <RadioGroupItem value={value} id={value} className={`h-3 w-3 ${isDarkMode ? 'border-gray-400' : ''}`} />
+                          <Label htmlFor={value} className={`text-xs ${isDarkMode ? 'text-gray-300' : ''}`}>
+                            {value.charAt(0).toUpperCase() + value.slice(1)}
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </CardContent>
+                </Card>
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
               
               <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
                 <Label htmlFor="task" className={`sm:text-right ${isDarkMode ? 'text-gray-300' : ''}`}>
