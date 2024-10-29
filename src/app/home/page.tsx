@@ -3,18 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { auth, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { LogOut as LogOutIcon, MoreVertical, Moon, Sun } from 'lucide-react'
 import { Fira_Code, Inter } from 'next/font/google'
 import { collection, doc, getDoc, setDoc, getDocs, query, orderBy } from 'firebase/firestore';
 import { useMediaQuery } from 'react-responsive';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import ContentFrame from '@/components/ui/ContentFrame';
 import ActivityCard from '@/components/ui/ActivityCard';
 import AppBar from '@/components/ui/AppBar';
@@ -23,7 +15,6 @@ import loginAnimation from '@/components/ui/login-animation.json';
 import EvidenciasTimeline from '@/components/ui/EvidenciasTimeline';
 
 const firaCode = Fira_Code({ subsets: ['latin'] })
-const inter = Inter({ subsets: ['latin'] })
 
 interface Material {
   id: string;
