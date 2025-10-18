@@ -13,6 +13,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { doc, getDoc } from 'firebase/firestore';
+import Image from 'next/image';
 
 const inter = Inter({ subsets: ['latin'] })
 const firaCode = Fira_Code({ subsets: ['latin'] })
@@ -105,6 +106,8 @@ export default function LoginPage() {
     }, 1000); // Delay navigation to show animation
   };
 
+  const logoSrc = isDarkMode ? "/brand/logo_login_oscuro.png" : "/brand/logo_login_claro.png";
+
   return (
     <div className={`relative flex flex-col items-center justify-center min-h-screen p-4 overflow-hidden ${isDarkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
       {[...Array(20)].map((_, i) => (
@@ -118,8 +121,18 @@ export default function LoginPage() {
                 lottieRef={lottieRef}
                 animationData={loginAnimation} 
                 style={{ width: 100, height: 100 }} 
-                autoplay={false}
+                autoplay={true}
                 loop={true}
+              />
+            </div>
+            <div className="flex justify-center mb-6">
+              <Image
+                src={logoSrc}
+                alt="Universidad Pedagógica Nacional"
+                width={130}
+                height={130}
+                priority
+                className="h-auto"
               />
             </div>
             <h1 className={`text-xl font-light text-center mb-4 ${inter.className} dark:text-white`}>

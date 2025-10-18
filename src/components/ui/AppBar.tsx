@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Image from 'next/image';
 
 const firaCode = Fira_Code({ subsets: ['latin'] })
 
@@ -22,6 +23,7 @@ interface AppBarProps {
 }
 
 const AppBar: React.FC<AppBarProps> = ({ userName, userFicha, isDarkMode, toggleDarkMode, handleLogout }) => {
+  const logoSrc = isDarkMode ? "/brand/logo_home_oscuro.png" : "/brand/logo_home_claro.png";
   return (
     <div className={`fixed top-0 left-0 right-0 z-50 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'} shadow-sm`}>
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
@@ -31,6 +33,16 @@ const AppBar: React.FC<AppBarProps> = ({ userName, userFicha, isDarkMode, toggle
           </h1>
         </div>
         <div className="flex items-center">
+          <div>
+            <Image
+              src={logoSrc}
+              alt="Universidad Pedagógica Nacional"
+              width={100}
+              height={100}
+              priority
+              className="h-auto"
+            />
+          </div>
           <span className={`ml-2 text-sm ${firaCode.className} text-blue-600 dark:text-blue-400`}>
             {userFicha}
           </span>
