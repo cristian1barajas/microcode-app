@@ -38,6 +38,7 @@ interface Phase {
   name: string;
   order: number;
   activities: Activity[];
+  isActivitiesLoaded?: boolean;
 }
 
 const Particle = ({ isDarkMode }: { isDarkMode: boolean }) => {
@@ -77,6 +78,7 @@ export default function HomePage() {
   const [userProgress, setUserProgress] = useState<{[key: string]: boolean}>({});
   const [userLikes, setUserLikes] = useState<{[key: string]: boolean}>({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isPrefetching, setIsPrefetching] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const router = useRouter();
   const isMobile = useMediaQuery({ query: '(max-width: 640px)' });
@@ -102,7 +104,12 @@ export default function HomePage() {
 
         await loadUserProgress(user.uid);
         await loadUserLikes(user.uid);
-        await loadPhasesData();
+
+        // Carga inicial rápida: fases + actividades (ligero)
+        await loadPhasesOnly();
+
+        // Precarga en background: SOLO materiales (lo pesado, no bloquea UI)
+        prefetchAllActivitiesAndMaterials();
       } else {
         router.push('/login');
       }
@@ -140,54 +147,117 @@ export default function HomePage() {
     }
   };
 
-  const loadPhasesData = async () => {
+  // Carga las fases Y actividades (sin materiales) para renderizado inicial rápido
+  const loadPhasesOnly = async () => {
     try {
       const phasesCollection = collection(db, 'phases');
       const phasesSnapshot = await getDocs(phasesCollection);
-      const phasesData: Phase[] = [];
 
-      for (const phaseDoc of phasesSnapshot.docs) {
-        const phaseData = phaseDoc.data() as Phase;
-        phaseData.id = phaseDoc.id;
-        phaseData.activities = [];
+      // Cargar fases y actividades en paralelo
+      const phasesPromises = phasesSnapshot.docs.map(async (phaseDoc) => {
+        const phaseData = {
+          id: phaseDoc.id,
+          name: phaseDoc.data().name,
+          order: phaseDoc.data().order,
+          activities: [] as Activity[],
+          isActivitiesLoaded: false
+        };
 
-        const activitiesCollection = collection(db, `phases/${phaseDoc.id}/activities`);
-        const activitiesSnapshot = await getDocs(activitiesCollection);
+        // Cargar actividades de esta fase (sin materiales)
+        const activitiesSnapshot = await getDocs(
+          collection(db, `phases/${phaseDoc.id}/activities`)
+        );
 
-        for (const activityDoc of activitiesSnapshot.docs) {
-          const activityData = activityDoc.data() as Activity;
-          activityData.id = activityDoc.id;
-          activityData.materials = [];
+        phaseData.activities = activitiesSnapshot.docs.map(activityDoc => ({
+          id: activityDoc.id,
+          name: activityDoc.data().name,
+          order: activityDoc.data().order,
+          materials: [] // Sin materiales aún
+        } as Activity));
 
-          const materialsCollection = collection(db, `phases/${phaseDoc.id}/activities/${activityDoc.id}/materials`);
-          const materialsSnapshot = await getDocs(query(materialsCollection, orderBy('order')));
+        phaseData.activities.sort((a, b) => (a.order || 0) - (b.order || 0));
 
-          activityData.materials = materialsSnapshot.docs.map(doc => ({
-            id: doc.id,
-            name: doc.data().name,
-            description: doc.data().description,
-            icon: doc.data().icon,
-            url: doc.data().url,
-            type: doc.data().type,
-            order: doc.data().order
-          } as Material));
-
-          phaseData.activities.push(activityData);
-        }
-
-        phasesData.push(phaseData);
-      }
-
-      phasesData.sort((a, b) => (a.order || 0) - (b.order || 0));
-      phasesData.forEach(phase => {
-        phase.activities.sort((a, b) => (a.order || 0) - (b.order || 0));
+        return phaseData;
       });
 
+      const phasesData = await Promise.all(phasesPromises);
+      phasesData.sort((a, b) => (a.order || 0) - (b.order || 0));
       setPhases(phasesData);
+
     } catch (error) {
-      console.error("Error loading phases data:", error);
+      console.error("Error loading phases:", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Precarga en background SOLO los materiales (lo pesado) en paralelo
+  const prefetchAllActivitiesAndMaterials = async () => {
+    try {
+      setIsPrefetching(true);
+
+      // Obtener las fases actuales del estado
+      setPhases(prevPhases => {
+        // Crear promesas para cargar materiales de todas las actividades en paralelo
+        const allMaterialsPromises: Promise<{
+          phaseId: string;
+          activityId: string;
+          materials: Material[];
+        }>[] = [];
+
+        prevPhases.forEach(phase => {
+          phase.activities.forEach(activity => {
+            const promise = getDocs(
+              query(
+                collection(db, `phases/${phase.id}/activities/${activity.id}/materials`),
+                orderBy('order')
+              )
+            ).then(materialsSnapshot => ({
+              phaseId: phase.id,
+              activityId: activity.id,
+              materials: materialsSnapshot.docs.map(doc => ({
+                id: doc.id,
+                name: doc.data().name,
+                description: doc.data().description,
+                icon: doc.data().icon,
+                url: doc.data().url,
+                type: doc.data().type,
+                order: doc.data().order
+              } as Material))
+            }));
+
+            allMaterialsPromises.push(promise);
+          });
+        });
+
+        // Ejecutar todas las promesas en paralelo y actualizar estado cuando terminen
+        Promise.all(allMaterialsPromises).then(allMaterialsData => {
+
+          // Actualizar el estado con los materiales
+          setPhases(currentPhases =>
+            currentPhases.map(phase => ({
+              ...phase,
+              activities: phase.activities.map(activity => {
+                const materialsData = allMaterialsData.find(
+                  m => m.phaseId === phase.id && m.activityId === activity.id
+                );
+                return materialsData
+                  ? { ...activity, materials: materialsData.materials }
+                  : activity;
+              }),
+              isActivitiesLoaded: true
+            }))
+          );
+
+          setIsPrefetching(false);
+        }).catch(error => {
+          setIsPrefetching(false);
+        });
+
+        return prevPhases; // No modificar aún
+      });
+    } catch (error) {
+      setIsPrefetching(false);
     }
   };
 
@@ -252,6 +322,13 @@ export default function HomePage() {
         <div className="mb-2">
           <EvidenciasTimeline isDarkMode={isDarkMode}/>
         </div>
+
+        {isPrefetching && (
+          <div className="mb-2 text-xs text-gray-500 dark:text-gray-400 flex items-center">
+            <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-blue-500 mr-2"></div>
+            Cargando materiales en segundo plano...
+          </div>
+        )}
 
         <h2 className={`text-2xl ${isDarkMode ? 'font-light' : 'font-normal'} mb-4 ${firaCode.className} text-left pt-4`}>
           Aprendizaje
