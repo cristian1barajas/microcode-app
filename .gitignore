@@ -34,3 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# archivo de texto para la entrega del código fuente a la universidad
+Codigo_Fuente_MicroCodeApp.txt
