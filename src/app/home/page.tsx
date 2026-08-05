@@ -10,7 +10,9 @@ import { useMediaQuery } from 'react-responsive';
 import ContentFrame from '@/components/ui/ContentFrame';
 import ActivityCard from '@/components/ui/ActivityCard';
 import AppBar from '@/components/ui/AppBar';
-import Lottie from 'lottie-react';
+import dynamic from 'next/dynamic';
+// lottie-web accede a `document` al importarse, por eso se carga sin SSR
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import loginAnimation from '@/components/ui/login-animation.json';
 import EvidenciasTimeline from '@/components/ui/EvidenciasTimeline';
 

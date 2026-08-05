@@ -6,7 +6,10 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { UserPlus as UserPlusIcon, LogIn as LogInIcon } from 'lucide-react'
 import { Inter, Fira_Code } from 'next/font/google'
-import Lottie, { LottieRefCurrentProps } from 'lottie-react';
+import dynamic from 'next/dynamic';
+import type { LottieRefCurrentProps } from 'lottie-react';
+// lottie-web accede a `document` al importarse, por eso se carga sin SSR
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import loginAnimation from '@/components/ui/login-animation.json';
 import Link from 'next/link';
 import { signInWithEmailAndPassword } from 'firebase/auth';
