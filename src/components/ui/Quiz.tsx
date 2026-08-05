@@ -12,7 +12,10 @@ import { ChevronRight, RotateCcw, Home, AlertCircle, Clock, Lock, BarChart } fro
 import AppBar from '@/components/ui/AppBar';
 import { Fira_Code } from 'next/font/google'
 import { useRouter } from 'next/navigation';
-import Lottie, { LottieRefCurrentProps } from 'lottie-react';
+import dynamic from 'next/dynamic';
+import type { LottieRefCurrentProps } from 'lottie-react';
+// lottie-web accede a `document` al importarse, por eso se carga sin SSR
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import loginAnimation from './login-animation.json';
 
 const firaCode = Fira_Code({ subsets: ['latin'] })
