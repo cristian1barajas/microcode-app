@@ -836,7 +836,7 @@ export default function EvidenciasTimeline({ isDarkMode }: EvidenciasTimelinePro
                         mode="single"
                         selected={reminderDate}
                         onSelect={setReminderDate}
-                        initialFocus
+                        autoFocus
                         className={isDarkMode ? 'bg-gray-800 text-white' : ''}
                       />
                     </PopoverContent>
