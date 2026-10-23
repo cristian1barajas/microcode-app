@@ -1,12 +1,12 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { auth, db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import Quiz from '@/components/ui/Quiz';
 
-const QuizPage = () => {
+const QuizPageContent = () => {
   const params = useParams();
   const searchParams = useSearchParams();
   const materialId = params.materialId as string;
@@ -69,5 +69,12 @@ const QuizPage = () => {
     />
   );
 };
+
+// useSearchParams exige un límite de Suspense para el prerender en Next 15
+const QuizPage = () => (
+  <Suspense>
+    <QuizPageContent />
+  </Suspense>
+);
 
 export default QuizPage;

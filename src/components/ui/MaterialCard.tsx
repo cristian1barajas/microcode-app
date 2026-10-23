@@ -5,7 +5,9 @@ import { Heart, CheckCircle as CheckCircleIcon, BookOpen } from 'lucide-react'
 import { Code, Search, Terminal, Beaker, Database, Box, Layout, Puzzle, Globe, CheckSquare, PenTool, GitBranch, Server, Smartphone, Wrench, Coffee, Layers, Wifi, Shield, UploadCloud, FileText, Zap } from 'lucide-react';
 import { Fira_Code } from 'next/font/google'
 import { useRouter } from 'next/navigation';
-import Lottie from 'lottie-react';
+import dynamic from 'next/dynamic';
+// lottie-web accede a `document` al importarse, por eso se carga sin SSR
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import loginAnimation from '@/components/ui/login-animation.json';
 
 const firaCode = Fira_Code({ subsets: ['latin'] })

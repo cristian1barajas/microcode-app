@@ -12,7 +12,10 @@ import { auth, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import Lottie, { LottieRefCurrentProps } from 'lottie-react';
+import dynamic from 'next/dynamic';
+import type { LottieRefCurrentProps } from 'lottie-react';
+// lottie-web accede a `document` al importarse, por eso se carga sin SSR
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import loginAnimation from '@/components/ui/login-animation.json';
 
 const inter = Inter({ subsets: ['latin'] })
